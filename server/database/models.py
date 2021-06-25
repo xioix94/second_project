@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
 
 class User(models.Model):
     user_email = models.CharField(max_length=100)
