@@ -32,11 +32,25 @@ beer_state_sort = {}
 # beer state sort = {'맥주이름' : [맛 구분]}
 # 맛 구분 = [['바디감'  ???] , ['탄산감' : ???], ['달콤함' : ???], ['씁쓸함' : ???], ['신맛' : ???]]
 
+
+
 for item in file_list:
     try:
         f = open('data/' + item, 'r', encoding='euc-kr')
         bd, sp, sw, bit, acid = round(random.uniform(0, 1), 2), [], 0, 0, 0
         content = f.readlines()
+        
+        # 맥주 이름
+        start = 0
+        end = 0
+        for i in range(len(item)):
+            if item[i] == '_':
+                start = i + 1
+        for i in range(start, len(item)):
+            if item[i] == '.':
+                end = i
+        title = (item[start:end])
+
         # 각 맛 구분 찾아내기
         # 탄산감(sparkling) sp
         start = 0
@@ -81,11 +95,35 @@ for item in file_list:
             if content[20][j] == '%':
                 end = j
                 break
-        round(content[20][start:end])
+        sw = 0.01 * float(content[20][start:end])
 
         # 씁쓸함(smooth tannic) bit
+        start = 0
+        end = 0
+        for j in range(len(content[21])):
+            if content[21][j] == ':':
+                start = j+2
+                break
+        for j in range(start, len(content[21])):
+            if content[21][j] == '%':
+                end = j
+                break
+        bit = 0.01 * float(content[21][start:end])
 
         # 신맛(soft acidic) acid
+        start = 0
+        end = 0
+        for j in range(len(content[30])):
+            if content[30][j] == ':':
+                start = j+2
+                break
+        for j in range(start, len(content[30])):
+            if content[30][j] == '%':
+                end = j
+                break
+        acid = 0.01 * float(content[30][start:end])
+
+        beer_state_sort[title] = [bd, sp, sw, bit, acid]
 
         f.close()
     except: 
