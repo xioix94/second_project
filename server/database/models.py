@@ -29,7 +29,12 @@ class Product(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=100)
     product_image = models.CharField(max_length=1000)
-
+    product_bold = models.FloatField() # 있을 수도?
+    product_sparkling = models.FloatField() # 있을 수도?
+    product_sweet = models.FloatField() # 있을 수도?
+    product_tannic = models.FloatField() # 있을 수도?
+    product_acidic = models.FloatField() # 있을 수도?
+    
 class Product_Comment(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -37,7 +42,4 @@ class Product_Comment(models.Model):
     product_commnet_content = models.CharField(max_length=2000)
     product_comment_time = models.DateTimeField()
 
-class Taste(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    taste_name = models.CharField(max_length=100)
-    taste_value = models.FloatField() # 있을 수도?
+

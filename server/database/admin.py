@@ -7,5 +7,5 @@ admin.site.register(Board)
 admin.site.register(Board_Comment)
 admin.site.register(Product)
 admin.site.register(Product_Comment)
-admin.site.register(Taste)
+
 
