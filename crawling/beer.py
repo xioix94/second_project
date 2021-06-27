@@ -1,6 +1,7 @@
 import os
 import random
-path_dir = 'D:\kkj\web\django\second_project\crawling\data'
+# 'D:\\ringa\\web\\second_project\\crawling'에서 작업 중
+path_dir = './data/'
 
 file_list  = []
 for item in os.listdir(path_dir):
@@ -36,7 +37,7 @@ beer_state_sort = {}
 
 for item in file_list:
     try:
-        f = open('data/' + item, 'r', encoding='euc-kr')
+        f = open('./data/' + item, 'r', encoding='euc-kr')
         bd, sp, sw, bit, acid = round(random.uniform(0, 1), 2), [], 0, 0, 0
         content = f.readlines()
         
@@ -95,7 +96,7 @@ for item in file_list:
             if content[20][j] == '%':
                 end = j
                 break
-        sw = 0.01 * float(content[20][start:end])
+        sw = round(0.01 * float(content[20][start:end]), 2)
 
         # 씁쓸함(smooth tannic) bit
         start = 0
@@ -108,7 +109,7 @@ for item in file_list:
             if content[21][j] == '%':
                 end = j
                 break
-        bit = 0.01 * float(content[21][start:end])
+        bit = round(0.01 * float(content[21][start:end]), 2)
 
         # 신맛(soft acidic) acid
         start = 0
@@ -121,11 +122,15 @@ for item in file_list:
             if content[30][j] == '%':
                 end = j
                 break
-        acid = 0.01 * float(content[30][start:end])
+        acid = round(0.01 * float(content[30][start:end]),2)
 
         beer_state_sort[title] = [bd, sp, sw, bit, acid]
 
         f.close()
     except: 
-        print("안되에    " + item)
+        print("Error    " + item)
         pass
+
+for title in titles:
+    if title in beer_state_sort.keys(): 
+        print(beer_state_sort[title])
