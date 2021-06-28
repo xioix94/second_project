@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -5,11 +6,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Craft Beer Nation - Craft Beer HTML Template</title>
-		<link rel="icon" type="image/png" href="images/favicon.png" />
-		<link href="{% static 'css/bootstrap.min.css' %}"\srel="stylesheet">
-		<link href="{% static 'css/fakeLoader.css' %}"\srel="stylesheet">
-		<link href="{% static 'css/owl-carousel.min.css' %}"\srel="stylesheet">
-		<link href="{% static 'css/style.css' %}"\srel="stylesheet">
+		<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/fakeLoader.css' %}" rel="stylesheet">
+		<link href="{% static 'css/owl-carousel.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/style.css' %}" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Catamaran:400,500,600,700,800%7CGrand+Hotel" rel="stylesheet">
 
 
@@ -61,7 +62,7 @@
 				<div class="container">
 					<div class="navbar-header">
 						<a href="index.html" class="logo" title="Craft beer landing page">
-							<img src="images/logo.png" alt="Craft Beer HTML Template">
+							<img src="{% static 'images/logo.png' %}" alt="Craft Beer HTML Template">
 						</a>
 						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 							<span class="sr-only">Toggle navigation</span>
