@@ -1,13 +1,19 @@
 import os
 import random
+
 # 'D:\\ringa\\web\\second_project\\crawling'에서 작업 중
 path_dir = './data/'
-
 file_list  = []
 for item in os.listdir(path_dir):
     if '.txt' in item:
         file_list.append(item)
 
+# 이미지 String 변환
+image_path_dir = './images/'
+image_str_list  = []
+for item in os.listdir(image_path_dir):
+    image_str_list.append(item)
+        
 # 맥주 이름
 titles = []
 for item in file_list:
@@ -51,6 +57,9 @@ for item in file_list:
             if item[i] == '.':
                 end = i
         title = (item[start:end])
+
+        # 이미지 파일 이름
+        image_name = image_str_list.pop()
 
         # 각 맛 구분 찾아내기
         # 탄산감(sparkling) sp
@@ -124,7 +133,10 @@ for item in file_list:
                 break
         acid = round(0.01 * float(content[30][start:end]),2)
 
-        beer_state_sort[title] = [bd, sp, sw, bit, acid]
+        # 알코올 도수
+        alcohol = round(random.uniform(4, 10), 2)
+
+        beer_state_sort[title] = [image_name, title ,bd, sp, sw, bit, acid, alcohol]
 
         f.close()
     except: 
@@ -134,3 +146,10 @@ for item in file_list:
 for title in titles:
     if title in beer_state_sort.keys(): 
         print(beer_state_sort[title])
+
+    numbering = [i for i in range(150)]
+    count = 0
+    for i in beer_state_sort.values():
+        str = "insert into app_product values ({}, '{}', '{}', {}, {}, {}, {}, {}, {}, {});".format(numbering[count], i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], 0)
+        count += 1
+        print(str)

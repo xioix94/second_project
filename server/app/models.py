@@ -15,22 +15,22 @@ class Category(models.Model):
 
 
 class Board(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=2000)
     time = models.DateTimeField()
 
 
 class Board_Comment(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    board_id = models.ForeignKey(Board, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
     content = models.CharField(max_length=2000)
     time = models.DateTimeField()
 
 
 class Product(models.Model):
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     image = models.CharField(max_length=1000)
     bold = models.FloatField()  # 바디감
