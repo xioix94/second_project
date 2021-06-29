@@ -273,6 +273,6 @@ for title in titles:
     count = 0
     for i in beer_state_sort.values(): # numbering[count]
         str = "insert into app_product values ({}, '{}', '{}', {}, {}, {});".format(
-            numbering[count], i[1], i[0], i[7], cluster[count], 1)
+            numbering[count]+1, i[1], i[0], i[7], cluster[count], 1)
         count += 1
         print(str)
