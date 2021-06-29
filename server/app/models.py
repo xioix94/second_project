@@ -36,20 +36,14 @@ class Product(models.Model):
     alcohol = models.FloatField()  # 알콜 도수
     kmeans = models.IntegerField() # 머신러닝 군집 분류 5개(0~4)
 
-class Evaluation(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Product_Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    score = models.FloatField()
+    content = models.CharField(max_length=2000)
+    time = models.DateTimeField()
     bold = models.FloatField()  # 바디감
     sparkling = models.FloatField()  # 탄산감
     sweet = models.FloatField()  # 달콤함
     tannic = models.FloatField()  # 씁쓸함
     acidic = models.FloatField()  # 신맛
-    score = models.FloatField() 
-    
-
-class Product_Comment(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    score = models.FloatField()
-    content = models.CharField(max_length=2000)
-    time = models.DateTimeField()
