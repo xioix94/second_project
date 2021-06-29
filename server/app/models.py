@@ -11,7 +11,7 @@ class User(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100) # 0 : beer, 1 : wine, 2 : cocktail
 
 
 class Board(models.Model):
