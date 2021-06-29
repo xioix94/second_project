@@ -36,4 +36,7 @@ def profile_form(request):
     return render(request, 'app/profile_form.html')
 
 def register(request):
-    return render(request, 'app/to_members.html')
+    return render(request, 'app/register.html')
+
+def change_user_info(request):
+    return render(request, 'app/change_user_info.html')
