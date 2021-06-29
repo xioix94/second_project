@@ -33,13 +33,19 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     image = models.CharField(max_length=1000)
+    alcohol = models.FloatField()  # 알콜 도수
+    kmeans = models.IntegerField() # 머신러닝 군집 분류 5개(0~4)
+
+class Evaluation(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     bold = models.FloatField()  # 바디감
     sparkling = models.FloatField()  # 탄산감
     sweet = models.FloatField()  # 달콤함
     tannic = models.FloatField()  # 씁쓸함
     acidic = models.FloatField()  # 신맛
-    alcohol = models.FloatField()  # 알콜 도수
-
+    score = models.FloatField() 
+    
 
 class Product_Comment(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
