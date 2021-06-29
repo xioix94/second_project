@@ -35,5 +35,5 @@ def product(request):
 def profile_form(request):
     return render(request, 'app/profile_form.html')
 
-def to_members_form(request):
+def register(request):
     return render(request, 'app/to_members.html')
