@@ -37,3 +37,7 @@ def profile_form(request):
 
 def to_members_form(request):
     return render(request, 'app/to_members.html')
+
+
+def userpage(request):
+    return render(request, 'app/userpage.html')

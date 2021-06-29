@@ -13,5 +13,6 @@ urlpatterns = [
     path('product_single/', views.product_single),
     path('product/', views.product),
     path('profile/', views.profile_form),
-    path('to_members/', views.to_members_form)
+    path('to_members/', views.to_members_form),
+    path('userpage/', views.userpage),
 ]
