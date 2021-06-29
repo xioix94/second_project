@@ -32,3 +32,5 @@ def product_single(request):
 def product(request):
     return render(request, 'app/product.html')
 
+def profile_form(request):
+    return render(request, 'app/profile_form.html')
