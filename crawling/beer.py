@@ -150,6 +150,6 @@ for title in titles:
     numbering = [i for i in range(150)]
     count = 0
     for i in beer_state_sort.values():
-        str = "insert into app_product values ({}, '{}', '{}', {}, {}, {}, {}, {}, {}, {});".format(numbering[count], i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], 0)
+        str = "insert into app_product values ({}, '{}', '{}', {}, {}, {}, {}, {}, {}, {});".format(numbering[count], i[1], i[0], i[2], i[3], i[4], i[5], i[6], i[7], 0)
         count += 1
         print(str)

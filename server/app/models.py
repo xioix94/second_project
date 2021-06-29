@@ -4,7 +4,6 @@ from django.db import models
 class User(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
     alias = models.CharField(max_length=100)
     sex = models.BooleanField()  # 남자 0 여자 1
     image = models.CharField(max_length=1000)
