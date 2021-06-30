@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -21,6 +22,63 @@
 			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+
+		<!-- drag and drop test -->
+		<style>
+			body {
+				background-color: aquamarine;
+			}
+		
+			.whiteBox {
+				height: 250px;
+				width: 250px;
+				background-color: rgb(55, 238, 245);
+				margin: 10px;
+				display: inline-block;
+				border: 2px solid red;
+			}
+		
+			.imgBox {
+		
+				display: flex;
+				background-image: url("image.jpg");
+				height: 230px;
+				width: 230px;
+				position: relative;
+				top: 10px;
+				margin: 0 auto;
+				cursor: pointer;
+		
+			}
+		
+			.imgBox1 {
+		
+				display: flex;
+				background-image: url("image.jpg");
+				height: 230px;
+				width: 230px;
+				position: relative;
+				top: 10px;
+				margin: 0 auto;
+				cursor: pointer;
+		
+			}
+		
+			.hold {
+				border: 2px dashed rgb(118, 182, 0);
+			}
+		
+			.hide {
+				display: none;
+			}
+		
+			.dragenter {
+				background: rgb(221, 115, 96);
+				border-color: green;
+				border-style: groove;
+			}
+		</style>
+		<!-- drag and drop test -->
 	</head>
 	<body>
 
@@ -117,7 +175,7 @@
 			</div>
 
 			<!-- Hero -->
-			<div id="hero" class="single-page section" style="background-image: url(http://placehold.it/1500x500)">
+			<div id="hero" class="single-page section" style="background-image: url(http://placehold.it/1500x500)"> -->
 				
 				<!-- Content -->
 				<div class="container">
@@ -127,7 +185,7 @@
 							<h2>Checkout</h2>
 						</div>
 					</div>
-				</div>
+				</div> 
 
 			</div>
 
@@ -152,91 +210,43 @@
 						<div class="row">
 							<div class="col-sm-8 col-sm-push-2">
 								<header class="centred">
-									<h1>Enter billing</h1>
-									<h2>Details</h2>
+									<h1>change</h1>
+									<h2>Profile</h2>
 								</header>
 								<hr class="space-40" />
 								<!-- Form start -->
 								<div class="row">
+									<div class="col-sm-12 btn-wrap"  style="margin-bottom: 30px;" >
+										<a href="" class="btn btn-default"><span>change</span></a> 
+										<a href="" class="btn btn-grey"><span>delete</span></a>
+									</div>
+								</div>
+								<!-- drag and drop test -->
+								<div class="row">
+									<div class="whiteBox">
+										<div class="imgBox" draggable="true"></div>
+									</div>
+									<div class="whiteBox"></div>
+									<div class="whiteBox"></div>
+									<div class="whiteBox"></div>
+								</div>
+								<!-- drag and drop test -->
+								<div class="row">
 									<div class="col-sm-6">
-										<input type="text" placeholder="First name">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" placeholder="Last name">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<input type="text" placeholder="Company name">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-										<input type="text" placeholder="Email address">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" placeholder="Telephone">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<select>
-											<option>Country</option>
-											<option>--</option>
-											<option>United Kingdom</option>
-											<option>France</option>
-											<option>Italy</option>
-											<option>Germany</option>
-											<option>Spain</option>
-											<option>Poland</option>
-											<option>Turkey</option>
-											<option>Greece</option>
-											<option>Switzerland</option>
-											<option>Denmark</option>
-										</select>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<input type="text" placeholder="Address line 1">
-										<input type="text" placeholder="Address line 2">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<select>
-											<option>Town / City</option>
-											<option>--</option>
-											<option>London</option>
-											<option>Essex</option>
-											<option>Manchester</option>
-											<option>Liverpool</option>
-											<option>Cornwall</option>
-											<option>Birmingham</option>
-											<option>Newcastle</option>
-											<option>Kent</option>
-											<option>Brighton</option>
-										</select>
+										<input type="text" placeholder="Nickname">
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6">
-										<input type="text" placeholder="County">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" placeholder="Postcode">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<input type="checkbox"> Create account?
+										<input type="password" placeholder="password">
 									</div>
 								</div>
 								<!-- Form end -->
 
 								<div class="row">
 									<div class="col-sm-12 btn-wrap">
-										<a href="checkout-1.html" class="btn btn-grey"><span>Previous</span></a> <a href="checkout-3.html" class="btn btn-default"><span>Next</span></a>
+										<a href="''" class="btn btn-default"><span>OK</span></a> 
+										<a href="''" class="btn btn-grey"><span>Cancel</span></a>
 									</div>
 								</div>
 							</div>
@@ -311,5 +321,50 @@
 		<script src="{% static 'js/owl.autoplay.js' %}"></script>
 		<script src="https://use.fontawesome.com/4dfd2d448a.js"></script>
 		<script src="{% static 'js/custom.js' %}"></script>
+		<!-- drag and drop test -->
+		<script>
+			console.log("D&D");
+
+			let imgBox = document.querySelector(".imgBox");
+			let whiteBoxes = document.querySelectorAll(".whiteBox");
+
+			imgBox.addEventListener("dragstart", (e) => {
+				console.log("DRAG STARTED");
+				e.target.className += " hold";
+				setTimeout(() => {
+					e.target.className += " hide";
+				}, 0);
+			});
+			imgBox.addEventListener("dragend", (e) => {
+				console.log("DRAG ENDED");
+				e.target.className = "imgBox";
+			});
+
+			for (whiteBox of whiteBoxes) {
+				whiteBox.addEventListener("dragover", (e) => {
+					e.preventDefault();
+					// console.log("gj")
+				});
+				whiteBox.addEventListener("dragenter", (e) => {
+					e.target.className += " dragenter";
+				});
+				whiteBox.addEventListener("dragleave", (e) => {
+					e.target.className = "whiteBox";
+				});
+				whiteBox.addEventListener("drop", (e) => {
+					let answer = confirm("Do you really want to move it")
+					console.log(answer)
+					if (answer) {
+						e.target.append(imgBox)
+					}
+					else {
+						e.target.className = "whiteBox";
+
+					}
+				});
+			}
+
+		</script>
+		<!-- drag and drop test -->
 	</body>
 </html>
