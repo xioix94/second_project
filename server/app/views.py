@@ -41,3 +41,8 @@ def to_members_form(request):
 
 def userpage(request):
     return render(request, 'app/userpage.html')
+def register(request):
+    return render(request, 'app/register.html')
+
+def change_user_info(request):
+    return render(request, 'app/change_user_info.html')
