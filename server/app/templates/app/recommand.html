@@ -35,8 +35,7 @@
 	<div class="container">
 		<div class="row">
 		{% for product in products %}
-			{% if forloop.counter0|divisibleby:4 %}
-				
+			{% if forloop.counter0|divisibleby:4 %}		
 		</div>
 	</div>
 	<div class="container">
@@ -60,7 +59,7 @@
 	<div class="container">
 		<div class="col-sm-12">
 			<ul class="horz-menu center-menu pages">
-				<li class="active"><span><a id='submit' href="app/recommand_result">submit</a></span></li>
+				<li class="active"><span><a id='submit' >submit</a></span></li>
 			</ul>
 		</div>
 	</div>
@@ -69,7 +68,8 @@
 <!-- 추천 페이지 주류 선택 스크립트 -->
 <script type="text/javascript">
 	$(document).ready(function () {
-		var select_count = 0
+		let select_count = 0
+		let selected_list = []
 
 		// product-click 버튼
 		$(".product-click").click(function(event){
@@ -77,32 +77,36 @@
 			id = $current.attr('id')
 
 			color = $current.css('background-color')
-			console.log(color)
 
 			if(color == "rgb(0, 0, 0)"){
 				if(select_count < 5){
 					$current.css('background-color', 'gray')
 					select_count++
+					selected_list.push(id)
 				}
 			}else{
 				$current.css('background-color',' black')
 				select_count--
+				selected_list = selected_list.filter(val => val !== id)
 			}
-		})
-	})
-</script>
 
-<!-- 추천 페이지 제출 후 처리 스크립트 -->
-<script type="text/javascript">
-	$(document).ready(function () {
-		
+			console.log(selected_list)
+		})
+
+
 		// product-click 버튼
-		$(".product-click").click(function(event){
+		$("#submit").click(function(event){
+			if(selected_list.length === 0){
+				window.alert("최소 한개이상 선택해주세요~");
+				return
+			}
+			console.log(selected_list)
 			$current = $(event.currentTarget)
 			id = $current.attr('id')
 		
 		})
 	})
 </script>
+
 
 {% endblock %}
