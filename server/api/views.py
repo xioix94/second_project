@@ -2,6 +2,8 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
+from django.shortcuts import render
+from django.http import JsonResponse, HttpResponse
 import re
 from app.models import User
 
@@ -43,7 +45,6 @@ def alias_valid(request):
         'result': ok
     })
 
-
 def register(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
@@ -61,3 +62,18 @@ def register(request):
 
 
     return redirect('/login_form')
+
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'app/login_check.html', {})
+    else:
+        user_id = request.POST['email']
+        user_pw = request.POST['password']
+        
+        try:
+            member = User.objects.get(email=user_id,password=user_pw)
+        except:
+            return HttpResponse('로그인 실패')
+        else:
+            # request.session['email'] = user_id
+            return HttpResponse('로그인 성공')
