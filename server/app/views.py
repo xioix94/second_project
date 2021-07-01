@@ -1,5 +1,6 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
+from .models import Product_Comment, User
 
 # Create your views here.
 def page_404(request):
@@ -40,7 +41,17 @@ def to_members_form(request):
 
 
 def userpage(request):
-    return render(request, 'app/userpage.html')
+    email = request.GET.get('email')
+    
+    user = User.objects.get(email=email)
+    
+    user_comments = Product_Comment.objects.filter(user_id=user.id)
+
+
+    return render(request, 'app/userpage.html', {
+        'user': user,
+        'user_comments': user_comments,
+    })
 
 def register(request):
     return render(request, 'app/register.html')

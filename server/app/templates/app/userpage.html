@@ -1,27 +1,9 @@
+{% extends "common/base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Craft Beer Nation - Craft Beer HTML Template</title>
-		<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-		<link href="{% static 'css/fakeLoader.css' %}" rel="stylesheet">
-		<link href="{% static 'css/owl-carousel.min.css' %}" rel="stylesheet">
-		<link href="{% static 'css/style.css' %}" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Catamaran:400,500,600,700,800%7CGrand+Hotel" rel="stylesheet">
 
-
-		<!--[if IE 9]>
-			<link href="{% static 'css/ie9.css' %}"\srel="stylesheet">
-		<![endif]-->
-		<!--[if lt IE 9]>
-			<script src="{% static 'https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js' %}"></script>
-			<script src="{% static 'https://oss.maxcdn.com/respond/1.4.2/respond.min.js' %}"></script>
-		<![endif]-->
-	</head>
+{% block content %}
+	
 	<body class="single">
 
 		<!-- Fake page loading -->
@@ -30,113 +12,15 @@
 		<!-- Wrapper -->
 		<div class="wrapper">
 
-			<!-- Navigation -->
-			<div class="navbar section no-padding" role="navigation">
-				<!-- Heading -->
-				<div class="heading">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-4 hidden-xs">
-								<ul class="social">
-									<li><a href="#" class="fa fa-instagram"></a></li>
-									<li><a href="#" class="fa fa-facebook-square"></a></li>
-									<li><a href="#" class="fa fa-twitter-square"></a></li>
-								</ul>
-							</div>
-							<div class="col-sm-8">
-								<div class="finder">
-									<a href="#">
-										<span class="fa fa-map-marker"></span> Find our beer
-									</a>
-								</div>
-								<div class="cart">
-									<a href="cart.html">
-										<span class="fa fa-shopping-cart"></span> Empty
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="container">
-					<div class="navbar-header">
-						<a href="index.html" class="logo" title="Craft beer landing page">
-							<img src="{% static 'images/logo.png' %}" alt="Craft Beer HTML Template">
-						</a>
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar top-bar"></span>
-							<span class="icon-bar middle-bar"></span>
-							<span class="icon-bar bottom-bar"></span>
-						</button>
-					</div>  
-					<div class="navbar-collapse collapse">
-						<ul id="menu-primary" class="nav navbar-nav">
-							<li>
-								<span>
-									<a href="index.html">Home</a>
-								</span>
-							</li>
-							<li>
-								<span>
-									<a href="shop.html">Shop</a>
-								</span>
-							</li>
-							<li class="dropdown">
-								<span>
-									<a href="our-beer.html">Our beer</a>
-								</span>
-								<ul class="dropdown-menu">
-									<li><a href="our-beer.html">Sugar Skull</a></li>
-									<li><a href="our-beer.html">BraveHeart</a></li>
-									<li><a href="our-beer.html">The Drunk Indian</a></li>
-								</ul>
-							</li>
-							<li>
-								<span>
-									<a href="our-story.html">Our story</a>
-								</span>
-							</li>
-							<li>
-								<span>
-									<a href="contact.html">Contact</a>
-								</span>
-							</li>
-							<li class="dropdown">
-								<span>
-									<a href="blog.html">Blog</a>
-								</span>
-								<ul class="dropdown-menu">
-									<li><a href="blog-single.html">Single post</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<!-- Hero -->
-			<div id="hero" class="single-page section" style="background-image: url(http://placehold.it/1500x500)">
-				
-				<!-- Content -->
-				<div class="container">
-					<div class="row blurb scrollme animateme" data-when="exit" data-from="0" data-to="1" data-opacity="0" data-translatey="100">
-						<div class="col-md-10 col-md-offset-1">
-							<h1>Welcome to the</h1>
-							<h2>User page</h2>
-						</div>
-					</div>
-				</div>
-
-			</div>
+		
+			
 
 			<!-- Section -->
 			<div class="container-fluid dark section no-padding">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
-							<p class="author center-menu">John Doe / <a href="#comments">3 reviews</a></p>
+							<p class="author center-menu">{{ user.alias }} / <a href="#comments">3 reviews</a></p>
 						</div>
 					</div>
 				</div>
@@ -150,7 +34,7 @@
 							<img src="http://placehold.it/750x535" alt="Craft beer single blog post" />
 							<header>
 								<span class="date">Name</span>
-								<h2>John Doe</h2>
+								<h2>{{ user.alias }}</h2>
 							</header>
 							<p>user information</p>
 
@@ -173,7 +57,7 @@
 								</div>
 								<div class="col-sm-11">
 									<h5>버드와이저</h5>
-									<p>4캔 만원으로 쉽게 구할수 있음</p>
+									<p>{{ user.user_comments }}</p>
 									<span class="edit">
 										<a href="#">Ratings</a> | <a href="#">Edit</a>
 									</span>
@@ -209,6 +93,42 @@
 								</div>
 								<div class="col-sm-11">
 									<h5>기네스</h5>
+									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+									<span class="edit">
+										<a href="#">Ratings</a> | <a href="#">Edit</a>
+									</span>
+								</div>
+							</div>
+							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+								<div class="col-sm-1">
+									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
+								</div>
+								<div class="col-sm-11">
+									<h5>기네스</h5>
+									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+									<span class="edit">
+										<a href="#">Ratings</a> | <a href="#">Edit</a>
+									</span>
+								</div>
+							</div>
+							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+								<div class="col-sm-1">
+									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
+								</div>
+								<div class="col-sm-11">
+									<h5>호가든</h5>
+									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+									<span class="edit">
+										<a href="#">Ratings</a> | <a href="#">Edit</a>
+									</span>
+								</div>
+							</div>
+							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+								<div class="col-sm-1">
+									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
+								</div>
+								<div class="col-sm-11">
+									<h5>테라</h5>
 									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
 									<span class="edit">
 										<a href="#">Ratings</a> | <a href="#">Edit</a>
@@ -284,72 +204,11 @@
 				</div>
 			</div>
 
-			<!-- Footer -->
-			<footer>
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-2">
-							<h6>Useful</h6>
-							<ul>
-								<li><a href="index.html">Home</a></li>
-								<li><a href="shop.html">Shop</a></li>
-								<li><a href="our-story.hmtl">Our story</a></li>
-								<li><a href="blog.mtl">Blog</a></li>
-								<li><a href="#">Login</a></li>
-							</ul>
-						</div>
-						<div class="col-sm-2">
-							<h6>Help</h6>
-							<ul>
-								<li><a href="#">Customer service</a></li>
-								<li><a href="#">Find our beer</a></li>
-								<li><a href="#">Recent orders</a></li>
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">Terms &amp; Privacy</a></li>
-							</ul>
-						</div>
-						<div class="col-sm-2">
-							<h6>Shop</h6>
-							<ul>
-								<li><a href="#">Pale ale</a></li>
-								<li><a href="#">Golden ale</a></li>
-								<li><a href="#">Dark ale</a></li>
-								<li><a href="#">IPA</a></li>
-							</ul>
-						</div>
-						<div class="col-sm-5 col-sm-push-1">
-							<h6>Our information</h6>
-							<p><i class="fa fa-map-marker"></i> 94 River Road, London, United Kingdom</p>
-							<p><i class="fa fa-envelope-o"></i> sales@craftbeer-nation.com</p>
-							<p><i class="fa fa-phone"></i> (0)203 123 4567</p>
-							<ul class="social">
-								<li><a href="#" class="fa fa-instagram"></a></li>
-								<li><a href="#" class="fa fa-facebook-square"></a></li>
-								<li><a href="#" class="fa fa-twitter-square"></a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="copyright">
-						<p>2017 &copy; Craft Beer Nation  /  <a href="http://www.klevermedia.co.uk">Web design by Klever media</a></p>
-					</div>
-				</div>
-			</footer>
+		
 
 		</div>
 		
-		<script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
-		<script src="{% static 'js/jquery-ui.min.js' %}"></script>
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/headhesive.min.js' %}"></script>
-		<script src="{% static 'js/matchHeight.min.js' %}"></script>
-		<script src="{% static 'js/modernizr.custom.js' %}"></script>
-		<script src="{% static 'js/waypoints.min.js' %}"></script>
-		<script src="{% static 'js/counterup.js' %}"></script>
-		<script src="{% static 'js/scrollme.min.js' %}"></script>
-		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
-		<script src="{% static 'js/owl.carousel.js' %}"></script>
-		<script src="{% static 'js/owl.autoplay.js' %}"></script>
-		<script src="https://use.fontawesome.com/4dfd2d448a.js"></script>
-		<script src="{% static 'js/custom.js' %}"></script>
+		
 	</body>
 </html>
+{% endblock %}
