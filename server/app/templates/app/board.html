@@ -28,23 +28,25 @@
 	<div class="container-fluid light section no-padding">
 		<div class="row">
 			{% for board in boards %}
-
-			<div class="col-sm-6 latest-post odd matchHeight">
-				<a href="blog-single.html"></a>
-				<div class="row">
-					<div class="col-sm-10 col-sm-push-1">
-						<header>
-							<span class="date">{{ board.time | date:'m-d,H:i' }}</span>
-							<h2>{{ board.title }}</h2>
-						</header>
-
-						<p>{{ board.content }}</p>
-						<p><a href="#" class="underline">Read more</a></p>
+				{% comment %} {% if forloop.counter|divisibleby:2 %} {% endcomment %}
+				
+				<div class="col-sm-12 latest-post even matchHeight">
+				{% comment %} {% else %}
+				<div class="col-sm-12 latest-post even matchHeight">
+				{% endif %} {% endcomment %}
+					<a href="blog-single.html"></a>
+					<div class="row">
+						<div class="col-sm-10 col-sm-push-1">
+							<header>
+								<span class="date">{{ board.time | date:'m-d' }}</span>
+								<h2>{{ board.title }}</h2>
+							</header>
+							<p>{{ board.content }}</p>
+							<p><a href="#" class="underline">Read more</a></p>
+						</div>
 					</div>
+					<div class="background" style="background-image: url(http://placehold.it/750x535);"></div>
 				</div>
-				<div class="background" style="background-image: url(http://placehold.it/750x535);"></div>
-			</div>
-
 			{% endfor %}
 		</div>
 	</div>
