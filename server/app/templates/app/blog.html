@@ -14,101 +14,126 @@
 						<div class="col-sm-12">
 							<ul class="horz-menu center-menu">
 								<li class="active"><span><a href="#">All</a></span></li>
-								<li><span><a href="#">Beer</a></span></li>
-								<li><span><a href="#">Wine</a></span></li>
-								<li><span><a href="#">Cocktail</a></span></li>
+								<li><span><a href="#reviewbeer">Beer</a></span></li>
+								<li><span><a href="#reviewine">Wine</a></span></li>
+								<li><span><a href="#reviewcocktail">Cocktail</a></span></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 		</div>
 		<!-- Section -->
-		<div class="container-fluid light section no-padding">
+		<div class="container-fluid light section no-padding" id="reviewbeer">
 			<div class="row">
 				{%for p_comment in p_comments%}
-					<div class="col-sm-6 latest-post odd matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date"> {{ p_comment.time }} </span>
-									<h2>{{ p_comment.product.name}}</h2>
-								</header>
-								<p>{{p_comment.content}}</p>
-								<p><a href="#" class="underline">Read more</a></p>
+					{%if p_comment.product.category_id == 1 %} 
+						{% if forloop.counter|divisibleby:2 %}
+							<div class="col-sm-6 latest-post even matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
+						{% else %}
+							<div class="col-sm-6 latest-post odd matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+					{%endif%}
 				{%endfor%}
-					{% comment %} <div class="col-sm-6 latest-post even matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date">14 December</span>
-									<h2>Now stocked in NYC</h2>
-								</header>
-								<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
-								<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
-								<p><a href="#" class="underline">Read more</a></p>
+			</div>
+		</div>
+				<!-- Section -->
+		<div class="container-fluid light section no-padding" id="reviewine">
+			<div class="row">
+				{%for p_comment in p_comments%}
+					{%if p_comment.product.category_id == 2 %} 
+						{% if forloop.counter|divisibleby:2 %}
+							<div class="col-sm-6 latest-post even matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 latest-post odd matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date">09 December</span>
-									<h2>New stock now available</h2>
-								</header>
-								<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
-								<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
-								<p><a href="#" class="underline">Read more</a></p>
+						{% else %}
+							<div class="col-sm-6 latest-post odd matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 latest-post even matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date">27 November</span>
-									<h2>Try our new flavours</h2>
-								</header>
-								<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
-								<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
-								<p><a href="#" class="underline">Read more</a></p>
+						{% endif %}
+					{%endif%}
+				{%endfor%}
+			</div>
+		</div>
+				<!-- Section -->
+		<div class="container-fluid light section no-padding" id="reviewcocktail">
+			<div class="row">
+				{%for p_comment in p_comments%}
+					{%if p_comment.product.category_id == 3 %} 
+						{% if forloop.counter|divisibleby:2 %}
+							<div class="col-sm-6 latest-post even matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
 							</div>
-					</div>
-					<div class="col-sm-6 latest-post odd matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date">05 November</span>
-									<h2>Brewing tips</h2>
-								</header>
-								<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
-								<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
-								<p><a href="#" class="underline">Read more</a></p>
+						{% else %}
+							<div class="col-sm-6 latest-post odd matchHeight">
+								<a href="blog-single.html"></a>
+								<div class="row">
+									<div class="col-sm-10 col-sm-push-1">
+										<header>
+											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
+											<h2>{{ p_comment.product.name}}</h2>
+										</header>
+										<p>{{p_comment.content}}</p>
+										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 latest-post even matchHeight">
-						<a href="blog-single.html"></a>
-						<div class="row">
-							<div class="col-sm-10 col-sm-push-1">
-								<header>
-									<span class="date">30 October</span>
-									<h2>New brewing kits available</h2>
-								</header>
-								<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
-								<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
-								<p><a href="#" class="underline">Read more</a></p>
-							</div>
-						</div>
-					</div> {% endcomment %}
+						{% endif %}
+					{%endif%}
+				{%endfor%}
 			</div>
 		</div>
 		<!-- Section -->
