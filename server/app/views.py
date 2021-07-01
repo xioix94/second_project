@@ -17,12 +17,16 @@ def blog(request):
 
 def contact(request):
     return render(request, 'app/contact.html')
+    
 
 def icons(request):
     return render(request, 'app/icons.html')
 
 def index(request):
     return render(request, 'app/index.html')
+
+def recommand(request):
+    return render(request, 'app/recommand.html')
 
 
 def login_form(request):
@@ -64,7 +68,7 @@ def userpage(request):
 
     
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
-    
+
 
 
     return render(request, 'app/userpage.html', {
