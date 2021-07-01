@@ -18,92 +18,164 @@
 				<div class="container">
 						<div class="row">
 							<div class="col-sm-8 col-sm-push-2">
-								<header class="centred">
-									<h1>Register</h1>
-								</header>
-								<hr class="space-40" />
-								<!-- Form start -->
-								<div class="row">
-									<div class="col-sm-6">
-										<input id="email" type="text" placeholder="email">
-									</div>
-								
-								</div>
-								<div class="row">
+								<form action="/api/register/" method="POST">
+									{% csrf_token %}
+									<header class="centred">
+										<h1>Register</h1>
+									</header>
+									<hr class="space-40" />
+									<!-- Form start -->
 									
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-										<input type="password" placeholder="password">
+									<div class="row">
+										<div class="col-sm-6">
+											<input id="email" name="email" type="text" placeholder="email">
+										</div>
+									
 									</div>
-									<div class="col-sm-6">
-										<input type="password" placeholder="password check">
+									<div class="row">
+										
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-										<input type="text" placeholder="NICKNAME">
+									<div class="row">
+										<div class="col-sm-6">
+											<input id="pw1" type="password" name="password" placeholder="password">
+										</div>
+										<div class="col-sm-6">
+											<input id="pw2" type="password" name="password2" placeholder="password check">
+										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-6">
-										<select>
-											<option class="col-sm-6" >men</option>
-											<option>women</option>
-										</select>
+									<div class="row">
+										<div class="col-sm-6">
+											<input id=alias type="text" name="alias" placeholder="NICKNAME">
+										</div>
 									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-sm-6" style="color: #cbb27c; font-weight: 800">
-										<input type="checkbox"> are you adult?
+									<div class="row">
+										<div class="col-sm-6">
+											<select name=>
+												<option class="col-sm-6" >men</option>
+												<option>women</option>
+											</select>
+										</div>
 									</div>
-								</div>
-								<!-- Form end -->
+									
+									<div class="row">
+										<div class="col-sm-6" style="color: #cbb27c; font-weight: 800">
+											<input name="adult" type="checkbox"> are you adult?
+										</div>
+									</div>
+									<!-- Form end -->
 
-								<div class="row">
-									<div class="col-sm-8 btn-wrap">
-										<a href="checkout-3.html" class="btn btn-default"><span>summit</span></a> <a href="checkout-1.html" class="btn btn-grey"><span>cancel</span></a>
+									<div class="row">
+										<div class="col-sm-8 btn-wrap">
+											<a href="checkout-1.html" class="btn btn-grey"><span>cancel</span></a>
+											<input type="submit" class="btn btn-default" value="submit">
+										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 				</div>
 			</div>
-			{% endblock %}
+			
 			<script type="text/javascript">
+			password_check = function(event){
+					pw1 = $('input#pw1').val()
+					pw2 = $('input#pw2').val()
+					
+					$.ajax({
+						url: "/api/password_valid/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'pw1' : pw1,
+							'pw2': pw2,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
+								$('input#pw2').css({
+									'border-bottom-color': '#cbb27c',
+								})
+								$('input#pw1').css({
+									'border-bottom-color': '#cbb27c',
+								})
+							} else {
+								console.log('fail')
+								$('input#pw2').css({
+									'border-bottom-color': 'red',
+								})
+								$('input#pw1').css({
+									'border-bottom-color': 'red',
+								})
+							}
+						},
+						error: function(result){
+							console.log(result)
+						},
+					})
+				}
+
 			$(document).ready(function() { 
 				
-				$('input#email').blur(function(event){
-					console.log("blur")
-
+				$('input#email').blur(function(event){					
+					email = $('input#email').val()
+					
 					$.ajax({
-						url: "/api/email_valid_duplicate?email=" + $('input#email').val(),
-						type: "GET",
-						dataType: "json",
-						success: function(data){
-							if(data.result == "ok"){
-								console.log("성공")
+						url: "/api/email_check/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'email': email,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
 								$('input#email').css({
 									'border-bottom-color': '#cbb27c',
 								})
-
-								
-							}else{
-								console.log("실패")
+							} else {
+								console.log('fail')
 								$('input#email').css({
 									'border-bottom-color': 'red',
 								})
 							}
 						},
-						error: function(data){
-							console.log(data)
-						}
+						error: function(result){
+							console.log(result)
+						},
 					})
 				})
 
-				$('').blur(function(event){
+				$('input#alias').blur(function(event){					
+					alias = $('input#alias').val()
+					
+					$.ajax({
+						url: "/api/alias_valid/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'alias': alias,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
+								$('input#alias').css({
+									'border-bottom-color': '#cbb27c',
+								})
+							} else {
+								console.log('fail')
+								$('input#alias').css({
+									'border-bottom-color': 'red',
+								})
+							}
+						},
+						error: function(result){
+							console.log(result)
+						},
+					})
 				})
+
+				$('input#pw1').blur(password_check)
+				$('input#pw2').blur(password_check)
 
 				$('').blur(function(event){
 				})
@@ -112,4 +184,5 @@
 				})
 
 			});
-		</script>
+			</script>
+		{% endblock %}

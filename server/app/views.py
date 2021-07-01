@@ -60,8 +60,9 @@ def userpage(request):
     email = request.GET.get('email')
     
     user = User.objects.get(email=email)
+
     
-    user_comments = Product_Comment.objects.filter(user_id=user.id)
+    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
 
 
     return render(request, 'app/userpage.html', {
