@@ -23,21 +23,22 @@
 								<a href="" class="btn btn-grey"><span>delete</span></a>
 							</div>
 						</div> -->
+						{% csrf_token %}
 						<div class="row">
 							<div class="col-sm-6">
-								<input type="text" placeholder="Nickname" value={{ nickname }}>
+								<input type="text" placeholder="Nickname" name="nickname" value={{ nickname }}>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
-								<input type="password" placeholder="password" value={{ password }}>
+								<input type="password" placeholder="password" name="password" value={{ password }}>
 							</div>
 						</div>
 						<!-- Form end -->
 
 						<div class="row">
 							<div class="col-sm-12 btn-wrap">
-								<a href="''" class="btn btn-default"><span>OK</span></a> 
+								<a href="/save_profile" class="btn btn-default"><span>OK</span></a> 
 								<a href="/" class="btn btn-grey"><span>Cancel</span></a>
 							</div>
 						</div>

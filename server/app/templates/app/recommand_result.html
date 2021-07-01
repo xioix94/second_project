@@ -24,7 +24,7 @@
 	<div class="container" style="position: relative; width: 100%;">
 		<div class="col-xs-6 col-sm-3" style="position: relative; width: 100%;">
 			<div style="font-size: 2em; color:#cbb27c"  class="counter">
-				맘에 드는 제품을 선택하세요. (최대 5개)
+				선택한 항목을 기반으로 추천된 제품들입니다. 
 			</div>
 		</div>
 	</div>
@@ -35,8 +35,7 @@
 	<div class="container">
 		<div class="row">
 		{% for product in products %}
-			{% if forloop.counter0|divisibleby:4 %}
-				
+			{% if forloop.counter0|divisibleby:4 %}	
 		</div>
 	</div>
 	<div class="container">
@@ -47,7 +46,7 @@
 					<div class="counter" >				
 						<img src="{% static 'images/beer/2.jpg' %}" class="svg" alt="" />
 					</div>
-					<h1 style="color: white; text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
+					<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
 				</div>
 			</div>
 		{% endfor %}
@@ -55,44 +54,19 @@
 	</div>
 </div>
 
-<!-- submit 버튼 -->
+<!-- 다시 고르기, 메인으로 돌아가기 -->
 <div class="container-fluid super-dark section no-padding">
 	<div class="container">
 		<div class="col-sm-12">
 			<ul class="horz-menu center-menu pages">
-				<li class="active"><span><a id='submit' href="app/recommand_result">submit</a></span></li>
+				<li class="active"><span><a href="/recommand">try again</a></span></li>
+				<li class="active"><span><a href="/">main</a></span></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<!-- 추천 페이지 주류 선택 스크립트 -->
-<script type="text/javascript">
-	$(document).ready(function () {
-		var select_count = 0
-
-		// product-click 버튼
-		$(".product-click").click(function(event){
-			$current = $(event.currentTarget)
-			id = $current.attr('id')
-
-			color = $current.css('background-color')
-			console.log(color)
-
-			if(color == "rgb(0, 0, 0)"){
-				if(select_count < 5){
-					$current.css('background-color', 'gray')
-					select_count++
-				}
-			}else{
-				$current.css('background-color',' black')
-				select_count--
-			}
-		})
-	})
-</script>
-
-<!-- 추천 페이지 제출 후 처리 스크립트 -->
+<!-- 추천 제품 클릭 시 새 페이지 띄우기 -->
 <script type="text/javascript">
 	$(document).ready(function () {
 		
@@ -100,7 +74,7 @@
 		$(".product-click").click(function(event){
 			$current = $(event.currentTarget)
 			id = $current.attr('id')
-		
+			
 		})
 	})
 </script>
