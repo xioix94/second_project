@@ -10,7 +10,9 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    return render(request, 'app/blog.html')
+    p_comments = Product_Comment.objects.all().select_related('product')
+
+    return render(request, 'app/blog.html', {'p_comments': p_comments})
 
 def contact(request):
     return render(request, 'app/contact.html')
