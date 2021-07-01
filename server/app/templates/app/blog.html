@@ -45,7 +45,7 @@
 				{%for p_comment in p_comments%}
 						{% if forloop.counter|divisibleby:2 %}
 							<div class="col-sm-6 latest-post even matchHeight">
-								<a href="blog-single.html"></a>
+								<a href="/userpage/?email={{ p_comment.user.email }}"></a>
 								<div class="row">
 									<div class="col-sm-10 col-sm-push-1">
 										<header>
@@ -53,13 +53,13 @@
 											<h2>{{ p_comment.product.name}}</h2>
 										</header>
 										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+										<p><a href="/userpage/?email={{ p_comment.user.email }} " class="underline">{{ p_comment.time }}</a></p>
 									</div>
 								</div>
 							</div>
 						{% else %}
 							<div class="col-sm-6 latest-post odd matchHeight">
-								<a href="blog-single.html"></a>
+								<a href="/userpage/?email={{ p_comment.user.email }}"></a>
 								<div class="row">
 									<div class="col-sm-10 col-sm-push-1">
 										<header>
@@ -67,7 +67,7 @@
 											<h2>{{ p_comment.product.name}}</h2>
 										</header>
 										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
+										<p><a href="/userpage/?email={{ p_comment.user.email }}" class="underline">{{ p_comment.time }}</a></p>
 									</div>
 								</div>
 							</div>
