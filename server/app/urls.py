@@ -18,4 +18,5 @@ urlpatterns = [
     path('register/', views.register),
     path('change_user_info/', views.change_user_info),
     path('recommand/', views.recommand),
+    path('recommand_result/', views.recommand_result),
 ]

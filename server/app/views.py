@@ -26,7 +26,7 @@ def icons(request):
 def index(request):
     return render(request, 'app/index.html')
 
-# 추천 페이지에 맥주 데이터 가져오기 (16개)
+# 추천 페이지에 제품 데이터 가져오기 (16개)
 def recommand(request):
     products = Product.objects.order_by('?')[:16]
         
@@ -34,6 +34,14 @@ def recommand(request):
         'products': products
     })
 
+# 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
+def recommand_result(request):
+    # 머신러닝 나온 군집 안의 제품으로 줘야 함                     (수정 필요)
+    products = Product.objects.order_by('?')[:16]
+        
+    return render(request, 'app/recommand_result.html', {
+        'products': products
+    })
 
 def login_form(request):
     return render(request, 'app/login_form.html')
