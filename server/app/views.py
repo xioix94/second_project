@@ -10,10 +10,13 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    return render(request, 'app/blog.html')
+    p_comments = Product_Comment.objects.all().select_related('product')
+
+    return render(request, 'app/blog.html', {'p_comments': p_comments})
 
 def contact(request):
     return render(request, 'app/contact.html')
+    
 
 def icons(request):
     return render(request, 'app/icons.html')
@@ -61,6 +64,7 @@ def userpage(request):
 
     
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
 
 
     return render(request, 'app/userpage.html', {
