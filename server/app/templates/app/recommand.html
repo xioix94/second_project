@@ -44,12 +44,13 @@
 			{% endif %}
 				
 			
-
 			<div class="col-xs-6 col-sm-3">
-				<div class="counter">				
-					<img src="{% static 'images/beer/{{ product.image }}' %}" alt="맥주이미지" />
+				<div id={{ product.id }} style="background-color: black; margin: 5px; border-radius: 10px" class="product-click">
+					<div class="counter" >				
+						<img src="{% static 'images/beer/2.jpg' %}" class="svg" alt="" />
+					</div>
+					<h1 style="color: white; text-align: center; font-size: 1em">{{ product.name }}</h1>
 				</div>
-				<h1 style="color: white; text-a: center;">{{ product.name }}</h1>
 			</div>
 
 		{% endfor %}
@@ -130,4 +131,32 @@
 
 	});
 </script>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		// product-click 버튼
+		$(".product-click").click(function(event){
+			$current = $(event.currentTarget)
+			id = $current.attr('id')
+
+			color = $current.css('background-color')
+			console.log(color)
+
+
+			if(color == "rgb(0, 0, 0)"){
+				$current.css('background-color', 'gray')
+			}else{
+				$current.css('background-color',' black')
+			}
+
+
+		})
+
+
+		
+	})
+</script>
+
+
+
 {% endblock %}
