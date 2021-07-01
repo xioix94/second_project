@@ -25,7 +25,12 @@ def index(request):
     return render(request, 'app/index.html')
 
 def recommand(request):
-    return render(request, 'app/recommand.html')
+    products = Product.objects.all()
+
+
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
 
 
 def login_form(request):
