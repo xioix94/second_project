@@ -32,13 +32,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12 single-blog">
-							<img src="http://placehold.it/750x535" alt="Craft beer single blog post" />
+							{% comment %} <img src="http://placehold.it/750x535" alt="Craft beer single blog post" /> {% endcomment %}
 							<header>
 								<span class="date">Name</span>
 								<h2>{{ user.alias }}</h2>
+								<span class="date">email</span>
+								<h3>{{ user.email }}</h3>
 							</header>
-							<p>user information</p>
-
 						</div>
 					</div>
 				</div>
