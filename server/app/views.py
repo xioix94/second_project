@@ -1,6 +1,8 @@
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from .models import Product_Comment, User, Product
+from .models import Product_Comment, User, Product, Category
+import random
 
 # Create your views here.
 def page_404(request):
@@ -10,16 +12,38 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    return render(request, 'app/blog.html')
+    category = request.GET.get('category')
+
+    p_comments = Product_Comment.objects.none()
+    if category:
+        category_id = Category.objects.get(name=category)
+        products = Product.objects.filter(category_id=category_id)
+        for product in products:
+            p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
+    else:
+        p_comments = Product_Comment.objects.select_related()
+
+    return render(request, 'app/blog.html', {
+        'p_comments': p_comments,
+        'category': category})
 
 def contact(request):
     return render(request, 'app/contact.html')
+    
 
 def icons(request):
     return render(request, 'app/icons.html')
 
 def index(request):
     return render(request, 'app/index.html')
+
+# 추천 페이지에 맥주 데이터 가져오기 (16개)
+def recommand(request):
+    products = Product.objects.order_by('?')[:16]
+        
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
 
 
 def login_form(request):
@@ -114,6 +138,7 @@ def userpage(request):
 
     
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
 
 
     return render(request, 'app/userpage.html', {

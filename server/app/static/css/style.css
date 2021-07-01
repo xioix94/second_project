@@ -183,7 +183,7 @@ header span {
     z-index: 1;
 
     padding-top: 100px;
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 
     background: #fff;
 }
@@ -2116,9 +2116,12 @@ a.lost-pass {
     border-radius: 50%;
 }
 
+
+
 .user-comments h5 {
-    font-family: 'Grand Hotel', cursive;
+    font-family: 'Gothic A1', sans-serif;
     font-size: 26px;
+    
 
     color: #cbb27c;
 }

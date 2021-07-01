@@ -55,6 +55,23 @@ def alias_valid(request):
             return JsonResponse({'result' : 'not ok'})
     return JsonResponse({'result' : 'ok'})
 
+@csrf_exempt
+def adult_value(request):
+    if request.POST.get('adult'):
+        return JsonResponse({'result' : 'not ok'})
+    return JsonResponse({'result' : 'ok'})
+
+@csrf_exempt
+def submit_valid(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    password2 = request.POST.get('password2')
+    alias = request.POST.get('alias')
+    sex = request.POST.get('sex')
+
+    return True
+
+
 def register(request):
     # submit 접근처리
     email = request.POST.get('email')
@@ -64,20 +81,32 @@ def register(request):
     sex = request.POST.get('sex')
     adult = request.POST.get('adult')
 
+    # 성별 치환
+    if sex == 'men':
+        sex = 0
+    else:
+        sex = 1
+
     # 이메일 검증 구현
     if not email_valid(email) or not email_duplicate(email):
         return redirect("/register")
-
-    # 비밀번호, 비밀번호 확인 검증 미구현
-    if not password_valid(password):
-        return redirect('/register')
+    # 비밀번호 비교 
+    if password != password2:
+        return redirect("/register")
+    # 닉네임 비교
+    users = User.objects.all()
+    for user in users:
+        if user.alias == alias:
+            return redirect("/register")
+    # 성인 확인
+    if not adult:
+        return redirect("/register")
     
-    # 성인 체크 미구현
-    if not adult_valid(adult):
-        return redirect('/register')
+    User.objects.create(email=email, password=password, alias=alias, sex=sex)
+    
+    return redirect("/login")
 
-
-
+    
 def login(request):
     if request.method == 'GET':
         return render(request, 'app/login_check.html', {})

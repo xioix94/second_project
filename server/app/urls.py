@@ -17,4 +17,5 @@ urlpatterns = [
     path('userpage/', views.userpage),
     path('register/', views.register),
     path('save_profile/', views.save_profile),
+    path('recommand/', views.recommand),
 ]

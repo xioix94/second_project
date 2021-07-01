@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+
 	
 	<body class="single">
 
@@ -31,13 +32,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12 single-blog">
-							<img src="http://placehold.it/750x535" alt="Craft beer single blog post" />
+							{% comment %} <img src="http://placehold.it/750x535" alt="Craft beer single blog post" /> {% endcomment %}
 							<header>
 								<span class="date">Name</span>
 								<h2>{{ user.alias }}</h2>
+								<span class="date">email</span>
+								<h3>{{ user.email }}</h3>
 							</header>
-							<p>user information</p>
-
 						</div>
 					</div>
 				</div>
@@ -57,7 +58,7 @@
 
 							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
+									<img src="/static/images/beer/{{ user_comment.product.image }}" style = "width:200px;height:200px;" alt="Craft ale HTML template" />
 								</div>
 								<div class="col-sm-11">
 									<h5>{{ user_comment.product.name }}</h5>

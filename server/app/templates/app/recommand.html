@@ -1,0 +1,162 @@
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+
+
+<!-- Section -->
+<div class="container-fluid dark section no-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="horz-menu center-menu">
+					<li class="active"><span><a href="#">All</a></span></li>
+					<li><span><a href="#">Beer</a></span></li>
+					<li><span><a href="#">Wine</a></span></li>
+					<li><span><a href="#">Cock tail</a></span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 주류 추천 멘트-->
+<div class="container-fluid super-dark section" style="position: relative; width: 100%; font-size: 20px">
+	<div class="container" style="position: relative; width: 100%; font-size: 20px">
+		<div class="col-xs-6 col-sm-3" style="position: relative; width: 100%; font-size: 20px">
+			<div class="counter">
+				맘에 드는 제품을 선택하세요.
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Section -->
+<div class="container-fluid super-dark section">
+	<div class="container">
+		<div class="row">
+		{% for product in products %}
+			{% if forloop.counter0|divisibleby:4 %}
+				
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			{% endif %}
+				
+			
+			<div class="col-xs-6 col-sm-3">
+				<div id={{ product.id }} style="background-color: black; margin: 5px; border-radius: 10px" class="product-click">
+					<div class="counter" >				
+						<img src="{% static 'images/beer/2.jpg' %}" class="svg" alt="" />
+					</div>
+					<h1 style="color: white; text-align: center; font-size: 1em">{{ product.name }}</h1>
+				</div>
+			</div>
+
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<!-- Section -->
+<div class="container-fluid super-dark section no-padding">
+	<div class="container">
+		<div class="col-sm-12">
+			<ul class="horz-menu center-menu pages">
+				<li class="active"><span><a href="#">submit</a></span></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!-- 자바 스크립트 코드 시작 -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		
+		// 이메일 형식, 중복 검증
+		$('input#email').blur(function (event) {
+			email = $('input#email').val()
+
+			$.ajax({
+				url: "/api/email_check/",
+				type: "POST",
+				dataType: "JSON",
+				data: {
+					'email': email,
+				},
+				success: function (result) {
+					if (result.result == 'ok') {
+						console.log('pass')
+						$('input#email').css({
+							'border-bottom-color': '#cbb27c',
+						})
+					} else {
+						console.log('fail')
+						$('input#email').css({
+							'border-bottom-color': 'red',
+						})
+					}
+				},
+				error: function (result) {
+					console.log(result)
+				},
+			})
+		})
+
+		// summit 버튼 눌러서 제출 
+		$('input#submit').click(function (event) {
+			submit = $('input#submit').val()
+
+			$.ajax({
+				url: "/api/submit_valid/",
+				type: "POST",
+				dataType: "JSON",
+				data: {
+					'submit': submit,
+				},
+				success: function (result) {
+					if (result.result == 'ok') {
+						console.log('pass')
+
+					} else {
+						console.log('fail')
+
+					}
+				},
+				error: function (result) {
+					console.log(result)
+				},
+			})
+		})
+
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		// product-click 버튼
+		$(".product-click").click(function(event){
+			$current = $(event.currentTarget)
+			id = $current.attr('id')
+
+			color = $current.css('background-color')
+			console.log(color)
+
+
+			if(color == "rgb(0, 0, 0)"){
+				$current.css('background-color', 'gray')
+			}else{
+				$current.css('background-color',' black')
+			}
+
+
+		})
+
+
+		
+	})
+</script>
+
+
+
+{% endblock %}
