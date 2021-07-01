@@ -2,7 +2,7 @@ from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import Category, Product_Comment, User, Product
-from itertools import chain
+import random
 
 # Create your views here.
 def page_404(request):
@@ -37,8 +37,13 @@ def icons(request):
 def index(request):
     return render(request, 'app/index.html')
 
+# 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
-    return render(request, 'app/recommand.html')
+    products = Product.objects.order_by('?')[:16]
+        
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
 
 
 def login_form(request):
