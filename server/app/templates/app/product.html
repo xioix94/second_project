@@ -30,7 +30,7 @@
 	{% for p in product_list %}
 		<div class="col-sm-4 product-wrapper">
 			<div class="product">
-				<a href="/product_single">
+				<a href="/product_single?p_id={{ p.id }}">
 					<span>More info</span>
 					<img src="/static/images/beer/{{ p.image }}" alt="Product image">
 				</a>
