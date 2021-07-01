@@ -24,6 +24,9 @@ def icons(request):
 def index(request):
     return render(request, 'app/index.html')
 
+def recommand(request):
+    return render(request, 'app/recommand.html')
+
 
 def login_form(request):
     return render(request, 'app/login_form.html')
