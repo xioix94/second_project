@@ -37,15 +37,15 @@
 									</div>
 									<div class="row">
 										<div class="col-sm-6">
-											<input type="password" name="password" placeholder="password">
+											<input id="pw1" type="password" name="password" placeholder="password">
 										</div>
 										<div class="col-sm-6">
-											<input type="password" name="password2" placeholder="password check">
+											<input id="pw2" type="password" name="password2" placeholder="password check">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-6">
-											<input type="text" name="alias" placeholder="NICKNAME">
+											<input id=alias type="text" name="alias" placeholder="NICKNAME">
 										</div>
 									</div>
 									<div class="row">
@@ -77,28 +77,105 @@
 			</div>
 			
 			<script type="text/javascript">
+			password_check = function(event){
+					pw1 = $('input#pw1').val()
+					pw2 = $('input#pw2').val()
+					
+					$.ajax({
+						url: "/api/password_valid/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'pw1' : pw1,
+							'pw2': pw2,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
+								$('input#pw2').css({
+									'border-bottom-color': '#cbb27c',
+								})
+								$('input#pw1').css({
+									'border-bottom-color': '#cbb27c',
+								})
+							} else {
+								console.log('fail')
+								$('input#pw2').css({
+									'border-bottom-color': 'red',
+								})
+								$('input#pw1').css({
+									'border-bottom-color': 'red',
+								})
+							}
+						},
+						error: function(result){
+							console.log(result)
+						},
+					})
+				}
+
 			$(document).ready(function() { 
 				
 				$('input#email').blur(function(event){					
 					email = $('input#email').val()
-					var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-					console.log('blur test')
-
-					if (email.match(regExp) != null) {
-						console.log('pass')
-						$('input#email').css({
-							'border-bottom-color': '#cbb27c',
-						})
-					} else { 
-						console.log('fail')
-						$('input#email').css({
-							'border-bottom-color': 'red',
-						})
-					}
+					
+					$.ajax({
+						url: "/api/email_check/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'email': email,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
+								$('input#email').css({
+									'border-bottom-color': '#cbb27c',
+								})
+							} else {
+								console.log('fail')
+								$('input#email').css({
+									'border-bottom-color': 'red',
+								})
+							}
+						},
+						error: function(result){
+							console.log(result)
+						},
+					})
 				})
 
-				$('').blur(function(event){
+				$('input#alias').blur(function(event){					
+					alias = $('input#alias').val()
+					
+					$.ajax({
+						url: "/api/alias_valid/",
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							'alias': alias,
+						},
+						success: function(result){
+							if(result.result == 'ok'){
+								console.log('pass')
+								$('input#alias').css({
+									'border-bottom-color': '#cbb27c',
+								})
+							} else {
+								console.log('fail')
+								$('input#alias').css({
+									'border-bottom-color': 'red',
+								})
+							}
+						},
+						error: function(result){
+							console.log(result)
+						},
+					})
 				})
+
+				$('input#pw1').blur(password_check)
+				$('input#pw2').blur(password_check)
 
 				$('').blur(function(event){
 				})
