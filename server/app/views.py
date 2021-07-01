@@ -21,8 +21,6 @@ def icons(request):
 def index(request):
     return render(request, 'app/index.html')
 
-def login_check(request):
-    return render(request, 'app/login_check.html')
 
 def login_form(request):
     return render(request, 'app/login_form.html')
@@ -58,3 +56,19 @@ def register(request):
 
 def change_user_info(request):
     return render(request, 'app/change_user_info.html')
+
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'app/login.html', {})
+    else:
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        try:
+            member = User.objects.get(email=email,password=password)
+        except:
+            messages = "실패"
+            return render(request, 'app/login.html', {'messages' : messages})
+        else:
+            request.session['email'] = email
+            return render(request, 'app/index.html')

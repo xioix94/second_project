@@ -33,19 +33,3 @@ def alias_valid(request):
     return JsonResponse({
         'result': ok
     })
-
-
-def login(request):
-    if request.method == 'GET':
-        return render(request, 'app/login_check.html', {})
-    else:
-        user_id = request.POST['email']
-        user_pw = request.POST['password']
-        
-        try:
-            member = User.objects.get(email=user_id,password=user_pw)
-        except:
-            return HttpResponse('로그인 실패')
-        else:
-            # request.session['email'] = user_id
-            return HttpResponse('로그인 성공')

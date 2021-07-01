@@ -1,9 +1,11 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 {% extends "common/base.html" %}
 
 {% load static %}
 {% block content %}
-		
-		
+	
 		<!-- Fake page loading -->
 		<div id="fakeLoader"></div>
 
@@ -34,21 +36,23 @@
 								<form method="POST">
 									{% csrf_token %}
 									<div class="login" width = "50">
-										<input type="text" placeholder="Email" class="email" name="email" style="width: 100%" maxlength="20"><br>
-										<input type="password" placeholder="Password" class="password" name="password" maxlength="15">
-										{% comment %} <a href="#" class="btn btn-primary"><span>Login</span></a> {% endcomment %}
+										<input type="text" placeholder="email" name="email" style="width: 100%" maxlength="20"><br>
+										<input type="password" placeholder="password" name="password" maxlength="15">
 										<a href="#/" class="lost-pass" onclick="window.open(this.href, '_blank', 'width=가로사이즈px,height=세로사이즈px,toolbars=no,scrollbars=no'); return false;">Lost your password?</a>
 									</div>
 									<div class="col-sm-12 btn-wrap">
-										<a href="../register" class="btn btn-default"><span>Register</span></a><>
-										<input type="submit" value="Login" href="../api/login/" class="btn btn-primary">
-										{% comment %} <a href="to_members.html" class="btn btn-default"><span>SIGN IN</span></a> {% endcomment %}
+										<a href="../register" class="btn btn-default"><span>Register</span></a>&nbsp;&nbsp;&nbsp;
+										<button type="submit" class="btn btn-primary">Login</button>
 									</div>
 								</form>
 							</div>
 						</div>
 				</div>
 			</div>
-
 		</div>
+		{% if messages %}
+			<script type="text/javascript">
+  			alert("로그인에 실패하셨습니다.");
+			</script>
+		{% endif %}
 {% endblock %}
