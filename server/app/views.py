@@ -1,6 +1,8 @@
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
-from .models import Product_Comment, User, Product
+from .models import Category, Product_Comment, User, Product
+from itertools import chain
 
 # Create your views here.
 def page_404(request):
@@ -10,10 +12,20 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    p_comments = Product_Comment.objects.all().select_related('product').select_related('user')
+    category = request.GET.get('category')
+
+    p_comments = Product_Comment.objects.none()
+    if category:
+        category_id = Category.objects.get(name=category)
+        products = Product.objects.filter(category_id=category_id)
+        for product in products:
+            p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
+    else:
+        p_comments = Product_Comment.objects.select_related()
 
     return render(request, 'app/blog.html', {
-        'p_comments': p_comments})
+        'p_comments': p_comments,
+        'category': category})
 
 def contact(request):
     return render(request, 'app/contact.html')

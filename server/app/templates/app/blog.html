@@ -13,20 +13,36 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<ul class="horz-menu center-menu">
-								<li class="active"><span><a href="#">All</a></span></li>
-								<li><span><a href="#reviewbeer">Beer</a></span></li>
-								<li><span><a href="#reviewine">Wine</a></span></li>
-								<li><span><a href="#reviewcocktail">Cocktail</a></span></li>
+								{% if category == "beer" %}
+									<li ><span><a href="?category=">All</a></span></li>
+									<li class="active"><span><a href="?category=beer">Beer</a></span></li>
+									<li><span><a href="?category=wine">Wine</a></span></li>
+									<li><span><a href="?category=cocktail">Cocktail</a></span></li>
+								{% elif category == "wine" %}
+									<li><span><a href="?category=">All</a></span></li>
+									<li><span><a href="?category=beer">Beer</a></span></li>
+									<li class="active"><span><a href="?category=wine">Wine</a></span></li>
+									<li><span><a href="?category=cocktail">Cocktail</a></span></li>
+								{% elif category == "cocktail" %}
+									<li><span><a href="?category=">All</a></span></li>
+									<li><span><a href="?category=beer">Beer</a></span></li>
+									<li><span><a href="?category=wine">Wine</a></span></li>
+									<li class="active" ><span><a href="?category=cocktail">Cocktail</a></span></li>
+								{% else %}
+									<li class="active" ><span><a href="?category=">All</a></span></li>
+									<li><span><a href="?category=beer">Beer</a></span></li>
+									<li><span><a href="?category=wine">Wine</a></span></li>
+									<li><span><a href="?category=cocktail">Cocktail</a></span></li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>
 				</div>
 		</div>
 		<!-- Section -->
-		<div class="container-fluid light section no-padding" id="reviewbeer">
+		<div class="container-fluid light section no-padding">
 			<div class="row">
 				{%for p_comment in p_comments%}
-					{%if p_comment.product.category_id == 1 %} 
 						{% if forloop.counter|divisibleby:2 %}
 							<div class="col-sm-6 latest-post even matchHeight">
 								<a href="blog-single.html"></a>
@@ -56,88 +72,11 @@
 								</div>
 							</div>
 						{% endif %}
-					{%endif%}
-				{%endfor%}
-			</div>
-		</div>
-				<!-- Section -->
-		<div class="container-fluid light section no-padding" id="reviewine">
-			<div class="row">
-				{%for p_comment in p_comments%}
-					{%if p_comment.product.category_id == 2 %} 
-						{% if forloop.counter|divisibleby:2 %}
-							<div class="col-sm-6 latest-post even matchHeight">
-								<a href="blog-single.html"></a>
-								<div class="row">
-									<div class="col-sm-10 col-sm-push-1">
-										<header>
-											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
-											<h2>{{ p_comment.product.name}}</h2>
-										</header>
-										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
-									</div>
-								</div>
-							</div>
-						{% else %}
-							<div class="col-sm-6 latest-post odd matchHeight">
-								<a href="blog-single.html"></a>
-								<div class="row">
-									<div class="col-sm-10 col-sm-push-1">
-										<header>
-											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
-											<h2>{{ p_comment.product.name}}</h2>
-										</header>
-										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
-									</div>
-								</div>
-							</div>
-						{% endif %}
-					{%endif%}
-				{%endfor%}
-			</div>
-		</div>
-				<!-- Section -->
-		<div class="container-fluid light section no-padding" id="reviewcocktail">
-			<div class="row">
-				{%for p_comment in p_comments%}
-					{%if p_comment.product.category_id == 3 %} 
-						{% if forloop.counter|divisibleby:2 %}
-							<div class="col-sm-6 latest-post even matchHeight">
-								<a href="blog-single.html"></a>
-								<div class="row">
-									<div class="col-sm-10 col-sm-push-1">
-										<header>
-											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
-											<h2>{{ p_comment.product.name}}</h2>
-										</header>
-										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
-									</div>
-								</div>
-							</div>
-						{% else %}
-							<div class="col-sm-6 latest-post odd matchHeight">
-								<a href="blog-single.html"></a>
-								<div class="row">
-									<div class="col-sm-10 col-sm-push-1">
-										<header>
-											<h3 style = "color:#ba9a56">{{ p_comment.user.alias }}</h3>
-											<h2>{{ p_comment.product.name}}</h2>
-										</header>
-										<p>{{p_comment.content}}</p>
-										<p><a href="#" class="underline">{{ p_comment.time }}</a></p>
-									</div>
-								</div>
-							</div>
-						{% endif %}
-					{%endif%}
 				{%endfor%}
 			</div>
 		</div>
 		<!-- Section -->
-		<div class="container-fluid super-dark section no-padding">
+		{% comment %} <div class="container-fluid super-dark section no-padding">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
@@ -150,7 +89,6 @@
 						</div>
 					</div>
 				</div>
-		</div>
+		</div> {% endcomment %}
 	</div>
-
 {% endblock %}
