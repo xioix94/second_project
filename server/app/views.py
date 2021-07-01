@@ -1,6 +1,7 @@
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import render
-from .models import Product_Comment, User, Product
+from django.shortcuts import redirect, render
+from .models import Product_Comment, User, Product, Category
 import random
 
 # Create your views here.
@@ -11,10 +12,20 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    p_comments = Product_Comment.objects.all().select_related('product').select_related('user')
+    category = request.GET.get('category')
+
+    p_comments = Product_Comment.objects.none()
+    if category:
+        category_id = Category.objects.get(name=category)
+        products = Product.objects.filter(category_id=category_id)
+        for product in products:
+            p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
+    else:
+        p_comments = Product_Comment.objects.select_related()
 
     return render(request, 'app/blog.html', {
-        'p_comments': p_comments})
+        'p_comments': p_comments,
+        'category': category})
 
 def contact(request):
     return render(request, 'app/contact.html')
@@ -47,7 +58,43 @@ def login_form(request):
     return render(request, 'app/login_form.html')
 
 def product_single(request):
-    return render(request, 'app/product_single.html')
+    try:
+        product_id = request.GET.get('p_id')
+        
+        product = Product.objects.get(id=product_id)
+        product_comment_list = Product_Comment.objects.filter(product_id=product.id).select_related('user')
+
+        p_name = product.name
+        p_image = product.image
+        p_alcohol = product.alcohol
+        p_category_id = product.category_id
+
+        dict = {'bold': 0, 'sparkling': 0,'sweet': 0,'tannic': 0,'acidic': 0,'bold': 0, 'score': 0}
+        for p in product_comment_list:
+            dict['bold'] += p.bold
+            dict['sparkling'] += p.sparkling
+            dict['sweet'] += p.sweet
+            dict['tannic'] += p.tannic
+            dict['acidic'] += p.acidic
+            dict['score'] += p.score
+
+        dict['bold'] = (dict['bold'] / len(product_comment_list)) * 100
+        dict['sparkling'] = (dict['sparkling'] / len(product_comment_list)) * 100
+        dict['sweet'] = (dict['sweet'] / len(product_comment_list))  * 100
+        dict['tannic'] = (dict['tannic'] / len(product_comment_list))  * 100
+        dict['acidic'] = (dict['acidic'] / len(product_comment_list))  * 100
+        dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
+
+        return render(request, 'app/product_single.html', {
+            'name': p_name,
+            'image': p_image,
+            'alcohol': p_alcohol,
+            'category_id': p_category_id,
+            'taste': dict,
+            'product_comment_list': product_comment_list,
+        })
+    except:
+        return render(request, 'app/product.html')
 
 def product(request):
     product_list = Product.objects.all()
@@ -56,8 +103,7 @@ def product(request):
 def profile_form(request):
     # 현재 로그인한 user 정보를 DB에서 가져옴
     try:
-        email = request.GET.get('email')
-        
+        email = request.session.get('email')
         user = User.objects.get(email=email)
 
         nickname = user.alias
@@ -70,6 +116,24 @@ def profile_form(request):
     except:
         return render(request, 'app/login.html', {})
 
+def save_profile(request):
+    if request.method == 'GET':
+        return render(request, 'app/profile_form.html', {})
+    else:
+        nickname = request.POST['nickname']
+        password = request.POST['password']
+        
+        try:
+            email = request.session.get('email')
+            user = User.objects.get(email=email)
+            user.alias = nickname
+            user.password = password
+            user.save()
+            
+            return redirect('app/profile_form.html')
+        except:
+            messages = "실패"
+            return render(request, 'app/login.html', {'messages' : messages})
 
 def to_members_form(request):
     return render(request, 'app/to_members.html')
@@ -92,9 +156,6 @@ def userpage(request):
 
 def register(request):
     return render(request, 'app/register.html')
-
-def change_user_info(request):
-    return render(request, 'app/change_user_info.html')
 
 def login(request):
     if request.method == 'GET':

@@ -1,6 +1,60 @@
 {% extends "common/base.html" %}
 
 {% block content %}
+<style>
+.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl .tasteStructure__progressBar--hjNb2 {
+    width: 100%;
+	display: inline-block;
+}
+.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+    height: 8px;
+    border-radius: 7px;
+}
+.indicatorBar__meter--2t_YL {
+    max-height: 8px;
+    position: relative;
+    background: #cbb27c;
+}
+*, ::before, ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+
+
+.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
+    height: 24px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+
+.indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+    display: inline-block;
+    background-color: #1b1d1e;
+    position: absolute;
+    overflow: hidden;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-name: indicatorBar__bounceIn--lAgLM;
+    animation-name: indicatorBar__bounceIn--lAgLM;
+}
+.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+    height: 8px;
+    border-radius: 7px;
+}
+*, ::before, ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
+    height: 24px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+
+.star-rating { width:300px; }
+.star-rating,.star-rating span { display:inline-block; height:55; overflow:hidden; background:url("/static/images/star.png")no-repeat; }
+.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+</style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
 
@@ -12,20 +66,97 @@
 			<div class="row">
 				<div class="col-sm-5 matchHeight">
 					<div class="product-img-wrap">
-						<img src="http://placehold.it/475x550" alt="About our Brewery" />
+						<img src="/static/images/beer/{{ image }}" alt="beer detail" />
 					</div>
 				</div>
 				<div class="col-sm-6 col-sm-push-1 matchHeight">
 					<section class="alignMiddle mobile-center">
 						<header>
-							<h1><i>330ml</i> 4.5%</h1>
-							<h2>Sugar Skull</h2>
+							<h1><i>alcohol </i> {{ alcohol }}%</h1>
+							<p></p>
+							<h2>{{ name }}</h2>
 						</header>
-						<p>Body is light, and the mouthfeel smooth. The palate gathers apple peel, light clove notes and a thin sweetness that's touched with caramel. In the middle, ripe and juicy fresh wheat malt with pear edge, while a husky, grainy, wheat twang livens things up. Suggestions of bubblegum are noted.</p>
-						<p>There's very little bitterness, but a slight lemony sourness, banana pith and light hop leaf character that, combined, increase the perceived bitterness. Yeast is rather neutral, a bit chalky.</p>
-						<p class="price">&dollar;4.75</p>
+							<hr>
+								<span class='star-rating'>
+									<span style ="width: {{ taste.score }}%"></span>
+								</span>
+							<hr>
+
+							<tr class="tasteStructure__tasteCharacteristic--1rMFl">
+								<td>
+									<div class="tasteStructure__property--loYWN"><i>Bold(바디감)</i></div>
+								</td>
+								<td class="tasteStructure__progressBar--hjNb2">
+									<div class="indicatorBar__meter--2t_YL tasteStructure__progressBar--hjNb2">
+										<span class="indicatorBar__progress--3aXLX" style="width: 8%; left: {{ taste.bold }}%;"></span>
+									</div>
+								</td>
+								<td>
+									<div class="tasteStructure__property--loYWN"></div>
+								</td>
+							</tr>
+							<p></p>
+							<tr class="tasteStructure__tasteCharacteristic--1rMFl">
+								<td>
+									<div class="tasteStructure__property--loYWN"><i>Sparkling(탄산감)</i></div>
+								</td>
+								<td class="tasteStructure__progressBar--hjNb2">
+									<div class="indicatorBar__meter--2t_YL tasteStructure__progressBar--hjNb2">
+										<span class="indicatorBar__progress--3aXLX" style="width: 8%; left: {{ taste.sparkling }}%;"></span>
+									</div>
+								</td>
+								<td>
+									<div class="tasteStructure__property--loYWN"></div>
+								</td>
+							</tr>
+							<p></p>
+							<tr class="tasteStructure__tasteCharacteristic--1rMFl">
+								<td>
+									<div class="tasteStructure__property--loYWN"><i>Sweet(단맛)</i></div>
+								</td>
+								<td class="tasteStructure__progressBar--hjNb2">
+									<div class="indicatorBar__meter--2t_YL tasteStructure__progressBar--hjNb2">
+										<span class="indicatorBar__progress--3aXLX" style="width: 8%; left: {{ taste.sweet }}%;"></span>
+									</div>
+								</td>
+								<td>
+									<div class="tasteStructure__property--loYWN"></div>
+								</td>
+							</tr>
+							<p></p>
+							<tr class="tasteStructure__tasteCharacteristic--1rMFl">
+								<td>
+									<div class="tasteStructure__property--loYWN"><i>tannic(떫은맛)</i></div>
+								</td>
+								<td class="tasteStructure__progressBar--hjNb2">
+									<div class="indicatorBar__meter--2t_YL tasteStructure__progressBar--hjNb2">
+										<span class="indicatorBar__progress--3aXLX" style="width: 8%; left: {{ taste.tannic }}%;"></span>
+									</div>
+								</td>
+								<td>
+									<div class="tasteStructure__property--loYWN"></div>
+								</td>
+							</tr>
+							<p></p>
+							<tr class="tasteStructure__tasteCharacteristic--1rMFl">
+								<td>
+									<div class="tasteStructure__property--loYWN"><i>acidic(신맛)</i></div>
+								</td>
+								<td class="tasteStructure__progressBar--hjNb2">
+									<div class="indicatorBar__meter--2t_YL tasteStructure__progressBar--hjNb2">
+										<span class="indicatorBar__progress--3aXLX" style="width: 8%; left: {{ taste.acidic }}%;"></span>
+									</div>
+								</td>
+								<td>
+									<div class="tasteStructure__property--loYWN"></div>
+								</td>
+							</tr>
 					</section>
 				</div>
+
+
+
+
 			</div>
 		</div>
 	</div>
@@ -35,10 +166,33 @@
 		<div class="row">
 			<div class="tabs">
 				<ul>
-					<li><a href="#description">Full description</a></li>
 					<li><a href="#reviews">Customer reviews</a></li>
+					<li><a href="#description">Full description</a></li>
 					<li><a href="#details">Beer details</a></li>
 				</ul>
+				<div id="reviews">
+					<div class="container">
+						{% for p in product_comment_list %}
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="row">
+									<div class="col-sm-12 user-comments">
+										<div class="row">
+											<div class="col-sm-11">
+												<h5>{{ p.user.alias }}</h5>
+												<p>{{ p.content }}</p>
+												<span class="edit">
+													<a href="#">Edit</a>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
 				<div id="description">
 					<div class="container">
 						<div class="row">
@@ -46,66 +200,6 @@
 								<p>Rich, golden color with dark amber and orange hues and a touch of chill haze that clears as the beer warms. Carbonation is quite active, with abnormally large bubbles frothing into a thick white foam head that piles high, sticks and leaves a healthy lacing. Steely and mineral in the nose, soft and powdery, with a dusting of herbal and malty-sweet suggestions. Very smooth on the palate; even and medium-bodied. Malty with bready and biscuity notes running through a light and toasty sweetness. An aggressive alcohol cuts through with spice and a burn, prickling the palate. Distinct herbal hops characters meet the alcohol spice and meld well. Faint taste of ripe stone fruit beneath. Toasty finish, slightly drying, powdery dash of spices.</p>
 
 								<p>One of the most sought-after stouts in Bell's history, Black Note Stout blends the complex aromatics of Expedition Stout with the velvety smooth texture of Double Cream Stout and ages the combination in freshly retired oak bourbon barrels for months. The resulting harmony of flavors captures the finest features of all three components: malty notes of dark chocolate, espresso &amp; dried fruits, all buoyed by the warmth and fragrance of the bourbon barrel. Aimed squarely at the stout and bourbon aficionados, Black Note makes a grand statement about the art of the dark.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="reviews">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="row">
-									<div class="col-sm-12 user-comments">
-										<div class="row">
-											<div class="col-sm-1">
-												<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-											</div>
-											<div class="col-sm-11">
-												<h5>David Moore</h5>
-												<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p>
-												<span class="edit">
-													<a href="#">Reply</a> | <a href="#">Edit</a>
-												</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-1">
-												<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-											</div>
-											<div class="col-sm-11">
-												<h5>Terry Woods</h5>
-												<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-												<span class="edit">
-													<a href="#">Reply</a> | <a href="#">Edit</a>
-												</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-1">
-												<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-											</div>
-											<div class="col-sm-11">
-												<h5>Alex Johnstone</h5>
-												<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica.</p>
-												<span class="edit">
-													<a href="#">Reply</a> | <a href="#">Edit</a>
-												</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-1">
-												<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-											</div>
-											<div class="col-sm-11">
-												<h5>Harry Ransome</h5>
-												<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-												<span class="edit">
-													<a href="#">Reply</a> | <a href="#">Edit</a>
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
