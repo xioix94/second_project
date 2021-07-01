@@ -51,90 +51,26 @@
 							<h3 id="comments">Reviews</h3>
 						</div>
 						<div class="col-sm-12 user-comments">
+
+
+							{% for user_comment in user_comments %}
+
 							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 								<div class="col-sm-1">
 									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
 								</div>
 								<div class="col-sm-11">
-									<h5>버드와이저</h5>
-									<p>{{ user.user_comments }}</p>
+									<h5>{{ user_comment.product.name }}</h5>
+									<p>{{ user_comment.content }}</p>
+
 									<span class="edit">
 										<a href="#">Ratings</a> | <a href="#">Edit</a>
 									</span>
 								</div>
 							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>칭따오</h5>
-									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>카스</h5>
-									<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>기네스</h5>
-									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>기네스</h5>
-									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>호가든</h5>
-									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-								</div>
-								<div class="col-sm-11">
-									<h5>테라</h5>
-									<p>Anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-									<span class="edit">
-										<a href="#">Ratings</a> | <a href="#">Edit</a>
-									</span>
-								</div>
-							</div>
+
+							{% endfor %}
+
 						</div>
 					</div> 
 				</div>
