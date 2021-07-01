@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import Product_Comment, User, Product
+import random
 
 # Create your views here.
 def page_404(request):
@@ -10,9 +11,10 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 def blog(request):
-    p_comments = Product_Comment.objects.all().select_related('product')
+    p_comments = Product_Comment.objects.all().select_related('product').select_related('user')
 
-    return render(request, 'app/blog.html', {'p_comments': p_comments})
+    return render(request, 'app/blog.html', {
+        'p_comments': p_comments})
 
 def contact(request):
     return render(request, 'app/contact.html')
@@ -23,6 +25,14 @@ def icons(request):
 
 def index(request):
     return render(request, 'app/index.html')
+
+# 추천 페이지에 맥주 데이터 가져오기 (16개)
+def recommand(request):
+    products = Product.objects.order_by('?')[:16]
+        
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
 
 
 def login_form(request):
