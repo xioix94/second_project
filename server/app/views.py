@@ -62,7 +62,23 @@ def icons(request):
 
 
 def index(request):
-    return render(request, 'app/index.html')
+    products = Product.objects.all() 
+    comments = Product_Comment.objects.all()
+    beer_num, wine_num, cock_num, review_num = 0, 0, 0, 0 
+    
+    for product in products:
+        if product.category_id == 1:
+            beer_num += 1
+        elif product.category_id == 2:
+            wine_num += 1
+        else:
+            cock_num += 1
+        
+    for _ in comments:
+        review_num += 1
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
+
+    return render(request, 'app/index.html', context)
 
 
 # 추천 페이지에 맥주 데이터 가져오기 (16개)
@@ -74,10 +90,17 @@ def recommand(request):
     })
 
 
+
+
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함                     (수정 필요)
-    products = Product.objects.order_by('?')[:16]
+    cluster = int(request.session.get('cluster'))
+
+    products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
+
+    for product in products:
+        print(product.kmeans)
         
     return render(request, 'app/recommand_result.html', {
         'products': products
@@ -203,7 +226,9 @@ def to_members_form(request):
 
 
 def userpage(request):
-    email = request.GET.get('email')
+    email = request.session.get('email')
+    if not email:
+        return redirect('/')
     
     user = User.objects.get(email=email)
 

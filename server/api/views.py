@@ -6,6 +6,8 @@ from django.http import JsonResponse, HttpResponse
 import re
 from app.models import User
 from django.views.decorators.csrf import csrf_exempt
+from app.models import Product_Comment, Product
+from . import clustering
 
 def email_valid(email):
     # 정규식 검사기
@@ -71,7 +73,6 @@ def submit_valid(request):
 
     return True
 
-
 def register(request):
     # submit 접근처리
     email = request.POST.get('email')
@@ -121,3 +122,33 @@ def login(request):
         else:
             # request.session['email'] = user_id
             return HttpResponse('로그인 성공')
+
+@csrf_exempt
+def submit_recommand_ml(request):
+    selected_list_string = request.POST.get('selected_list')
+    selected_list = list(map(int, selected_list_string.split('-')))
+
+
+    cluster = -1
+    count = 0
+    bd, sp, sw, tan, acid, alc = 0.0, 0.0, 0.0, 0.0, 0.0, 0
+    comments = Product_Comment.objects.select_related('product')
+    for comment in comments:
+        count += 1
+        alc = comment.product.alcohol
+        if comment.product_id in selected_list:
+            bd += comment.bold
+            sp += comment.sparkling
+            sw += comment.sweet
+            tan += comment.tannic
+            acid += comment.acidic
+    bd /= count
+    sp /= count
+    sw /= count
+    tan /= count
+    acid /= count
+    cluster = clustering.return_cluster([bd, sp, sw, tan, acid, alc])
+
+    request.session['cluster'] = str(cluster)
+
+    return JsonResponse({'result': 'ok'})

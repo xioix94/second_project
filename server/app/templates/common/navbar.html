@@ -1,4 +1,5 @@
 {% load static %}
+
 <!-- Navigation -->
 <div class="navbar section no-padding" role="navigation">
     <!-- Heading -->
@@ -13,7 +14,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="finder">
-                        <a href="#">
+                        <a href="#map">
                             <span class="fa fa-map-marker"></span> Find drink
                         </a>
                     </div>
@@ -58,12 +59,17 @@
                 </li>
                 <li>
                     <span>
-                        <a href="our-story.html">Recommend</a>
+                        <a href="/recommand/">Recommend</a>
                     </span>
                 </li>
                 <li class="dropdown">
                     <span>
                         <a href="/blog/">reviews</a>
+                    </span>
+                </li>
+                <li class="dropdown">
+                    <span>
+                        <a href="/board/">board</a>
                     </span>
                 </li>
                 {% if  request.session.email %}
