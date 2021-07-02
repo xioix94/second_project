@@ -1,4 +1,6 @@
 {% extends "common/base.html" %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 
 {% load static %}
 {% block content %}
@@ -42,7 +44,8 @@
 		<!-- Section -->
 		<div class="container-fluid light section no-padding">
 			<div class="row">
-				{%for p_comment in p_comments%}
+				{% comment %} {%for p_comment in p_comment%} {% endcomment %}
+				{%for p_comment in pp_c%}
 						{% if forloop.counter|divisibleby:2 %}
 							<div class="col-sm-6 latest-post even matchHeight">
 								<a href="/userpage/?email={{ p_comment.user.email }}"></a>
@@ -80,13 +83,15 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
+							<ul class='pagination'>
 							<ul class="horz-menu center-menu pages">
-								{% comment %} <li class="active"><span><a href="#">1</a></span></li>
-								<li><span><a href="#">2</a></span></li>
-								<li><span><a href="#">3</a></span></li>
-								<li><span><a href="#">4</a></span></li> {% endcomment %}
 								{% for i in pagination %}
-            					<li><span><a href='/?page={{ i }}'>{{ i }}</a></span></li>
+									{% if pp_c.number == i %}
+        								<li class="active"><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+      								{% else %}
+        								<li><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+      								{% endif %}
+            						{% comment %} <li><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li> {% endcomment %}
             					{% endfor %}
 							</ul>
 						</div>
