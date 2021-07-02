@@ -65,7 +65,7 @@
 									<p>{{ user_comment.content }}</p>
 
 									<span class="edit">
-										<a href="{% url 'app:question_modify' question.id %}">Edit</a> | <a href="#">Delete</a>
+										<a href="/userpage/modify?comment_id={{user_comment.id}}">Edit</a> | <a href="">Delete</a>
 									</span>
 								</div>
 							</div>

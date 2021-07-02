@@ -66,11 +66,24 @@
                         <a href="/blog/">reviews</a>
                     </span>
                 </li>
+                {% if  request.session.email %}
+                <li class="dropdown">
+                    <span>
+                        <a href="#">환영합니다! {{ request.session.alias }} 님!</a>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/userpage">My Reviews</a></li>
+                        <li><a href="#">Log Out</a></li>
+                    </ul>
+                </li>
+                {% else %}
                 <li>
                     <span>
                         <a href="/login/">login</a>
                     </span>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>

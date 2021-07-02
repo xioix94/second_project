@@ -2,14 +2,21 @@ from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Product_Comment, User, Product, Category
-from django.core.paginator import Paginator
+import random
+from django.contrib import messages
+from django import forms
+
+
+
 
 # Create your views here.
 def page_404(request):
     return render(request, 'app/404.html')
 
+
 def blog_single(request):
     return render(request, 'app/blog_single.html')
+
 
 def blog(request):
     category = request.GET.get('category')
@@ -54,32 +61,19 @@ def contact(request):
 def icons(request):
     return render(request, 'app/icons.html')
 
+
 def index(request):
-    products = Product.objects.all() 
-    comments = Product_Comment.objects.all()
-    beer_num, wine_num, cock_num, review_num = 0, 0, 0, 0 
-    
-    for product in products:
-        if product.category_id == 1:
-            beer_num += 1
-        elif product.category_id == 2:
-            wine_num += 1
-        else:
-            cock_num += 1
-        
-    for _ in comments:
-        review_num += 1
-    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
+    return render(request, 'app/index.html')
 
-    return render(request, 'app/index.html', context)
 
-# 추천 페이지에 제품 데이터 가져오기 (16개)
+# 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
     products = Product.objects.order_by('?')[:16]
         
     return render(request, 'app/recommand.html', {
         'products': products
     })
+
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
 def recommand_result(request):
@@ -90,8 +84,10 @@ def recommand_result(request):
         'products': products
     })
 
+
 def login_form(request):
     return render(request, 'app/login_form.html')
+
 
 def product_single(request):
     try:
@@ -131,6 +127,7 @@ def product_single(request):
         })
     except:
         return render(request, 'app/product.html')
+
 
 def product(request):
     category = request.GET.get('category')
@@ -183,6 +180,7 @@ def profile(request):
 
         return JsonResponse({'result': result, 'messages': messages})
 
+
 def to_members_form(request):
     return render(request, 'app/to_members.html')
 
@@ -202,8 +200,10 @@ def userpage(request):
         'user_comments': user_comments,
     })
 
+
 def register(request):
     return render(request, 'app/register.html')
+
 
 def login(request):
     if request.method == 'GET':
@@ -219,8 +219,30 @@ def login(request):
             return render(request, 'app/login.html', {'messages' : messages})
         else:
             request.session['email'] = email
+            request.session['alias'] = member.alias
             return render(request, 'app/index.html')
 
-# def comment_modify(request):
-#     user = User.objects.get(email=email)
-#     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
+def comment_modify(request):
+    
+
+
+    if request.method == "POST":
+        form = userpage(request.POST, instance=user_comments)
+        
+        if form.is_valid():
+            user_comments = form.save(commit=False)
+            user_comments.save()
+            messages.success(request,'수정되었습니다')
+            return redirect('app:userpage', user_id = user.id)
+
+    elif request.method == "GET":
+        # 수정페이지 보여주는 역할
+        comment_id = request.GET.get('comment_id')
+        user_comment = Product_Comment.objects.get(id=comment_id)
+
+        return render(request, 'app/')
+
+    else:
+        pass
+
