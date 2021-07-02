@@ -195,6 +195,7 @@ def login(request):
             return render(request, 'app/login.html', {'messages' : messages})
         else:
             request.session['email'] = email
+            request.session['alias'] = member.alias
             return render(request, 'app/index.html')
 
 
