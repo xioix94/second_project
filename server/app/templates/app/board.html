@@ -2,6 +2,14 @@
 
 {% load static %}
 {% block content %}
+<style>
+	.board {
+		padding-left: 60px;
+		padding-right: 60px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+</style>
 <div id="fakeLoader"></div>
 
 <!-- Wrapper -->
@@ -10,7 +18,7 @@
 	<!-- Section -->
 	<div class="container-fluid dark section no-padding">
 		<div class="container">
-			<div class="row">
+			<div class="row" style="padding-top: 30px; padding-bottom: 30px">
 				<div class="col-sm-12">
 					<ul class="horz-menu center-menu">
 						<li class="active"><span><a href="#">All</a></span></li>
@@ -28,24 +36,21 @@
 	<div class="container-fluid light section no-padding">
 		<div class="row">
 			{% for board in boards %}
-				{% comment %} {% if forloop.counter|divisibleby:2 %} {% endcomment %}
-				
+				<div class="board">
 				<div class="col-sm-12 latest-post even matchHeight">
-				{% comment %} {% else %}
-				<div class="col-sm-12 latest-post even matchHeight">
-				{% endif %} {% endcomment %}
 					<a href="blog-single.html"></a>
-					<div class="row">
+					<div class="row" style="padding-top: 30px; padding-bottom: 30px;">
 						<div class="col-sm-10 col-sm-push-1">
 							<header>
-								<span class="date">{{ board.time | date:'m-d' }}</span>
-								<h2>{{ board.title }}</h2>
+								<span style="font-size: unset;" class="date">{{ board.time|date:'y-m-d' }}</span>
+								<h2 style="font-size: small;">{{ board.title }}</h2>
 							</header>
-							<p>{{ board.content }}</p>
+							<p style="font-size: smaller;">{{ board.content|slice:":100" }}</p>
 							<p><a href="#" class="underline">Read more</a></p>
 						</div>
 					</div>
 					<div class="background" style="background-image: url(http://placehold.it/750x535);"></div>
+				</div>
 				</div>
 			{% endfor %}
 		</div>
