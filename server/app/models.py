@@ -46,3 +46,5 @@ class Product_Comment(models.Model):
     sweet = models.FloatField()  # 달콤함
     tannic = models.FloatField()  # 씁쓸함
     acidic = models.FloatField()  # 신맛
+
+
