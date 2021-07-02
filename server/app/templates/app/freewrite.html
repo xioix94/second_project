@@ -1,0 +1,44 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+	
+		<!-- Fake page loading -->
+		<div id="fakeLoader"></div>
+
+		<!-- Wrapper -->
+		<div class="wrapper">
+
+			
+
+			<!-- Section -->
+			<div class="container-fluid white section">
+				<div class="container">
+						<div class="row">
+							<div class="col-sm-8 col-sm-push-2">
+								<header class="centred">
+									<h1>leave your story</h1>
+								</header>
+								<hr class="space-40" />
+								<form method="POST">
+									
+									{% csrf_token %}
+									제목<br>
+									<input type="text" name="postname"><br>
+									내용<br>
+									<textarea rows="10" cols="50" name="contents"></textarea><br>
+									<input type="file" name="mainphoto"><br>
+									<div class="col-sm-12 btn-wrap">
+										<a href="../register" class="btn btn-default"><span>등록</span></a>&nbsp;&nbsp;&nbsp;
+										<button type="submit" class="btn btn-primary">취소</button>
+									</div>
+								</form>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}

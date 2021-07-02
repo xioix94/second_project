@@ -52,9 +52,7 @@
 							<h3 id="comments">Reviews</h3>
 						</div>
 						<div class="col-sm-12 user-comments">
-
-
-							{% for user_comment in user_comments %}
+							{% for user_comment in u_c %}
 
 							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 								<div class="col-sm-1">
@@ -65,7 +63,7 @@
 									<p>{{ user_comment.content }}</p>
 
 									<span class="edit">
-										<a href="{% url 'app:question_modify' question.id %}">Edit</a> | <a href="#">Delete</a>
+										<a href="/userpage/modify?comment_id={{user_comment.id}}">Edit</a> | <a href="">Delete</a>
 									</span>
 								</div>
 							</div>
@@ -77,7 +75,53 @@
 				</div>
 			</div>
 
-			<!-- Section -->
+		<!-- Section: paging -->
+		<div class="container-fluid super-dark section no-padding">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="pagination" style=" display: block; text-align: center;">
+							<ul class="horz-menu center-menu pages" >
+							<!-- 이전페이지 -->
+								{% if u_c.has_previous %}
+       							 <li class="page-item">
+       							     <a class="page-link" href="?email={{user.email}}&page={{ u_c.previous_page_number }}"><</a>
+       							 </li>
+       							 {% else %}
+       							 <li class="page-item disabled">
+       							     <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
+       							 </li>
+       							{% endif %}
+								<!-- 페이지리스트 -->
+								{% for i in pagination %}
+									{% if u_c.number == i %}
+        								<li class="active"><span><a href="?email={{user.email}}&page={{ i }}">{{ i }}</a></span></li>
+      								{% else %}
+        								<li><span><a href="?email={{user.email}}&page={{ i }}">{{ i }}</a></span></li>
+      								{% endif %}
+            					{% endfor %}
+								<!-- 다음페이지 -->
+        						{% if u_c.has_next %}
+        							<li class="page-item">
+        						    <a class="page-link" href="?email={{user.email}}&page={{ u_c.next_page_number }}">></a>
+        							</li>
+        						{% else %}
+        							<li class="page-item disabled">
+        						    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
+        							</li>
+        						{% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+		</div>
+
+
+
+
+
+
+			{% comment %} <!-- Section -->
 			<div class="container-fluid light section no-padding">
 				<div class="container">
 					<div class="row">
@@ -139,9 +183,7 @@
 						<h4>Pinterest</h4>
 					</div>
 				</div>
-			</div>
-
-		
+			</div> {% endcomment %}
 
 		</div>
 		
