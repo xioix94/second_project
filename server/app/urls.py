@@ -12,11 +12,11 @@ urlpatterns = [
     path('login_form/', views.login_form),
     path('product_single/', views.product_single),
     path('product/', views.product),
-    path('profile/', views.profile_form),
+    path('profile/', views.profile),
     path('to_members/', views.to_members_form),
     path('userpage/', views.userpage),
     path('register/', views.register),
-    path('save_profile/', views.save_profile),
     path('recommand/', views.recommand),
     path('recommand_result/', views.recommand_result),
+    path('userpage/<int:user_id>/modify', views.comment_modify),
 ]
