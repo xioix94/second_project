@@ -210,9 +210,24 @@ def userpage(request):
     
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
 
+    page = request.GET.get('page')
 
+    if not page:
+        page = '1'
+    
+    p = Paginator(user_comments, 10)
+    
+    u_c = p.page(page)
+
+    start_page = (int(page) - 1) // 10 * 10 + 1
+    end_page = start_page + 9
+
+    if end_page > p.num_pages:
+        end_page = p.num_pages
 
     return render(request, 'app/userpage.html', {
+        'u_c' : u_c,
+        'pagination' : range(start_page, end_page + 1),
         'user': user,
         'user_comments': user_comments,
     })
@@ -256,7 +271,7 @@ def comment_modify(request):
         comment_id = request.GET.get('comment_id')
         user_comment = Product_Comment.objects.get(id=comment_id)
 
-        return render(request, 'app/')
+        return render(request, 'app/freewrite.html')
 
     else:
         pass
