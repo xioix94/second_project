@@ -2,58 +2,79 @@
 
 {% block content %}
 <style>
-.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl .tasteStructure__progressBar--hjNb2 {
-    width: 100%;
-	display: inline-block;
-}
-.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
-    height: 8px;
-    border-radius: 7px;
-}
-.indicatorBar__meter--2t_YL {
-    max-height: 8px;
-    position: relative;
-    background: #cbb27c;
-}
-*, ::before, ::after {
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-}
+	.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl .tasteStructure__progressBar--hjNb2 {
+		width: 100%;
+		display: inline-block;
+	}
+	.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+		height: 8px;
+		border-radius: 7px;
+	}
+	.indicatorBar__meter--2t_YL {
+		max-height: 8px;
+		position: relative;
+		background: #cbb27c;
+	}
+	*, ::before, ::after {
+		background-repeat: no-repeat;
+		box-sizing: border-box;
+	}
 
 
-.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
-    height: 24px;
-    margin-bottom: 8px;
-    white-space: nowrap;
-}
+	.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
+		height: 24px;
+		margin-bottom: 8px;
+		white-space: nowrap;
+	}
 
-.indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
-    display: inline-block;
-    background-color: #1b1d1e;
-    position: absolute;
-    overflow: hidden;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-name: indicatorBar__bounceIn--lAgLM;
-    animation-name: indicatorBar__bounceIn--lAgLM;
-}
-.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
-    height: 8px;
-    border-radius: 7px;
-}
-*, ::before, ::after {
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-}
-.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
-    height: 24px;
-    margin-bottom: 8px;
-    white-space: nowrap;
-}
+	.indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+		display: inline-block;
+		background-color: #1b1d1e;
+		position: absolute;
+		overflow: hidden;
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-name: indicatorBar__bounceIn--lAgLM;
+		animation-name: indicatorBar__bounceIn--lAgLM;
+	}
+	.indicatorBar__meter--2t_YL, .indicatorBar__meter--2t_YL .indicatorBar__progress--3aXLX {
+		height: 8px;
+		border-radius: 7px;
+	}
+	*, ::before, ::after {
+		background-repeat: no-repeat;
+		box-sizing: border-box;
+	}
+	.tasteStructure__tasteStructure--15VDn .tasteStructure__tasteCharacteristic--1rMFl {
+		height: 24px;
+		margin-bottom: 8px;
+		white-space: nowrap;
+	}
 
-.star-rating { width:300px; }
-.star-rating,.star-rating span { display:inline-block; height:55; overflow:hidden; background:url("/static/images/star.png")no-repeat; }
-.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+	.star-rating { width: 300px; }
+	.star-rating,.star-rating span { display:inline-block; height: 55px; overflow:hidden; background:url("/static/images/star.png")no-repeat; }
+	.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+
+	.starR1{
+		background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
+		background-size: auto 100%;
+		width: 15px;
+		height: 30px;
+		float:left;
+		text-indent: -9999px;
+		cursor: pointer;
+	}
+	.starR2{
+		background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+		background-size: auto 100%;
+		width: 15px;
+		height: 30px;
+		float:left;
+		text-indent: -9999px;
+		cursor: pointer;
+	}
+	.starR1.on{background-position:0 0;}
+	.starR2.on{background-position:-15px 0;}
 </style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
@@ -219,6 +240,79 @@
 		</div>
 	</div>
 
+	<!-- Section: post comment -->
+		<div class="container-fluid light section no-padding">
+			<div class="container" style="margin-left: 0;">
+				<div class="row">
+					<div class="col-sm-6 dark matchHeight">
+						<section class="alignMiddle padding-80-0 mobile-center">
+							<header>
+								<h1>Leave a</h1>
+								<h2>Comment</h2>
+							</header>
+							<p>A tough one to drink. The use of molasses and licorice is simply overwhelming and without balance.</p>
+						</section>
+						<div class="grey-background" style="background-color: grey; background-size: cover;"></div>
+					</div>
+					<div class="col-sm-5 col-sm-push-1 matchHeight">
+						<section class="alignMiddle padding-80-0">  
+							<form class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
+								{% csrf_token %}
+								{% comment %} score
+								user_id {% endcomment %}
+
+								<div class="starRev">
+									<span class="starR1 on"></span>
+									<span class="starR2"></span>
+									<span class="starR1"></span>
+									<span class="starR2"></span>
+									<span class="starR1"></span>
+									<span class="starR2"></span>
+									<span class="starR1"></span>
+									<span class="starR2"></span>
+									<span class="starR1"></span>
+									<span class="starR2"></span>
+								</div>
+
+								<hr style="border: 0px"></hr>
+								<hr style="border: 0px"></hr>
+								<hr style="border: 0px"></hr>
+
+								<div class="Container">
+									<h4 style="display: inline-block">Bold: </h4>
+									<h4 id = "slider_value_view_bold" style="display: inline-block">0</h4>						  
+									<input id="bold" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+								</div>
+								<div class="Container" >
+									<h4 style="display: inline-block">Sparkling: </h4>
+									<h4 id = "slider_value_view_sparkling" style="display: inline-block">0</h4>						  
+									<input id="sparkling" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+								</div>
+								<div class="Container" >
+									<h4 style="display: inline-block">Sweet: </h4>
+									<h4 id = "slider_value_view_sweet" style="display: inline-block">0</h4>						  
+									<input id="sweet" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+								</div>
+								<div class="Container" >
+									<h4 style="display: inline-block">Tannic: </h4>
+									<h4 id = "slider_value_view_tannic" style="display: inline-block">0</h4>						  
+									<input id="tannic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+								</div>
+								<div class="Container" >
+									<h4 style="display: inline-block">Acidic: </h4>
+									<h4 id = "slider_value_view_acidic" style="display: inline-block">0</h4>						  
+									<input id="acidic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+								</div>
+
+								<textarea name="comment" placeholder="Comment" rows="5"></textarea> {% comment %} content {% endcomment %}
+								<input type="submit" value="Post comment" class="btn btn-default" id="post-comment">
+							</form>
+						</section>
+					</div> 
+				</div>
+			</div>
+		</div>
+
 	<!-- Section -->
 	<div class="container-fluid super-dark section no-padding">
 		<div class="row" id="share">
@@ -255,4 +349,32 @@
 		</div>
 	</div>
 </div>
+
+<script language = "javascript">
+
+function ShowSliderValue(val, id)
+{
+	new_id = "slider_value_view" + "_" + id
+	var obValueView = document.getElementById(new_id);
+	obValueView.innerHTML = val
+}
+
+var RangeSlider = function(){
+	var range = $('.slider_range');
+    
+	range.on('input', function(){		
+		console.log(this.value)
+		console.log(this.id)
+		ShowSliderValue(this.value, this.id);
+	});
+};
+
+RangeSlider();
+
+$('.starRev span').click(function(){
+  $(this).parent().children('span').removeClass('on');
+  $(this).addClass('on').prevAll('span').addClass('on');
+  return false;
+});
+</script>
 {% endblock %}
