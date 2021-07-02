@@ -1,4 +1,6 @@
 {% extends "common/base.html" %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 
 {% load static %}
 {% block content %}
@@ -42,7 +44,8 @@
 		<!-- Section -->
 		<div class="container-fluid light section no-padding">
 			<div class="row">
-				{%for p_comment in p_comments%}
+				{% comment %} {%for p_comment in p_comment%} {% endcomment %}
+				{%for p_comment in pp_c%}
 						{% if forloop.counter|divisibleby:2 %}
 							<div class="col-sm-6 latest-post even matchHeight">
 								<a href="/userpage/?email={{ p_comment.user.email }}"></a>
@@ -75,20 +78,45 @@
 				{%endfor%}
 			</div>
 		</div>
-		<!-- Section -->
-		{% comment %} <div class="container-fluid super-dark section no-padding">
+		<!-- Section: paging -->
+		<div class="container-fluid super-dark section no-padding">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
-							<ul class="horz-menu center-menu pages">
-								<li class="active"><span><a href="#">1</a></span></li>
-								<li><span><a href="#">2</a></span></li>
-								<li><span><a href="#">3</a></span></li>
-								<li><span><a href="#">4</a></span></li>
+							<ul class="pagination" style=" display: block; text-align: center;">
+							<ul class="horz-menu center-menu pages" >
+							<!-- 이전페이지 -->
+								{% if pp_c.has_previous %}
+       							 <li class="page-item">
+       							     <a class="page-link" href="?category={{ category }}&page={{ pp_c.previous_page_number }}"><</a>
+       							 </li>
+       							 {% else %}
+       							 <li class="page-item disabled">
+       							     <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
+       							 </li>
+       							{% endif %}
+								<!-- 페이지리스트 -->
+								{% for i in pagination %}
+									{% if pp_c.number == i %}
+        								<li class="active"><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+      								{% else %}
+        								<li><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+      								{% endif %}
+            					{% endfor %}
+								<!-- 다음페이지 -->
+        						{% if pp_c.has_next %}
+        							<li class="page-item">
+        						    <a class="page-link" href="?category={{ category }}&page={{ pp_c.next_page_number }}">></a>
+        							</li>
+        						{% else %}
+        							<li class="page-item disabled">
+        						    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
+        							</li>
+        						{% endif %}
 							</ul>
 						</div>
 					</div>
 				</div>
-		</div> {% endcomment %}
+		</div>
 	</div>
 {% endblock %}

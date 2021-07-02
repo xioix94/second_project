@@ -239,36 +239,36 @@ html { scroll-behavior: auto; }
 		</div>
 	</div> {% endcomment %}
 
-	<!-- Section -->
+	<!-- 맥주, 와인, 칵테일의 데이터 수, 총 리뷰 수 -->
 	<div class="container-fluid super-dark section">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6 col-sm-3">
 					<div class="counter">
 						<img src="{% static 'images/Can.svg' %}"  class="svg" alt="" />
-						<span>207</span>
-						Flavours
+						<span>{{beer_num}}</span>
+						Beer
 					</div>
 				</div>
 				<div class="col-xs-6 col-sm-3">
 					<div class="counter">
 						<img src="{% static 'images/Sign.svg' %}"  class="svg" alt="" />
-						<span class="one">396</span>
-						Outlets
+						<span class="one">{{wine_num}}</span>
+						Wine
 					</div>
 				</div>
 				<div class="col-xs-6 col-sm-3">
 					<div class="counter">
 						<img src="{% static 'images/Badge.svg' %}"  class="svg" alt="" />
-						<span>60</span>
-						Years brewing
+						<span>{{cock_num}}</span>
+						Cock Tail
 					</div>
 				</div>
 				<div class="col-xs-6 col-sm-3">
 					<div class="counter">
 						<img src="{% static 'images/BarrelSide.svg' %}"  class="svg" alt="" />
-						<span>21</span>
-						Days til ready
+						<span>{{review_num}}</span>
+						Total Review 
 					</div>
 				</div>
 			</div>
