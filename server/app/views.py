@@ -205,10 +205,7 @@ def login(request):
 
 
 def comment_modify(request):
-
-    email = request.GET.get('email')
-    user = User.objects.get(email=email)
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+    
 
 
     if request.method == "POST":
@@ -220,7 +217,14 @@ def comment_modify(request):
             messages.success(request,'수정되었습니다')
             return redirect('app:userpage', user_id = user.id)
 
+    elif request.method == "GET":
+        # 수정페이지 보여주는 역할
+        comment_id = request.GET.get('comment_id')
+        user_comment = Product_Comment.objects.get(id=comment_id)
+
+        return render(request, 'app/')
+
     else:
-        form = userpage(instance=user_comments)
+        pass
 
     
