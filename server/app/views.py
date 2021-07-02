@@ -54,7 +54,23 @@ def icons(request):
     return render(request, 'app/icons.html')
 
 def index(request):
-    return render(request, 'app/index.html')
+    products = Product.objects.all() 
+    comments = Product_Comment.objects.all()
+    beer_num, wine_num, cock_num, review_num = 0, 0, 0, 0 
+    
+    for product in products:
+        if product.category_id == 1:
+            beer_num += 1
+        elif product.category_id == 2:
+            wine_num += 1
+        else:
+            cock_num += 1
+        
+    for _ in comments:
+        review_num += 1
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
+
+    return render(request, 'app/index.html', context)
 
 # 추천 페이지에 제품 데이터 가져오기 (16개)
 def recommand(request):
@@ -194,3 +210,7 @@ def login(request):
         else:
             request.session['email'] = email
             return render(request, 'app/index.html')
+
+def comment_modify(request):
+    user = User.objects.get(email=email)
+    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
