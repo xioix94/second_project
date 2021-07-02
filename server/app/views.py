@@ -129,11 +129,14 @@ def save_profile(request):
             user.alias = nickname
             user.password = password
             user.save()
-            
-            return redirect('app/profile_form.html')
+            messages = "성공"
+            result = True
         except:
             messages = "실패"
-            return render(request, 'app/login.html', {'messages' : messages})
+            result = False
+            # return render(request, 'app/login.html', {'messages' : messages})
+
+        return JsonResponse({'result': result, 'messages': messages})
 
 def to_members_form(request):
     return render(request, 'app/to_members.html')
