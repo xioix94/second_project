@@ -3,6 +3,11 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Product_Comment, User, Product, Category
 import random
+from django.contrib import messages
+from django import forms
+
+
+
 
 # Create your views here.
 def page_404(request):
@@ -200,7 +205,22 @@ def login(request):
 
 
 def comment_modify(request):
+
+    email = request.GET.get('email')
     user = User.objects.get(email=email)
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
+
+    if request.method == "POST":
+        form = userpage(request.POST, instance=user_comments)
+        
+        if form.is_valid():
+            user_comments = form.save(commit=False)
+            user_comments.save()
+            messages.success(request,'수정되었습니다')
+            return redirect('app:userpage', user_id = user.id)
+
+    else:
+        form = userpage(instance=user_comments)
 
     
