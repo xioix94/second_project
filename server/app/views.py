@@ -138,7 +138,25 @@ def product(request):
     else:
         products = Product.objects.all()
 
+    page = request.GET.get('page')
+
+    if not page:
+        page = '1'
+    
+    p = Paginator(products, 9)
+    
+    p_c = p.page(page)
+
+    start_page = (int(page) - 1) // 10 * 10 + 1
+    end_page = start_page + 9
+
+    if end_page > p.num_pages:
+        end_page = p.num_pages
+
+
     return render(request, 'app/product.html', {
+        'p_c' : p_c,
+        'pagination' : range(start_page, end_page + 1),
         'product_list': products,
         'category': category}
         )
@@ -243,3 +261,7 @@ def comment_modify(request):
     else:
         pass
 
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
