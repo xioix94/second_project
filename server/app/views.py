@@ -224,7 +224,7 @@ def comment_modify(request):
         comment_id = request.GET.get('comment_id')
         user_comment = Product_Comment.objects.get(id=comment_id)
 
-        return render(request, 'app/')
+        return render(request, 'app/freewrite.html')
 
     else:
         pass
