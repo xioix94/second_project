@@ -15,6 +15,7 @@ def blog(request):
     category = request.GET.get('category')
 
     p_comments = Product_Comment.objects.none()
+    
     if category:
         category_id = Category.objects.get(name=category)
         products = Product.objects.filter(category_id=category_id)
@@ -30,7 +31,7 @@ def blog(request):
     
     p = Paginator(p_comments, 10)
     
-    info = p.page(page)
+    pp_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
     end_page = start_page + 9
@@ -39,11 +40,11 @@ def blog(request):
         end_page = p.num_pages
 
     context = {
-        'info' : info,
+        'pp_c' : pp_c,
         'pagination' : range(start_page, end_page + 1),
         'p_comments': p_comments,
         'category': category}
-
+    # return render(request, 'app/blog.html', { 'p_comments': p_comments, 'category': category })
     return render(request, 'app/blog.html', context)
 
 def contact(request):
@@ -132,28 +133,37 @@ def product_single(request):
         return render(request, 'app/product.html')
 
 def product(request):
-    product_list = Product.objects.all()
-    return render(request, 'app/product.html', {'product_list': product_list})
+    category = request.GET.get('category')
 
-def profile_form(request):
-    # 현재 로그인한 user 정보를 DB에서 가져옴
-    try:
-        email = request.session.get('email')
-        user = User.objects.get(email=email)
+    products = Product.objects.none()
+    if category:
+        category_id = Category.objects.get(name=category)
+        products = Product.objects.filter(category_id=category_id)
+    else:
+        products = Product.objects.all()
 
-        nickname = user.alias
-        password = user.password
+    return render(request, 'app/product.html', {
+        'product_list': products,
+        'category': category}
+        )
 
-        return render(request, 'app/profile_form.html', {
-            'nickname': nickname,
-            'password': password,
-        })
-    except:
-        return render(request, 'app/login.html', {})
 
-def save_profile(request):
+def profile(request):
     if request.method == 'GET':
-        return render(request, 'app/profile_form.html', {})
+        # 현재 로그인한 user 정보를 DB에서 가져옴
+        try:
+            email = request.session.get('email')
+            user = User.objects.get(email=email)
+
+            nickname = user.alias
+            password = user.password
+
+            return render(request, 'app/profile_form.html', {
+                'nickname': nickname,
+                'password': password,
+            })
+        except:
+            return render(request, 'app/login.html', {})
     else:
         nickname = request.POST['nickname']
         password = request.POST['password']
@@ -164,11 +174,11 @@ def save_profile(request):
             user.alias = nickname
             user.password = password
             user.save()
-            messages = "성공"
-            result = True
+            result = "Success"
+            messages = "Profile change succeeded."
         except:
-            messages = "실패"
-            result = False
+            result = "Fail"
+            messages = "Profile change failed."
             # return render(request, 'app/login.html', {'messages' : messages})
 
         return JsonResponse({'result': result, 'messages': messages})
@@ -211,6 +221,6 @@ def login(request):
             request.session['email'] = email
             return render(request, 'app/index.html')
 
-def comment_modify(request):
-    user = User.objects.get(email=email)
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+# def comment_modify(request):
+#     user = User.objects.get(email=email)
+#     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
