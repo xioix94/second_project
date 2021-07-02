@@ -1,11 +1,10 @@
 from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Product_Comment, User, Product, Category
-import random
+from .models import *
 from django.contrib import messages
 from django import forms
-
+from django.core.paginator import Paginator
 
 
 
@@ -224,8 +223,6 @@ def login(request):
 
 
 def comment_modify(request):
-    
-
 
     if request.method == "POST":
         form = userpage(request.POST, instance=user_comments)
