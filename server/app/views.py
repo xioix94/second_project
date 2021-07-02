@@ -208,11 +208,18 @@ def profile(request):
         try:
             email = request.session.get('email')
             user = User.objects.get(email=email)
+
+            # db에 저장
             user.alias = nickname
             user.password = password
             user.save()
+
+            # session에 재저장
+            request.session['alias'] = nickname
+
             result = "Success"
             messages = "Profile change succeeded."
+            
         except:
             result = "Fail"
             messages = "Profile change failed."
@@ -231,8 +238,7 @@ def userpage(request):
         return redirect('/')
     
     user = User.objects.get(email=email)
-
-    
+        
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
 
     page = request.GET.get('page')
@@ -256,7 +262,6 @@ def userpage(request):
         'user': user,
         'user_comments': user_comments,
     })
-
 
 def register(request):
     return render(request, 'app/register.html')
