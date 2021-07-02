@@ -88,10 +88,11 @@
 					<div class="col-sm-5 col-sm-push-1 matchHeight">
 						<section class="alignMiddle padding-80-0">  
 							<form class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
-								<input type="text" name="name" placeholder="Name">
-								<input type="email" name="_replyto" placeholder="Email">
+								{% csrf_token %}
+								{% comment %} <input type="text" name="name" placeholder="Name"> {% endcomment %}
+								{% comment %} <input type="email" name="_replyto" placeholder="Email"> {% endcomment %}
 								<textarea name="comment" placeholder="Comment" rows="5"></textarea>
-								<input type="submit" value="Post comment" class="btn btn-default">
+								<input type="submit" value="Post comment" class="btn btn-default" id="post-comment">
 							</form>
 						</section>
 					</div> 
@@ -135,6 +136,48 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="popupModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="modal-message">message</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
+
+<script>
+	$('#post-comment').click(function() {
+		$.ajax({
+			url: '/board_single/', // views.py에서의 함수명
+			data: $('form').serialize(),  // nickname=OOOO&password=XXXX
+			type: 'post',
+			success: function(res) {
+				$('#popupModalLabel').text(res.result);
+				$('#modal-message').text(res.messages);
+				$('#popupModal').modal('show');//now its working
+				location.reload();
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+
+		return false;
+	});
+</script>
 
 {% endblock %}
