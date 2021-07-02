@@ -185,11 +185,18 @@ def profile(request):
         try:
             email = request.session.get('email')
             user = User.objects.get(email=email)
+
+            # db에 저장
             user.alias = nickname
             user.password = password
             user.save()
+
+            # session에 재저장
+            request.session['alias'] = nickname
+
             result = "Success"
             messages = "Profile change succeeded."
+            
         except:
             result = "Fail"
             messages = "Profile change failed."
@@ -203,34 +210,37 @@ def to_members_form(request):
 
 
 def userpage(request):
-    email = request.GET.get('email')
-    
-    user = User.objects.get(email=email)
+    try:
+        email = request.GET.get('email')
+        
+        user = User.objects.get(email=email)
 
-    
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+        
+        user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
 
-    page = request.GET.get('page')
+        page = request.GET.get('page')
 
-    if not page:
-        page = '1'
-    
-    p = Paginator(user_comments, 10)
-    
-    u_c = p.page(page)
+        if not page:
+            page = '1'
+        
+        p = Paginator(user_comments, 10)
+        
+        u_c = p.page(page)
 
-    start_page = (int(page) - 1) // 10 * 10 + 1
-    end_page = start_page + 9
+        start_page = (int(page) - 1) // 10 * 10 + 1
+        end_page = start_page + 9
 
-    if end_page > p.num_pages:
-        end_page = p.num_pages
+        if end_page > p.num_pages:
+            end_page = p.num_pages
 
-    return render(request, 'app/userpage.html', {
-        'u_c' : u_c,
-        'pagination' : range(start_page, end_page + 1),
-        'user': user,
-        'user_comments': user_comments,
-    })
+        return render(request, 'app/userpage.html', {
+            'u_c' : u_c,
+            'pagination' : range(start_page, end_page + 1),
+            'user': user,
+            'user_comments': user_comments,
+        })
+    except:
+        return render(request, 'app/index.html')
 
 
 def register(request):

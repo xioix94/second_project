@@ -17,12 +17,6 @@
 						</header>
 						<hr class="space-40" />
 						<!-- Form start -->
-						<!-- <div class="row">
-							<div class="col-sm-12 btn-wrap"  style="margin-bottom: 30px;" >
-								<a href="" class="btn btn-default"><span>change</span></a> 
-								<a href="" class="btn btn-grey"><span>delete</span></a>
-							</div>
-						</div> -->
 						<form>
 							{% csrf_token %}
 							<div class="row">
@@ -82,7 +76,7 @@
 				$('#popupModalLabel').text(res.result);
 				$('#modal-message').text(res.messages);
 				$('#popupModal').modal('show');//now its working
-				//location.reload();
+				location.reload();
             },
 			error: function(res) {
 				// .....
