@@ -18,4 +18,5 @@ urlpatterns = [
     path('register/', views.register),
     path('recommand/', views.recommand),
     path('recommand_result/', views.recommand_result),
+    path('userpage/<int:user_id>/modify', views.question_modify),
 ]

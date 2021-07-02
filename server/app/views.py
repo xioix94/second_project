@@ -1,6 +1,6 @@
 from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Product_Comment, User, Product, Category
 import random
 
@@ -196,3 +196,11 @@ def login(request):
         else:
             request.session['email'] = email
             return render(request, 'app/index.html')
+
+
+
+def comment_modify(request):
+    user = User.objects.get(email=email)
+    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
+    
