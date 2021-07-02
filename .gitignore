@@ -1,6 +1,9 @@
 crawling/Untitled.ipynb
 crawling/.ipynb_checkpoints/Untitled-checkpoint.ipynb
 
+__init__.cpython-38.pyc
+settings.cpython-38.pyc
+urls.cpython-38.pyc
 
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
@@ -301,3 +304,6 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+server/config/__pycache__/__init__.cpython-38.pyc
+server/config/__pycache__/settings.cpython-38.pyc
+server/config/__pycache__/urls.cpython-38.pyc
