@@ -226,7 +226,9 @@ def to_members_form(request):
 
 
 def userpage(request):
-    email = request.GET.get('email')
+    email = request.session.get('email')
+    if not email:
+        return redirect('/')
     
     user = User.objects.get(email=email)
 
