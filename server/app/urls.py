@@ -19,5 +19,5 @@ urlpatterns = [
     path('save_profile/', views.save_profile),
     path('recommand/', views.recommand),
     path('recommand_result/', views.recommand_result),
-    path('userpage/<int:user_id>/modify', views.question_modify),
+    path('userpage/<int:user_id>/modify', views.comment_modify),
 ]
