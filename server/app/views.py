@@ -2,16 +2,14 @@ from django.db.models.query import QuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Product_Comment, User, Product, Category
-import random
+from django.core.paginator import Paginator
 
 # Create your views here.
 def page_404(request):
     return render(request, 'app/404.html')
 
-
 def blog_single(request):
     return render(request, 'app/blog_single.html')
-
 
 def blog(request):
     category = request.GET.get('category')
@@ -25,10 +23,28 @@ def blog(request):
     else:
         p_comments = Product_Comment.objects.select_related()
 
-    return render(request, 'app/blog.html', {
-        'p_comments': p_comments,
-        'category': category})
+    page = request.GET.get('page')
 
+    if not page:
+        page = '1'
+    
+    p = Paginator(p_comments, 10)
+    
+    info = p.page(page)
+
+    start_page = (int(page) - 1) // 10 * 10 + 1
+    end_page = start_page + 9
+
+    if end_page > p.num_pages:
+        end_page = p.num_pages
+
+    context = {
+        'info' : info,
+        'pagination' : range(start_page, end_page + 1),
+        'p_comments': p_comments,
+        'category': category}
+
+    return render(request, 'app/blog.html', context)
 
 def contact(request):
     return render(request, 'app/contact.html')
@@ -37,19 +53,16 @@ def contact(request):
 def icons(request):
     return render(request, 'app/icons.html')
 
-
 def index(request):
     return render(request, 'app/index.html')
 
-
-# 추천 페이지에 맥주 데이터 가져오기 (16개)
+# 추천 페이지에 제품 데이터 가져오기 (16개)
 def recommand(request):
     products = Product.objects.order_by('?')[:16]
         
     return render(request, 'app/recommand.html', {
         'products': products
     })
-
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
 def recommand_result(request):
@@ -60,10 +73,8 @@ def recommand_result(request):
         'products': products
     })
 
-
 def login_form(request):
     return render(request, 'app/login_form.html')
-
 
 def product_single(request):
     try:
@@ -104,39 +115,29 @@ def product_single(request):
     except:
         return render(request, 'app/product.html')
 
-
 def product(request):
-    category = request.GET.get('category')
+    product_list = Product.objects.all()
+    return render(request, 'app/product.html', {'product_list': product_list})
 
-    products = Product.objects.none()
-    if category:
-        category_id = Category.objects.get(name=category)
-        products = Product.objects.filter(category_id=category_id)
-    else:
-        products = Product.objects.all()
+def profile_form(request):
+    # 현재 로그인한 user 정보를 DB에서 가져옴
+    try:
+        email = request.session.get('email')
+        user = User.objects.get(email=email)
 
-    return render(request, 'app/product.html', {
-        'product_list': products,
-        'category': category}
-        )
+        nickname = user.alias
+        password = user.password
 
+        return render(request, 'app/profile_form.html', {
+            'nickname': nickname,
+            'password': password,
+        })
+    except:
+        return render(request, 'app/login.html', {})
 
-def profile(request):
+def save_profile(request):
     if request.method == 'GET':
-        # 현재 로그인한 user 정보를 DB에서 가져옴
-        try:
-            email = request.session.get('email')
-            user = User.objects.get(email=email)
-
-            nickname = user.alias
-            password = user.password
-
-            return render(request, 'app/profile_form.html', {
-                'nickname': nickname,
-                'password': password,
-            })
-        except:
-            return render(request, 'app/login.html', {})
+        return render(request, 'app/profile_form.html', {})
     else:
         nickname = request.POST['nickname']
         password = request.POST['password']
@@ -147,15 +148,14 @@ def profile(request):
             user.alias = nickname
             user.password = password
             user.save()
-            result = "Success"
-            messages = "Profile change succeeded."
+            messages = "성공"
+            result = True
         except:
-            result = "Fail"
-            messages = "Profile change failed."
+            messages = "실패"
+            result = False
             # return render(request, 'app/login.html', {'messages' : messages})
 
         return JsonResponse({'result': result, 'messages': messages})
-
 
 def to_members_form(request):
     return render(request, 'app/to_members.html')
@@ -176,10 +176,8 @@ def userpage(request):
         'user_comments': user_comments,
     })
 
-
 def register(request):
     return render(request, 'app/register.html')
-
 
 def login(request):
     if request.method == 'GET':
@@ -196,11 +194,3 @@ def login(request):
         else:
             request.session['email'] = email
             return render(request, 'app/index.html')
-
-
-
-def comment_modify(request):
-    user = User.objects.get(email=email)
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
-
-    
