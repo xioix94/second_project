@@ -118,6 +118,7 @@ def product(request):
         category_id = Category.objects.get(name=category)
         products = Product.objects.filter(category_id=category_id)
     else:
+        category = "all"
         products = Product.objects.all()
 
     return render(request, 'app/product.html', {
