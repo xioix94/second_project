@@ -14,6 +14,12 @@
 	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
 		background-color:#1b1d1e;
 	}
+
+	#search_keyword {
+		border:none; 
+		margin-bottom:0; 
+		background-color:#696969;
+	}
 </style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
@@ -34,19 +40,11 @@
 					<option value="wine">Wine</option>
 					<option value="cocktail">Cocktail</option>
 				</select></span></li>
-					<li class="active"><span class="search2"><input style="border:none; margin-bottom:0; background-color:#696969;" type="text" id="search_keyword"></span></li>
-					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="#" class="btn-default">Search</a></span></li>
+					<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
+					<li><span><a href='javascript:void(0);' onclick="search();" class="btn-default">Search</a></span></li>
 				</ul>					
 			</div>			
 		</div>			
-									
-				<!-- filter search -->
-				
-				
-				
-			
-			
-		
 	</div>
 </div>
 
@@ -119,4 +117,14 @@
 				</div>
 		</div>
 </div>
+
+<script type="text/javascript">
+	let search
+
+	$(document).ready(() => {
+		search = () => {
+			$('#search_keyword')
+		}
+	})
+</script>
 {% endblock %}
