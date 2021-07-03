@@ -1,7 +1,7 @@
-from app.models import Category, User
-from .forms import BoardForm
+from django.http.response import HttpResponseRedirect
+from server.app.models import Category, User
 from django.shortcuts import redirect, render
-from app.models import Board, Board_Comment
+from server.app.models import Board, Board_Comment
 from django.core.paginator import Paginator
 from django.utils import timezone
 
@@ -44,22 +44,16 @@ def board_write(request):
     if not request.session['email']:
         return redirect('/login')
 
-    if request.method == "GET":
-        form = BoardForm()
-
-    elif request.method == "POST":
-        form = BoardForm(request.POST)
-        if form.is_valid():
-            user_id = request.session.get('user')
-            user = User.objects.get(pk = user_id)
-            new_board = Board(
-                user = user,
-                category = form.cleaned_data['category'],
-                title = form.cleaned_data['title'],
-                content = form.cleaned_data['contents'],
-                time =  timezone.now()
-            )
-            new_board.save()
-            return redirect('/board/')
-
-    return render(request, 'app/freewrite.html', {'form' :form})
+    elif request.method == 'POST':
+        user_email = request.session.get['email']
+        user_id = User.objects.get(email=user_email)
+        new_board = Board (
+            user_id = User.objects.get(id = user_id),
+            category_id = request.POST.get('category'),
+            title = request.POST.get('postname'),
+            content = request.POST.get('contents'),
+            time =  timezone.now()
+        )
+        new_board.save()
+        return HttpResponseRedirect('/board/')
+    return render(request, 'app/freewrite.html')
