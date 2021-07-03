@@ -131,7 +131,7 @@ def submit_recommand_ml(request):
 
     cluster = -1
     count = 0
-    bd, sp, sw, tan, acid, alc = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+    bd, sp, sw, tan, acid, alc = 0.0, 0.0, 0.0, 0.0, 0.0, 0
     comments = Product_Comment.objects.select_related('product')
     for comment in comments:
         count += 1
@@ -147,10 +147,8 @@ def submit_recommand_ml(request):
     sw /= count
     tan /= count
     acid /= count
-    
-    # 군집값 리스트, 선택값들의 평균에 대한 군집 반환
     cluster = clustering.return_cluster([bd, sp, sw, tan, acid, alc])
-    
+
     request.session['cluster'] = str(cluster)
 
     return JsonResponse({'result': 'ok'})
