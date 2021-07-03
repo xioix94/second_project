@@ -1,13 +1,18 @@
 {% extends "common/base.html" %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+<style></style>
 
 
 {% block content %}
+
 <style>
-	#search-type {
-		display: inline;
-		width: 100px;
+	
+
+	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
+	}
+	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
 	}
 </style>
 <!-- Fake page loading -->
@@ -24,19 +29,22 @@
 					<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=beer">Beer</a></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=wine">Wine</a></span></li>
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
-				</ul>					
-			</div>			
-		</div>			
-			<div class="row">							
-				<!-- filter search -->
-				<select name="search-type" id="search-type">
+					<li ><span class="search"><select  style="border:none; margin-bottom:0; padding-left:50px; " name="search-type" id="search-type">
 					<option value="beer">Beer</option>
 					<option value="wine">Wine</option>
 					<option value="cocktail">Cocktail</option>
-				</select>
-				<input type="text" id="search_keyword">
-				<a href="#" class="btn btn-default">Search</a>
-			</div>
+				</select></span></li>
+					<li class="active"><span class="search2"><input style="border:none; margin-bottom:0; background-color:#696969;" type="text" id="search_keyword"></span></li>
+					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="#" class="btn-default">Search</a></span></li>
+				</ul>					
+			</div>			
+		</div>			
+									
+				<!-- filter search -->
+				
+				
+				
+			
 			
 		
 	</div>
