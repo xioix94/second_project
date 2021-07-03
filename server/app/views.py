@@ -17,6 +17,7 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
+#리뷰 모음 페이지 
 def blog(request):
     category = request.GET.get('category')
 
@@ -94,7 +95,7 @@ def recommand(request):
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):
-    # 머신러닝 나온 군집 안의 제품으로 줘야 함                     (수정 필요)
+    # 머신러닝 나온 군집 안의 제품으로 줘야 함                    
     cluster = int(request.session.get('cluster'))
 
     products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
@@ -314,3 +315,18 @@ def comment_modify(request):
 def logout(request):
     request.session.clear()
     return redirect('/')
+
+def find_password(request):
+    if request.method == 'GET':
+        return render(request, 'app/findpass.html', {})
+    else:
+        email = request.POST['email']
+
+        try:
+            user = User.objects.get(email=email)
+        except:
+            messages = "실패"
+            return render(request, 'app/findpass.html', {'messages' : messages, 'email': email })
+        else:
+            messages = "성공"
+            return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
