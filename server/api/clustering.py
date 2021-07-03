@@ -12,9 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from app.models import Product_Comment
 import pickle
 
-# 데이터 베이스에서 데이터 가져와서 학습 시키고 군집 및 모델 최신화
-def cluster_upgrade():
-    return
 
 # recommand.html에서 받은 데이터로 모델만 가져와서 결과값(군집) 추출 후 반환
 def return_cluster(list1): # list1에는 5가지 맛 + 도수 = 6가지 기준
@@ -35,6 +32,13 @@ def return_cluster(list1): # list1에는 5가지 맛 + 도수 = 6가지 기준
 
     kmeans = KMeans(n_clusters=5).fit(content_list)
 
+    cluster_group = kmeans.labels_[:-1]
+
+    # label update
+    for idx, comment in enumerate(comments):
+        comment.product.kmeans = cluster_group[idx]
+        comment.product.save()
+    
     result = kmeans.labels_[-1]
 
     return result
