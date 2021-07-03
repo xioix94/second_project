@@ -9,7 +9,6 @@ urlpatterns = [
     path('icons/', views.icons),
     path('', views.index),
     path('login/', views.login),
-    path('find_password/', views.find_password),
     path('login_form/', views.login_form),
     path('product_single/', views.product_single),
     path('product/', views.product),
