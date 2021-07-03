@@ -161,10 +161,13 @@ def product(request):
         category_id = Category.objects.get(name=category)
         products = Product.objects.filter(category_id=category_id)
     else:
+        category = ""
         products = Product.objects.all()
 
     if keyword:
         products = products.filter(name__icontains=keyword)
+    else:
+        keyword = ""
 
     page = request.GET.get('page')
 
