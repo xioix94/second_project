@@ -94,7 +94,7 @@ def recommand(request):
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
 def recommand_result(request):
-    # 머신러닝 나온 군집 안의 제품으로 줘야 함                     (수정 필요)
+    # 머신러닝 나온 군집 안의 제품으로 줘야 함                    
     cluster = int(request.session.get('cluster'))
 
     products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
