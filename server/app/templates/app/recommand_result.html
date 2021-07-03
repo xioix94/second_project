@@ -43,10 +43,12 @@
 			{% endif %}				
 			<div class="col-xs-6 col-sm-3">
 				<div id={{ product.id }} style="background-color: black; margin: 5px; border-radius: 10px" class="product-click">
-					<div class="counter" >				
-						<img src="{% static 'images/beer/2.jpg' %}" class="svg" alt="" />
-					</div>
-					<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
+					<a href="/product_single/?p_id={{ product.id }}" target="_blank">
+						<div class="counter" >				
+							<img src="{% static 'images/beer/product.image' %}" class="svg" alt="" />
+						</div>
+						<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
+					</a>
 				</div>
 			</div>
 		{% endfor %}
@@ -66,7 +68,7 @@
 	</div>
 </div>
 
-<!-- 추천 제품 클릭 시 새 페이지 띄우기 -->
+{% comment %} <!-- 추천 제품 클릭 시 새 페이지 띄우기 -->
 <script type="text/javascript">
 	$(document).ready(function () {
 		
@@ -74,9 +76,25 @@
 		$(".product-click").click(function(event){
 			$current = $(event.currentTarget)
 			id = $current.attr('id')
-			
+			// 아이디 주고 그에 맞는 링크로 이동
+			$.ajax({
+				url: "/api/submit_recommand_ml/",
+				data: {'selected_list': selected_list.join('-')},
+				dataType: 'json',
+				type: 'post',
+				error: function (response) {
+					window.alert("문제가 있습니다. 다시 해보세요~");
+					spinner.stop(myTarget);
+				},
+				success: function (response) {
+					spinner.stop(myTarget);
+					if(response.result === 'ok'){
+						location.replace("/recommand_result")
+					}
+				}
+			});
 		})
 	})
-</script>
+</script> {% endcomment %}
 
 {% endblock %}
