@@ -66,11 +66,12 @@
 
 
 <!-- Section -->
-{% if product_list %}
+
 
 <div class="container-fluid light section no-padding">
-	
 	<div class="row">
+		{% if product_list %}
+
 		{% for p in p_c %}
 		<div class="col-sm-4 product-wrapper">
 			<div class="product">
@@ -83,21 +84,17 @@
 			</div>
 		</div>
 		{% endfor %}
-	</div>
-	
-</div>
 
-{% else %}
-<div class="container-fluid light section no-padding">
+		{% else %}
 
-	<div class="row">
 		<div class="empty-page">
     		<p>일치하는 결과가 없습니다.</p>
 		</div>
+
+		{% endif %}
 	</div>
-	
 </div>
-{% endif %}
+
 
 <!-- Section: paging --> 
 <div class="container-fluid super-dark section no-padding">

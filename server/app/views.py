@@ -17,22 +17,44 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
-#리뷰 모음 페이지 
+#리뷰 모음 페이지
 def blog(request):
+    # 카테고리 필터
     category = request.GET.get('category')
-
-    p_comments = Product_Comment.objects.none()
-
-    if category:
-        category_id = Category.objects.get(name=category)
-        products = Product.objects.filter(category_id=category_id)
-        for product in products:
-            p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
+    if category in ['beer', 'wine', 'cocktail']:
+        category = Category.objects.get(name=category)
+        products = Product.objects.filter(category_id=category.id)
     else:
-        p_comments = Product_Comment.objects.select_related()
+        category = 'all'
+        products = Product.objects.all()
+
+    # 해당 카테고리의 상품들
+    p_comments = Product_Comment.objects.none()
+    for product in products:
+        p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
+
+    # 키워드 필터
+    search_comments = Product_Comment.objects.none()
+    keyword = request.GET.get('keyword')
+    print(keyword)
+    if keyword != "":
+        for comment in p_comments:
+            if keyword in comment.content or keyword in comment.product.name:
+                search_comments = search_comments | comment
+    else:
+        keyword = ''
+        search_comments = p_comments
+
+    # 정렬 필터
+    order = request.GET.get('order')
+    if order == "score up":
+        pass
+    else:
+        order = ""
+    p_comments = search_comments
+    print(len(p_comments))
 
     page = request.GET.get('page')
-
     if not page:
         page = '1'
 
@@ -47,10 +69,14 @@ def blog(request):
         end_page = p.num_pages
 
     context = {
-        'pp_c' : pp_c,
-        'pagination' : range(start_page, end_page + 1),
+        'pp_c': pp_c,
+        'pagination': range(start_page, end_page + 1),
         'p_comments': p_comments,
-        'category': category}
+        'category': category,
+        'keyword': keyword,
+        'order': order,
+        'page': page,
+    }
     # return render(request, 'app/blog.html', { 'p_comments': p_comments, 'category': category })
     return render(request, 'app/blog.html', context)
 
@@ -119,7 +145,7 @@ def board_write(request):
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):
-    # 머신러닝 나온 군집 안의 제품으로 줘야 함                    
+    # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
 
     products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
