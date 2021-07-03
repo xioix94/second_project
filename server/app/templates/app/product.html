@@ -24,30 +24,25 @@
 					<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=beer">Beer</a></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=wine">Wine</a></span></li>
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
-				</ul>
+				</ul>					
+			</div>			
+		</div>			
+			<div class="row">							
+				<!-- filter search -->
+				<select name="search-type" id="search-type">
+					<option value="beer">Beer</option>
+					<option value="wine">Wine</option>
+					<option value="cocktail">Cocktail</option>
+				</select>
+				<input type="text" id="search_keyword">
+				<a href="#" class="btn btn-default">Search</a>
 			</div>
-		</div>
+			
+		
 	</div>
 </div>
 
-<!-- filter search -->
-<div class="container-fluid light section no-padding">
-	<div class="container">
-		<!-- <div class="row"> -->
-			<div class="col-sm-12">
-				<div class="box-body">
-					<select name="search-type" id="search-type">
-						<option value="beer">Beer</option>
-						<option value="wine">Wine</option>
-						<option value="cocktail">Cocktail</option>
-					</select>
-					<input type="text" id="search_keyword">
-					<a href="#" class="btn btn-default">Search</a>
-				</div>
-			</div>
-		<!-- </div> -->
-	</div>
-</div>
+
 
 <!-- Section -->
 {% if product_list %}
