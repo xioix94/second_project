@@ -22,7 +22,7 @@ def blog(request):
     category = request.GET.get('category')
 
     p_comments = Product_Comment.objects.none()
-    
+
     if category:
         category_id = Category.objects.get(name=category)
         products = Product.objects.filter(category_id=category_id)
@@ -35,9 +35,9 @@ def blog(request):
 
     if not page:
         page = '1'
-    
+
     p = Paginator(p_comments, 10)
-    
+
     pp_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
@@ -56,17 +56,17 @@ def blog(request):
 
 def contact(request):
     return render(request, 'app/contact.html')
-    
+
 
 def icons(request):
     return render(request, 'app/icons.html')
 
 
 def index(request):
-    products = Product.objects.all() 
+    products = Product.objects.all()
     comments = Product_Comment.objects.all()
-    beer_num, wine_num, cock_num, review_num = 0, 0, 0, 0 
-    
+    beer_num, wine_num, cock_num, review_num = 0, 0, 0, 0
+
     for product in products:
         if product.category_id == 1:
             beer_num += 1
@@ -74,7 +74,7 @@ def index(request):
             wine_num += 1
         else:
             cock_num += 1
-        
+
     for _ in comments:
         review_num += 1
     context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
@@ -85,7 +85,7 @@ def index(request):
 # 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
     products = Product.objects.order_by('?')[:16]
-        
+
     return render(request, 'app/recommand.html', {
         'products': products
     })
@@ -93,7 +93,7 @@ def recommand(request):
 
 
 
-# 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
+# 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함                     (수정 필요)
     cluster = int(request.session.get('cluster'))
@@ -102,7 +102,7 @@ def recommand_result(request):
 
     for product in products:
         print(product.kmeans)
-        
+
     return render(request, 'app/recommand_result.html', {
         'products': products
     })
@@ -115,7 +115,7 @@ def login_form(request):
 def product_single(request):
     try:
         product_id = request.GET.get('p_id')
-        
+
         product = Product.objects.get(id=product_id)
         product_comment_list = Product_Comment.objects.filter(product_id=product.id).select_related('user')
 
@@ -154,6 +154,7 @@ def product_single(request):
 
 def product(request):
     category = request.GET.get('category')
+    keyword = request.GET.get('keyword')
 
     products = Product.objects.none()
     if category:
@@ -162,13 +163,16 @@ def product(request):
     else:
         products = Product.objects.all()
 
+    if keyword:
+        products = products.filter(name__icontains=keyword)
+
     page = request.GET.get('page')
 
     if not page:
         page = '1'
-    
+
     p = Paginator(products, 9)
-    
+
     p_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
@@ -178,12 +182,14 @@ def product(request):
         end_page = p.num_pages
 
 
-    return render(request, 'app/product.html', {
-        'p_c' : p_c,
-        'pagination' : range(start_page, end_page + 1),
-        'product_list': products,
-        'category': category}
-        )
+    return render(
+        request, 'app/product.html', {
+            'p_c': p_c,
+            'pagination': range(start_page, end_page + 1),
+            'product_list': products,
+            'category': category,
+            'keyword': keyword
+        })
 
 
 def profile(request):
@@ -205,7 +211,7 @@ def profile(request):
     else:
         nickname = request.POST['nickname']
         password = request.POST['password']
-        
+
         try:
             email = request.session.get('email')
             user = User.objects.get(email=email)
@@ -220,7 +226,7 @@ def profile(request):
 
             result = "Success"
             messages = "Profile change succeeded."
-            
+
         except:
             result = "Fail"
             messages = "Profile change failed."
@@ -234,21 +240,19 @@ def to_members_form(request):
 
 
 def userpage(request):
-    email = request.session.get('email')
-    if not email:
-        return redirect('/')
-    
+    email = request.GET.get('email')
+
     user = User.objects.get(email=email)
-        
+
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
 
     page = request.GET.get('page')
 
     if not page:
         page = '1'
-    
+
     p = Paginator(user_comments, 10)
-    
+
     u_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
@@ -274,7 +278,7 @@ def login(request):
     else:
         email = request.POST['email']
         password = request.POST['password']
-        
+
         try:
             member = User.objects.get(email=email,password=password)
         except:
@@ -290,7 +294,7 @@ def comment_modify(request):
 
     if request.method == "POST":
         form = userpage(request.POST, instance=user_comments)
-        
+
         if form.is_valid():
             user_comments = form.save(commit=False)
             user_comments.save()
