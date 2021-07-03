@@ -17,6 +17,7 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
+#리뷰 모음 페이지 
 def blog(request):
     category = request.GET.get('category')
 
@@ -310,3 +311,18 @@ def comment_modify(request):
 def logout(request):
     request.session.clear()
     return redirect('/')
+
+def find_password(request):
+    if request.method == 'GET':
+        return render(request, 'app/findpass.html', {})
+    else:
+        email = request.POST['email']
+
+        try:
+            user = User.objects.get(email=email)
+        except:
+            messages = "실패"
+            return render(request, 'app/findpass.html', {'messages' : messages, 'email': email })
+        else:
+            messages = "성공"
+            return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
