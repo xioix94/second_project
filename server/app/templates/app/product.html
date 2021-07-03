@@ -4,7 +4,6 @@
 
 
 {% block content %}
-
 <style>
 	
 
@@ -19,6 +18,20 @@
 		border:none; 
 		margin-bottom:0; 
 		background-color:#696969;
+	}
+
+	#search-type {
+		border:none; 
+		margin-bottom:0; 
+		padding-left:50px;
+		width: 170px;
+	}
+
+	.empty-page {
+		width: auto;
+		height: 400px;
+		text-align: center;
+		line-height: 400px;
 	}
 </style>
 <!-- Fake page loading -->
@@ -35,13 +48,14 @@
 					<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=beer">Beer</a></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=wine">Wine</a></span></li>
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
-					<li ><span class="search"><select  style="border:none; margin-bottom:0; padding-left:50px; " name="search-type" id="search-type">
-					<option value="beer">Beer</option>
-					<option value="wine">Wine</option>
-					<option value="cocktail">Cocktail</option>
-				</select></span></li>
-					<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
-					<li><span><a href='javascript:void(0);' onclick="search();" class="btn-default">Search</a></span></li>
+					<li ><span class="search"><select name="search-type" id="search-type">
+						<option value="">All</option>
+						<option value="beer">Beer</option>
+						<option value="wine">Wine</option>
+						<option value="cocktail">Cocktail</option>
+					</select></span></li>
+					<li class="active"><span class="search2"><input name="aa" type="text" id="search_keyword"></span></li>
+					<li><span><a name="aa" href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
 				</ul>					
 			</div>			
 		</div>			
@@ -56,12 +70,12 @@
 <div class="container-fluid light section no-padding">
 	
 	<div class="row">
-	{% for p in p_c %}
+		{% for p in p_c %}
 		<div class="col-sm-4 product-wrapper">
 			<div class="product">
 				<a href="/product_single?p_id={{ p.id }}">
 					<span>More info</span>
-					<img src="/static/images/beer/{{ p.image }}" alt="Product image">
+					<img src="/static/images/beer/{{ p.image }}" alt="Product image"/>
 				</a>
 				<h5>{{ p.name }}</h5>
 				<h3>alcohol {{ p.alcohol }}</h3>
@@ -73,58 +87,67 @@
 </div>
 
 {% else %}
-    <p>제품이 없습니다.</p>
+<div class="container-fluid light section no-padding">
+
+	<div class="row">
+		<div class="empty-page">
+    		<p>일치하는 결과가 없습니다.</p>
+		</div>
+	</div>
+	
+</div>
 {% endif %}
 
 <!-- Section: paging --> 
 <div class="container-fluid super-dark section no-padding">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<ul class="pagination" style=" display: block; text-align: center;">
-							<ul class="horz-menu center-menu pages" >
-							<!-- 이전페이지 -->
-								{% if p_c.has_previous %}
-       							 <li class="page-item">
-       							     <a class="page-link" href="?category={{ category }}&page={{ p_c.previous_page_number }}"><</a>
-       							 </li>
-       							 {% else %}
-       							 <li class="page-item disabled">
-       							     <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
-       							 </li>
-       							{% endif %}
-								<!-- 페이지리스트 -->
-								{% for i in pagination %}
-									{% if p_c.number == i %}
-        								<li class="active"><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
-      								{% else %}
-        								<li><span><a href="?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
-      								{% endif %}
-            					{% endfor %}
-								<!-- 다음페이지 -->
-        						{% if p_c.has_next %}
-        							<li class="page-item">
-        						    <a class="page-link" href="?category={{ category }}&page={{ p_c.next_page_number }}">></a>
-        							</li>
-        						{% else %}
-        							<li class="page-item disabled">
-        						    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
-        							</li>
-        						{% endif %}
-							</ul>
-						</div>
-					</div>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="pagination" style=" display: block; text-align: center;"></ul>
+				<ul class="horz-menu center-menu pages" >
+				<!-- 이전페이지 -->
+					{% if p_c.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?category={{ category }}&page={{ p_c.previous_page_number }}&keyword={{ keyword }}"><</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
+						</li>
+					{% endif %}
+					<!-- 페이지리스트 -->
+					{% for i in pagination %}
+						<li {% if p_c.number == i %} class="active" {% endif %}><span><a href="?category={{ category }}&page={{ i }}&keyword={{ keyword }}">{{ i }}</a></span></li>
+					{% endfor %}
+					<!-- 다음페이지 -->
+					{% if p_c.has_next %}
+						<li class="page-item">
+						<a class="page-link" href="?category={{ category }}&page={{ p_c.next_page_number }}&keyword={{ keyword }}">></a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+						<a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
 		</div>
+	</div>
 </div>
 
-<script type="text/javascript">
-	let search
 
-	$(document).ready(() => {
-		search = () => {
-			$('#search_keyword')
-		}
-	})
+
+
+<script type="text/javascript">
+	keyword_search = () => {
+		console.log("search start")
+		const keyword = $('#search_keyword').val()
+		const category = $('#search-type').val()
+
+		console.log("keyword: ", keyword)
+
+		window.location.replace(`?category=${category}&keyword=${keyword.toLowerCase()}`);
+	}
 </script>
+
 {% endblock %}
