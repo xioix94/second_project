@@ -25,6 +25,16 @@
 								<hr class="space-40" />
 								<form method="POST">									
 									{% csrf_token %}
+									<li class="dropdown">
+            							<span>
+                        					<a href="/product">drink</a>
+                    					</span>
+                    					<ul class="dropdown-menu">
+                    					    <li>Beer</li>
+                    					    <li>Wine</li>
+                    					    <li>Cocktail</li>
+                    					</ul>
+                					</li>
 									제목<br>
 									<input type="text" name="postname"><br>
 									내용<br>

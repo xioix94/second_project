@@ -5,6 +5,7 @@ from .models import *
 from django.contrib import messages
 from django import forms
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 
 
@@ -324,13 +325,5 @@ def find_password(request):
         else:
             messages = "성공"
             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
-
-
-
-def board_write(request):
-    # if request.method == "POST":
-    #     form = userpage(request.POST, instance=user_comments)
-
-    return render(request, 'app/freewrite.html')
 
 
