@@ -5,7 +5,7 @@ from .models import *
 from django.contrib import messages
 from django import forms
 from django.core.paginator import Paginator
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -89,8 +89,32 @@ def recommand(request):
         'products': products
     })
 
+@csrf_exempt
+def board_write(request):
+    if request.method == 'GET':
+        if request.session.get('email'):
+            return render(request, 'app/freewrite.html', {})
+        else:
+            return redirect('/login/')
+    else:
+        if request.session.get('email'):
+            email = request.session.get('email')
+            print(email)
+            user = User.objects.get(email=email)
 
-
+            title = request.POST.get('title')
+            print(title)
+            contents = request.POST.get('contents')
+            print(contents)
+            category_id = request.POST.get('category')
+            print(category_id)
+            try:
+                b = Board(title=title, content=contents, category_id=category_id, user_id=user.id)
+                # b.save()
+            except:
+                return render(request, 'app/board.html', {})
+        else:
+            return render(request, 'app/login.html', {})
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개) 
 def recommand_result(request):
