@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from app.models import Category, User
+from .forms import BoardForm
+from django.shortcuts import redirect, render
 from app.models import Board, Board_Comment
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 # Create your views here.
 def board(request):
@@ -36,3 +39,27 @@ def single(request):
         'board': board,
         'board_comments': board_comments,
     })
+
+def board_write(request):
+    if not request.session['email']:
+        return redirect('/login')
+
+    if request.method == "GET":
+        form = BoardForm()
+
+    elif request.method == "POST":
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            user_id = request.session.get('user')
+            user = User.objects.get(pk = user_id)
+            new_board = Board(
+                user = user,
+                category = form.cleaned_data['category'],
+                title = form.cleaned_data['title'],
+                content = form.cleaned_data['contents'],
+                time =  timezone.now()
+            )
+            new_board.save()
+            return redirect('/board/')
+
+    return render(request, 'app/freewrite.html', {'form' :form})
