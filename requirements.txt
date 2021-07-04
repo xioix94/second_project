@@ -1,6 +1,9 @@
-Django==2.2.5
+python==3.8
+django==2.2.5
 channels
 channels_redis
 sklearn 
 lightgbm
 pillow
+bcrypt
+
