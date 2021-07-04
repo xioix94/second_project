@@ -31,32 +31,33 @@
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul id="menu-primary" class="nav navbar-nav">
-                <li class="active">
+            
+                <li {% if request.path == "/" %} class="active" {% endif %}>
                     <span>
                         <a href="/">Home</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li  class="dropdown {% if request.path == '/product/' %} active {% endif %}">
                     <span>
                         <a href="/product">drink</a>
                     </span>
                     <ul class="dropdown-menu">
-                        <li><a href="/product?category=beer">Beer</a></li>
-                        <li><a href="/product?category=wine">Wine</a></li>
-                        <li><a href="/product?category=cocktail">Cocktail</a></li>
+                        <li><a href="/product?category=beer" style="color:white">Beer</a></li>
+                        <li><a href="/product?category=wine" style="color:white">Wine</a></li>
+                        <li><a href="/product?category=cocktail" style="color:white">Cocktail</a></li>
                     </ul>
                 </li>
-                <li>
+                <li {% if request.path == "/recommand/" %} class="active" {% endif %}>
                     <span>
                         <a href="/recommand/">Recommend</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li {% if request.path == "/reviews/" %} class="active" {% endif %}>
                     <span>
                         <a href="/reviews/">reviews</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li {% if request.path == "/board/" %} class="active" {% endif %}>
                     <span>
                         <a href="/board/">board</a>
                     </span>

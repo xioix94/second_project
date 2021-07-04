@@ -91,7 +91,12 @@
 					<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=beer">Beer</a></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=wine">Wine</a></span></li>
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
-
+					<li ><span class="search"><select name="search-type" id="search-type">
+							<option value="">All</option>
+							<option value="beer">Beer</option>
+							<option value="wine">Wine</option>
+							<option value="cocktail">Cocktail</option>
+						</select></span></li>
 					<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
 					<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
 
@@ -182,7 +187,7 @@
 
 		console.log("keyword: ", keyword)
 
-		window.location.replace(`?category={{ category }}&keyword=${keyword.toLowerCase()}`);
+		window.location.replace(`?category=${category}&keyword=${keyword.toLowerCase()}`);
 	}
 </script>
 
