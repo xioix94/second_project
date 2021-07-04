@@ -1,5 +1,4 @@
 {% extends "common/base.html" %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 {% load static %}
 {% block content %}
@@ -26,7 +25,13 @@
 	.remote-button {
 		position: absolute;
 		right: 0;
-		
+	}
+
+	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
+	}
+	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
 	}
 </style>
 <div id="fakeLoader"></div>
@@ -50,15 +55,7 @@
 			</div>
 		</div>
 	</div> -->
-<style>
 	
-
-	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
-		background-color:#1b1d1e;
-	}
-	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
-		background-color:#1b1d1e;
-	}
 </style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>

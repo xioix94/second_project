@@ -6,11 +6,13 @@ from django.contrib import messages
 from django import forms
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 
 # Create your views here.
 def page_404(request):
     return render(request, 'app/404.html')
+
 
 
 def blog_single(request):
