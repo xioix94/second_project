@@ -40,7 +40,6 @@ def blog(request):
     category = request.GET.get('category')
     keyword = request.GET.get('keyword')
 
-
     if not keyword:
         keyword = ""
 
