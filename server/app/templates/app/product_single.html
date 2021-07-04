@@ -304,7 +304,7 @@
 									<input id="acidic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
 								</div>
 
-								<textarea name="comment" placeholder="Comment" rows="5"></textarea> {% comment %} content {% endcomment %}
+								<textarea id="comment-area" name="comment" placeholder="Comment" rows="5"></textarea> {% comment %} content {% endcomment %}
 								<input type="submit" value="Post comment" class="btn btn-default" id="post-comment">
 							</form>
 						</section>
@@ -352,72 +352,74 @@
 
 <script language = "javascript">
 
-function ShowSliderValue(val, id)
-{
-	new_id = "slider_value_view" + "_" + id
-	var obValueView = document.getElementById(new_id);
-	obValueView.innerHTML = val
-}
+	function ShowSliderValue(val, id)
+	{
+		new_id = "slider_value_view" + "_" + id
+		var obValueView = document.getElementById(new_id);
+		obValueView.innerHTML = val
+	}
 
-var RangeSlider = function(){
-	var range = $('.slider_range');
-    
-	range.on('input', function(){		
-		console.log(this.value)
-		console.log(this.id)
-		ShowSliderValue(this.value, this.id);
+	var RangeSlider = function(){
+		var range = $('.slider_range');
+		
+		range.on('input', function(){		
+			ShowSliderValue(this.value, this.id);
+		});
+	};
+
+	RangeSlider();
+
+	$('.starRev span').click(function(){
+		$(this).parent().children('span').removeClass('on');
+		$(this).addClass('on').prevAll('span').addClass('on');
+		return false;
 	});
-};
 
-RangeSlider();
+	let getCSRFTokenValue = () => $('input[name=csrfmiddlewaretoken]').val()
 
-$('.starRev span').click(function(){
-  $(this).parent().children('span').removeClass('on');
-  $(this).addClass('on').prevAll('span').addClass('on');
-  return false;
-});
+	add_product_comment = () => {
+		// 0.5 ~ 5점 만점
+		score = 0.0
+		$('.on').each(() => score += 0.5)
 
-add_product_comment = () => {
-	// 0.5 ~ 5점 만점
-	score = 0.0
-	$('.on').each(() => score += 0.5)
+		content = $('#comment-area').val()
 
-	content = ""
+		bold = $('#slider_value_view_bold').text() * 1
+		sparkling = $('#slider_value_view_sparkling').text() * 1
+		sweet = $('#slider_value_view_sweet').text() * 1
+		tannic = $('#slider_value_view_tannic').text() * 1
+		acidic = $('#slider_value_view_acidic').text() * 1
 
-	bold = $('#slider_value_view_bold').text() * 1
-	sparkling = $('#slider_value_view_sparkling').text() * 1
-	sweet = $('#slider_value_view_sweet').text() * 1
-	tannic = $('#slider_value_view_tannic').text() * 1
-	acidic = $('#slider_value_view_acidic').text() * 1
-
-	$.ajax({
-		type: "POST",
-		url: "product_single?p_id={{ product_id }}",
-		data: { 
-			CSRF: getCSRFTokenValue(),
-			'score': score,
-			'content': content,
-			'bold': bold,
-			'sparkling': sparkling,
-			'sweet': sweet,
-			'tannic': tannic,
-			'acidic': acidic,
-		},
-		success: (response) => {
-			if(response.result === 'ok'){
-				window.location.reload()
-			}else if()response.result === 'go back'){
-				window.location.href = '/'
-			}
-		},
-		error: (response) => {
-			// .....
-		} ,
-	})
-	.done(function( msg ) {
-		alert( "Data: " + msg );
-	});
-}
+		$.ajax({
+			type: "POST",
+			url: "?p_id={{ product_id }}",
+			data: { 
+				'score': score,
+				'content': content,
+				'bold': bold,
+				'sparkling': sparkling,
+				'sweet': sweet,
+				'tannic': tannic,
+				'acidic': acidic,
+			},
+			success: (response) => {
+				if(response.result === 'Success'){
+					location.reload()
+				}else if(response.result === 'Fail'){
+					if(response.message === 'go back'){
+						alert('에러가 발생 했습니다.')
+						window.location.href = '/'
+					}else if(response.message === 'session out'){
+						alert('세션만료입니다. 다시 로그인 해주세요')
+						window.location.href = '/login/'
+					}else{
+						alert('알 수 없는 오류입니다.')
+						window.location.href = '/'
+					}
+				}
+			},
+		})
+	}
 
 </script>
 {% endblock %}
