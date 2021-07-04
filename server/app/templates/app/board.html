@@ -33,6 +33,27 @@
 	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
 		background-color:#1b1d1e;
 	}
+
+		#search_keyword {
+		border:none; 
+		margin-bottom:0; 
+		background-color:#fff;
+		text-align: center;
+	}
+
+	#search-type {
+		border:none; 
+		margin-bottom:0; 
+		padding-left:50px;
+		width: 170px;
+	}
+
+	.empty-page {
+		width: auto;
+		height: 400px;
+		text-align: center;
+		line-height: 400px;
+	}
 </style>
 <div id="fakeLoader"></div>
 
@@ -56,7 +77,6 @@
 		</div>
 	</div> -->
 	
-</style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
 <!-- Wrapper -->
@@ -71,9 +91,11 @@
 					<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=beer">Beer</a></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=wine">Wine</a></span></li>
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
-					<li style="padding-left:50px" class="active"><span class="search2"><input style="border:none; margin-bottom:0; background-color:#696969;" type="text" id="search_keyword"></span></li>
-					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="#" class="btn-default">Search</a></span></li>
-					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="/board/write/" class="btn-default">Write</a></span></li>
+
+					<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
+					<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
+
+					<li><span><a href="/board/write/" class="btn-default">Write</a></span></li>
 
 				</ul>					
 			</div>			
@@ -116,7 +138,7 @@
 						<!-- 이전페이지 -->
 							{% if u_c.has_previous %}
     						 <li class="page-item">
-    						     <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.previous_page_number }}"><</a>
+    						     <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.previous_page_number }}&keyword={{ keyword }}"><</a>
     						 </li>
     						 {% else %}
     						 <li class="page-item disabled">
@@ -126,15 +148,15 @@
 							<!-- 페이지리스트 -->
 							{% for i in pagination %}
 								{% if u_c.number == i %}
-    								<li class="active"><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+    								<li class="active"><span><a href="/board/?category={{ category }}&page={{ i }}&keyword={{ keyword }}">{{ i }}</a></span></li>
     							{% else %}
-    								<li><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
+    								<li><span><a href="/board/?category={{ category }}&page={{ i }}&keyword={{ keyword }}">{{ i }}</a></span></li>
     							{% endif %}
         					{% endfor %}
 							<!-- 다음페이지 -->
     						{% if u_c.has_next %}
     							<li class="page-item">
-    						    <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.next_page_number }}">></a>
+    						    <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.next_page_number }}&keyword={{ keyword }}">></a>
     							</li>
     						{% else %}
     							<li class="page-item disabled">
@@ -150,5 +172,18 @@
 	<div class="remote-button">
 		dib
 	</div>
-</div
+</div>
+
+<script type="text/javascript">
+	keyword_search = () => {
+		console.log("search start")
+		const keyword = $('#search_keyword').val()
+		const category = $('#search-type').val()
+
+		console.log("keyword: ", keyword)
+
+		window.location.replace(`?category={{ category }}&keyword=${keyword.toLowerCase()}`);
+	}
+</script>
+
 {% endblock %}
