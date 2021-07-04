@@ -8,13 +8,21 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def board(request):
-    boards = Board.objects.select_related('user').order_by('-time')
+    # 카테고리 필터
+    cate = request.GET.get('category')
+    if cate in ['beer', 'wine', 'cocktail']:
+        category = Category.objects.get(name=cate)
+        Post = Board.objects.filter(category_id=category.id)
+        category = category.name
+    else:
+        category = 'all'
+        Post = Board.objects.all()
 
+    boards = Post.select_related().order_by('-time')
     page = request.GET.get('page')
 
     if not page:
-        page = '1'
-    
+        page = '1'   
     p = Paginator(boards, 10)
     
     u_c = p.page(page)
@@ -27,6 +35,7 @@ def board(request):
 
     return render(request, "app/board.html", {
         'u_c' : u_c,
+        'category': category,
         'pagination' : range(start_page, end_page + 1),
         'boards': boards
     })
