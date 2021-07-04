@@ -1,5 +1,4 @@
 {% extends "common/base.html" %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 {% load static %}
 {% block content %}
@@ -26,7 +25,13 @@
 	.remote-button {
 		position: absolute;
 		right: 0;
-		
+	}
+
+	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
+	}
+	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
 	}
 </style>
 <div id="fakeLoader"></div>
@@ -50,15 +55,7 @@
 			</div>
 		</div>
 	</div> -->
-<style>
 	
-
-	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
-		background-color:#1b1d1e;
-	}
-	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
-		background-color:#1b1d1e;
-	}
 </style>
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
@@ -76,7 +73,7 @@
 					<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=cocktail">Cocktail</a></span></li>
 					<li style="padding-left:50px" class="active"><span class="search2"><input style="border:none; margin-bottom:0; background-color:#696969;" type="text" id="search_keyword"></span></li>
 					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="#" class="btn-default">Search</a></span></li>
-					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="/board_write/" class="btn-default">Write</a></span></li>
+					<li {% if category == "wine" %} class="active" {% endif %}><span><a href="/board/write/" class="btn-default">Write</a></span></li>
 
 				</ul>					
 			</div>			
@@ -119,7 +116,7 @@
 						<!-- 이전페이지 -->
 							{% if u_c.has_previous %}
     						 <li class="page-item">
-    						     <a class="page-link" href="/board/?page={{ u_c.previous_page_number }}"><</a>
+    						     <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.previous_page_number }}"><</a>
     						 </li>
     						 {% else %}
     						 <li class="page-item disabled">
@@ -129,15 +126,15 @@
 							<!-- 페이지리스트 -->
 							{% for i in pagination %}
 								{% if u_c.number == i %}
-    								<li class="active"><span><a href="/board/?page={{ i }}">{{ i }}</a></span></li>
+    								<li class="active"><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
     							{% else %}
-    								<li><span><a href="/board/?page={{ i }}">{{ i }}</a></span></li>
+    								<li><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
     							{% endif %}
         					{% endfor %}
 							<!-- 다음페이지 -->
     						{% if u_c.has_next %}
     							<li class="page-item">
-    						    <a class="page-link" href="/board/?page={{ u_c.next_page_number }}">></a>
+    						    <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.next_page_number }}">></a>
     							</li>
     						{% else %}
     							<li class="page-item disabled">

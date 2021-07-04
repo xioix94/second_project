@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('404/', views.page_404),
     path('reviews_detail/', views.blog_single),
@@ -21,5 +22,4 @@ urlpatterns = [
     path('recommand_result/', views.recommand_result),
     path('userpage/modify', views.comment_modify),
     path('logout/', views.logout),
-    path('board_write/', views.board_write),
 ]

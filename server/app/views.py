@@ -6,11 +6,13 @@ from django.contrib import messages
 from django import forms
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 
 # Create your views here.
 def page_404(request):
     return render(request, 'app/404.html')
+
 
 
 def blog_single(request):
@@ -21,38 +23,20 @@ def blog_single(request):
 def blog(request):
     # 카테고리 필터
     category = request.GET.get('category')
-    if category in ['beer', 'wine', 'cocktail']:
-        category = Category.objects.get(name=category)
-        products = Product.objects.filter(category_id=category.id)
-    else:
-        category = 'all'
-        products = Product.objects.all()
-
-    # 해당 카테고리의 상품들
-    p_comments = Product_Comment.objects.none()
-    for product in products:
-        p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
-
-    # 키워드 필터
-    search_comments = Product_Comment.objects.none()
     keyword = request.GET.get('keyword')
-    print(keyword)
-    if keyword != "":
-        for comment in p_comments:
-            if keyword in comment.content or keyword in comment.product.name:
-                search_comments = search_comments | comment
-    else:
-        keyword = ''
-        search_comments = p_comments
 
-    # 정렬 필터
-    order = request.GET.get('order')
-    if order == "score up":
-        pass
+
+    if not keyword:
+        keyword = ""
+
+    if category in ['beer', 'wine', 'cocktail']:
+        p_comments = Product_Comment.objects \
+            .filter(product__category__name=category) \
+            .filter(content__icontains = keyword)
     else:
-        order = ""
-    p_comments = search_comments
-    print(len(p_comments))
+        p_comments = Product_Comment.objects \
+            .filter(content__icontains = keyword)
+
 
     page = request.GET.get('page')
     if not page:
@@ -74,7 +58,6 @@ def blog(request):
         'p_comments': p_comments,
         'category': category,
         'keyword': keyword,
-        'order': order,
         'page': page,
     }
     # return render(request, 'app/blog.html', { 'p_comments': p_comments, 'category': category })
@@ -116,32 +99,32 @@ def recommand(request):
         'products': products
     })
 
-@csrf_exempt
-def board_write(request):
-    if request.method == 'GET':
-        if request.session.get('email'):
-            return render(request, 'app/freewrite.html', {})
-        else:
-            return redirect('/login/')
-    else:
-        if request.session.get('email'):
-            email = request.session.get('email')
-            print(email)
-            user = User.objects.get(email=email)
+# @csrf_exempt
+# def board_write(request):
+#     if request.method == 'GET':
+#         if request.session.get('email'):
+#             return render(request, 'app/freewrite.html', {})
+#         else:
+#             return redirect('/login/')
+#     else:
+#         if request.session.get('email'):
+#             email = request.session.get('email')
+#             print(email)
+#             user = User.objects.get(email=email)
 
-            title = request.POST.get('title')
-            print(title)
-            contents = request.POST.get('contents')
-            print(contents)
-            category_id = request.POST.get('category')
-            print(category_id)
-            try:
-                b = Board(title=title, content=contents, category_id=category_id, user_id=user.id)
-                # b.save()
-            except:
-                return render(request, 'app/board.html', {})
-        else:
-            return render(request, 'app/login.html', {})
+#             title = request.POST.get('title')
+#             print(title)
+#             contents = request.POST.get('contents')
+#             print(contents)
+#             category_id = request.POST.get('category')
+#             print(category_id)
+#             try:
+#                 b = Board(title=title, content=contents, category_id=category_id, user_id=user.id)
+#                 # b.save()
+#             except:
+#                 return render(request, 'app/board.html', {})
+#         else:
+#             return render(request, 'app/login.html', {})
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):

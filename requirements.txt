@@ -3,4 +3,4 @@ channels
 channels_redis
 sklearn 
 lightgbm
-celery
+pillow
