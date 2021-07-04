@@ -56,40 +56,39 @@ html { scroll-behavior: auto; }
 						<div class="product item">
 							<a href="our-beer.html">
 								<span>Buy it</span>
-								<img src="http://placehold.it/169x299" alt="Beer can mockup">
+								<img src="" alt="Beer can mockup">
 							</a>
-							<h3>Pale ale</h3>
+							<h3>a</h3>
 							<h4>&dollar;4.75</h4>
-						</div>
-						<div class="product item">
-							<a href="our-beer.html">
-								<span>Buy it</span>
-								<img src="http://placehold.it/169x299" alt="Beer can mockup">
-							</a>
-							<h3>Golden ale</h3>
-							<h4>&dollar;5.00</h4>
-						</div>
-						<div class="product item">
-							<a href="our-beer.html">
-								<span>Buy it</span>
-								<img src="http://placehold.it/169x299" alt="Beer can mockup">
-							</a>
-							<h3>IPA</h3>
-							<h4>&dollar;4.50</h4>
-						</div>
-						<div class="product item">
-							<a href="our-beer.html">
-								<span>Buy it</span>
-								<img src="http://placehold.it/169x299" alt="Beer can mockup">
-							</a>
-							<h3>Pale ale</h3>
-							<h4>&dollar;4.50</h4>
 						</div>
 					</div>
 				</div> 
 			</div>
 		</div>
 	</div>
+
+	{% comment %}  <!-- index에서 사진 띄우기 -->
+	<div style="padding:none" class="container-fluid dark section">
+		<div class="container" style="margin: 0;">
+			<div class="row">
+				<div class="col-sm-20 col-sm-push-1 matchHeight">
+					<div  class="owl-carousel">
+						<!-- Products -->
+						{% for product in products %}
+						<div class="product item">
+							<a href="/static/images/beer/{{product.image}}">
+								<span>To Product</span>
+								<img src=/static/images/beer/{{product.image}} alt="image">
+							</a>
+							<h3>product.name</h3>
+							<h4></h4>
+						</div>
+						{% endfor %}
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div> {% endcomment %}
 
 	<!-- Section -->
 	{% comment %} <div class="container-fluid dark section no-padding">

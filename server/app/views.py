@@ -3,10 +3,8 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from django.contrib import messages
-from django import forms
 from django.core.paginator import Paginator
-from django.views.decorators.csrf import csrf_exempt
-from django.utils import timezone
+from datetime import date
 
 
 # Create your views here.
@@ -100,7 +98,7 @@ def index(request):
 
     for _ in comments:
         review_num += 1
-    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments}
 
     return render(request, 'app/index.html', context)
 
@@ -174,40 +172,94 @@ def product_single(request):
     try:
         product_id = request.GET.get('p_id')
 
-        product = Product.objects.get(id=product_id)
-        product_comment_list = Product_Comment.objects.filter(product_id=product.id).select_related('user')
+        if request.method == 'GET':
+            product = Product.objects.get(id=product_id)
+            product_comment_list = Product_Comment.objects.filter(product_id=product_id).select_related('user')
 
-        p_name = product.name
-        p_image = product.image
-        p_alcohol = product.alcohol
-        p_category_id = product.category_id
+            p_name = product.name
+            p_image = product.image
+            p_alcohol = product.alcohol
+            p_category_id = product.category_id
 
-        dict = {'bold': 0, 'sparkling': 0,'sweet': 0,'tannic': 0,'acidic': 0,'bold': 0, 'score': 0}
-        for p in product_comment_list:
-            dict['bold'] += p.bold
-            dict['sparkling'] += p.sparkling
-            dict['sweet'] += p.sweet
-            dict['tannic'] += p.tannic
-            dict['acidic'] += p.acidic
-            dict['score'] += p.score
+            dict = {'bold': 0, 'sparkling': 0,'sweet': 0,'tannic': 0,'acidic': 0,'bold': 0, 'score': 0}
+            for p in product_comment_list:
+                dict['bold'] += p.bold
+                dict['sparkling'] += p.sparkling
+                dict['sweet'] += p.sweet
+                dict['tannic'] += p.tannic
+                dict['acidic'] += p.acidic
+                dict['score'] += p.score
 
-        dict['bold'] = (dict['bold'] / len(product_comment_list)) * 100
-        dict['sparkling'] = (dict['sparkling'] / len(product_comment_list)) * 100
-        dict['sweet'] = (dict['sweet'] / len(product_comment_list))  * 100
-        dict['tannic'] = (dict['tannic'] / len(product_comment_list))  * 100
-        dict['acidic'] = (dict['acidic'] / len(product_comment_list))  * 100
-        dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
+            dict['bold'] = (dict['bold'] / len(product_comment_list)) * 100
+            dict['sparkling'] = (dict['sparkling'] / len(product_comment_list)) * 100
+            dict['sweet'] = (dict['sweet'] / len(product_comment_list))  * 100
+            dict['tannic'] = (dict['tannic'] / len(product_comment_list))  * 100
+            dict['acidic'] = (dict['acidic'] / len(product_comment_list))  * 100
+            dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
 
-        return render(request, 'app/product_single.html', {
-            'name': p_name,
-            'image': p_image,
-            'alcohol': p_alcohol,
-            'category_id': p_category_id,
-            'taste': dict,
-            'product_comment_list': product_comment_list,
-        })
-    except:
-        return render(request, 'app/product.html')
+            return render(request, 'app/product_single.html', {
+                'name': p_name,
+                'image': p_image,
+                'alcohol': p_alcohol,
+                'category_id': p_category_id,
+                'taste': dict,
+                'product_id': product_id,
+                'product_comment_list': product_comment_list,
+            })
+        elif request.method == 'POST':
+            if not request.session.get('email'):
+                return JsonResponse({
+                    'result': 'Fail',
+                    'message': 'session out',
+                })
+            user_id = User.objects.get(email=request.session.get('email')).id
+            score = request.POST.get('score')
+            content = request.POST.get('content')
+            bold = int(request.POST.get('bold')) / 100
+            sparkling = int(request.POST.get('sparkling')) / 100
+            sweet = int(request.POST.get('sweet')) / 100
+            tannic = int(request.POST.get('tannic')) / 100
+            acidic = int(request.POST.get('acidic')) / 100
+
+            print(product_id)
+            print(user_id)
+            print(score)
+            print(content)
+            print(bold)
+            print(sparkling)
+            print(sweet)
+            print(tannic)
+            print(acidic)
+
+            Product_Comment(
+                user_id = user_id,
+                product_id = product_id,
+                score = score,
+                content = content,
+                bold = bold,
+                sparkling = sparkling,
+                sweet = sweet,
+                tannic = tannic,
+                acidic = acidic,
+                time = date.today()
+            ).save()
+
+            return JsonResponse({
+                'result': 'Success',
+                'message': 'ok'
+            })
+        else:
+            print('else')
+            return JsonResponse({
+                'result': 'Fail',
+                'message': 'go back',
+            })
+    except Exception as e:
+        print(str(e))
+        return JsonResponse({
+                'result': 'Fail',
+                'message': 'go back',
+            })
 
 
 def product(request):
@@ -393,3 +445,8 @@ def find_password(request):
         else:
             messages = "성공"
             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
+
+def comment_delete(request, pk):
+    comment = get_object_or_404(Product_Comment,id=pk)
+    comment.delete()
+    return redirect('/userpage/')
