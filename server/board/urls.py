@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.board),
     path('single/', views.single),
     path('write/',views.board_write),
+    path('single/<int:pk>/delete/', views.board_delete),
 ]

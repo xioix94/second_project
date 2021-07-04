@@ -1,6 +1,6 @@
 from django.http.response import HttpResponseRedirect, JsonResponse, HttpResponse
 from app.models import Category, User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from app.models import Board, Board_Comment
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -134,5 +134,7 @@ def board_write(request):
 
     return render(request, 'app/freewrite.html')
 
-def board_delete(request):
-    pass
+def board_delete(request,pk):
+    board = get_object_or_404(Board,id=pk)
+    board.delete()
+    return redirect('/board/')
