@@ -66,17 +66,16 @@
 
 <script>
 	$('#save').click(function() {
-		// spin show 
 		$.ajax({
 			url: '/profile/',
 			data: $('form').serialize(), // nickname=OOOO&password=XXXX
 			type: 'post',
 			success: function(res) {
-				// spin hide
+				console.log("susccess, modal show")
 				$('#popupModalLabel').text(res.result);
 				$('#modal-message').text(res.messages);
 				$('#popupModal').modal('show');//now its working
-				location.reload();
+				//location.reload();
             },
 			error: function(res) {
 				// .....
