@@ -1,10 +1,11 @@
 from django.http.response import HttpResponseRedirect, JsonResponse, HttpResponse
 from app.models import Category, User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from app.models import Board, Board_Comment
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from datetime import date
 
 # Create your views here.
 def board(request):
@@ -51,12 +52,12 @@ def board(request):
 
 @csrf_exempt
 def single(request):
-    print("views.py board/single")
+    # print("views.py board/single")
     
     if request.method == 'GET':
-        print("views.py board/single 'GET'")
+        # print("views.py board/single 'GET'")
         board_id = request.GET.get('id')
-        print(board_id)
+        # print(board_id)
         board = Board.objects.select_related().get(id=board_id)
         board_comments = Board_Comment.objects.filter(board_id=board_id).select_related('user')
 
@@ -67,31 +68,31 @@ def single(request):
         })
 
     else:
-        print("views.py board/single 'POST'")
+        # print("views.py board/single 'POST'")
         if not request.session.get('email'):
-            print("views.py board/single 'not email session'")
+            # print("views.py board/single 'not email session'")
             return JsonResponse({
                 'result': 'Fail',
                 'messages': 'go back',
             })
         
         else:
-            print("views.py board/single 'email session'")
+            # print("views.py board/single 'email session'")
             comment = request.POST['comment']
-            print(comment)
+            # print(comment)
 
             try:
-                print(request)
+                # print(request)
                 board_id = request.GET.get('id')
-                print(board_id)
+                # print(board_id)
                 email = request.session.get('email')
-                print(email)
+                # print(email)
                 user = User.objects.get(email=email)
-                print(user.id)
+                # print(user.id)
 
                 # db에 저장
                 board_comment = Board_Comment(content=comment, time=timezone.now(), board_id=board_id, user_id=user.id)
-                print(board_comment)
+                # print(board_comment)
                 board_comment.save()
 
                 result = "Success"
@@ -107,6 +108,62 @@ def single(request):
                     'messages': 'error',
                 })
 
+@csrf_exempt
+def edit_comment(request):
+    print("views.py board/edit_comment")
+    
+    if request.method == 'GET':
+        print("views.py board/edit_comment 'GET'")
+        comment_id = request.GET.get('id')
+        print(comment_id)
+        board_comments = Board_Comment.objects.select_related('user').get(id=comment_id)
+
+        print()
+        return JsonResponse({
+            'method': 'get',
+            'content': board_comments.content,
+            'nickname': board_comments.user.alias,
+        })
+
+    else:
+        print("views.py board/edit_comment 'POST'")
+        if not request.session.get('email'):
+            print("views.py board/edit_comment 'not email session'")
+            return JsonResponse({
+                'result': 'Fail',
+                'messages': 'go back',
+            })
+        
+        else:
+
+            try:
+                comment_id = request.POST['comment_id']
+                comment = request.POST['content']
+                print(comment_id)
+                print(comment)
+
+                board_comment = Board_Comment.objects.get(id=comment_id)
+                print(board_comment)
+
+                # db에 저장
+                
+                board_comment.content = comment
+                board_comment.time = date.today()
+                board_comment.save()
+            
+                result = "Success"
+                messages = "Board comment save succeeded."
+                
+                return JsonResponse({'result': result, 'messages': messages})
+
+            except Exception as e:
+                print(str(e))
+                result = "Fail"
+                messages = "Board comment save failed."
+                return JsonResponse({
+                    'result': 'Fail',
+                    'messages': 'error',
+                })
 
 
 def board_write(request):
@@ -134,5 +191,7 @@ def board_write(request):
 
     return render(request, 'app/freewrite.html')
 
-def board_delete(request):
-    pass
+def board_delete(request,pk):
+    board = get_object_or_404(Board,id=pk)
+    board.delete()
+    return redirect('/board/')

@@ -287,13 +287,13 @@ def profile(request):
 
             result = "Success"
             messages = "Profile change succeeded."
+            return JsonResponse({'result': result, 'messages': messages})
 
         except:
             result = "Fail"
             messages = "Profile change failed."
-            # return render(request, 'app/login.html', {'messages' : messages})
+            return render(request, 'app/login.html', {'messages' : messages})
 
-        return JsonResponse({'result': result, 'messages': messages})
 
 
 def to_members_form(request):
@@ -339,6 +339,7 @@ def login(request):
     else:
         email = request.POST['email']
         password = request.POST['password']
+        print(id)
 
         try:
             member = User.objects.get(email=email,password=password)
@@ -347,6 +348,7 @@ def login(request):
             return render(request, 'app/login.html', {'messages' : messages})
         else:
             request.session['email'] = email
+            request.session['user_id'] = member.id
             request.session['alias'] = member.alias
             return render(request, 'app/index.html')
 
