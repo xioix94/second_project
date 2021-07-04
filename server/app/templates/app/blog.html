@@ -54,8 +54,8 @@
 							<option value="wine">Wine</option>
 							<option value="cocktail">Cocktail</option>
 						</select></span></li>
-						<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
-						<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
+						{% comment %} <li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
+						<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li> {% endcomment %}
 					</ul>	
 				</div>
 			</div>
@@ -153,7 +153,7 @@
 </div>
 
 
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
 	keyword_search = () => {
 		console.log("search start")
 		const keyword = $('#search_keyword').val()
@@ -163,5 +163,5 @@
 
 		window.location.replace(`?category=${category}&keyword=${keyword.toLowerCase()}`);
 	}
-</script>
+</script> {% endcomment %}
 {% endblock %}
