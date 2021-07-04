@@ -31,32 +31,33 @@
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul id="menu-primary" class="nav navbar-nav">
-                <li class="active">
+            
+                <li {% if request.path == "/" %} class="active" {% endif %}>
                     <span>
                         <a href="/">Home</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li  class="dropdown {% if request.path == '/product/' %} active {% endif %}">
                     <span>
                         <a href="/product">drink</a>
                     </span>
                     <ul class="dropdown-menu">
-                        <li><a href="/product?category=beer">Beer</a></li>
-                        <li><a href="/product?category=wine">Wine</a></li>
-                        <li><a href="/product?category=cocktail">Cocktail</a></li>
+                        <li><a href="/product?category=beer" style="color:white">Beer</a></li>
+                        <li><a href="/product?category=wine" style="color:white">Wine</a></li>
+                        <li><a href="/product?category=cocktail" style="color:white">Cocktail</a></li>
                     </ul>
                 </li>
-                <li>
+                <li {% if request.path == "/recommand/" %} class="active" {% endif %}>
                     <span>
                         <a href="/recommand/">Recommend</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li {% if request.path == "/reviews/" %} class="active" {% endif %}>
                     <span>
                         <a href="/reviews/">reviews</a>
                     </span>
                 </li>
-                <li class="dropdown">
+                <li {% if request.path == "/board/" %} class="active" {% endif %}>
                     <span>
                         <a href="/board/">board</a>
                     </span>
@@ -118,7 +119,7 @@
                         <h1 style="padding-top:120px">Give me a woman who loves beer and</h1>
                         <h2> I will conquer the world</h2>
                         <a href="/product/?category=beer" class="btn btn-default">
-                            <span>Explore</span>
+                            <span>To Beer</span>
                         </a>
                     </div>
                 </div>
@@ -133,7 +134,7 @@
                         <h1 style="padding-top:120px">You know, if you drink enough wine</h1>
                         <h2>it tastes like love</h2>
                         <a href="/product/?category=wine" class="btn btn-default">
-                            <span>Explore</span>
+                            <span>To Wine</span>
                         </a>
                     </div>
                 </div>
@@ -148,7 +149,7 @@
                         <h1 style="padding-top:120px">There comes a time in every woman’s life when the only thing that</h1>
                         <h2>helps is a glass of Champagne.</h2>
                         <a href="/product/?category=cocktail" class="btn btn-default">
-                            <span>Explore</span>
+                            <span>To Cocktail</span>
                         </a>
                     </div>
                 </div>

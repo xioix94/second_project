@@ -9,13 +9,29 @@ from datetime import date
 
 # Create your views here.
 def board(request):
-    boards = Board.objects.select_related('user').order_by('-time')
+    # 카테고리 필터
+    category = request.GET.get('category')
+    if category in ['beer', 'wine', 'cocktail']:
+        category = Category.objects.get(name=category)
+        Post = Board.objects.filter(category_id=category.id)
+        category = category.name
+    else:
+        category = 'All'
+        Post = Board.objects.all()
+    
+    #성준's 검색필터 적용
+    keyword = request.GET.get('keyword')
+    if not keyword:
+        keyword = ""
+    else:
+        Post = Board.objects\
+            .filter(content__icontains = keyword)
 
+    boards = Post.select_related().order_by('-time')
     page = request.GET.get('page')
 
     if not page:
-        page = '1'
-    
+        page = '1'   
     p = Paginator(boards, 10)
     
     u_c = p.page(page)
@@ -28,8 +44,10 @@ def board(request):
 
     return render(request, "app/board.html", {
         'u_c' : u_c,
+        'category': category,
         'pagination' : range(start_page, end_page + 1),
-        'boards': boards
+        'boards': boards,
+        'keyword': keyword
     })
 
 @csrf_exempt
@@ -163,8 +181,11 @@ def board_write(request):
             title = request.POST['postname'],
             content = request.POST['contents'],
             time =  timezone.now(),
-            mainphoto =request.FILES['mainphoto'],
         )
+        try:
+            new_board.mainphoto =request.FILES['mainphoto']
+        except:
+            pass
         new_board.save() 
         return HttpResponseRedirect('/board/')
 

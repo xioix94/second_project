@@ -49,3 +49,7 @@ class Product_Comment(models.Model):
     acidic = models.FloatField()  # 신맛
 
 
+class Model_Info(models.Model):
+    update_time = models.DateTimeField()
+
+

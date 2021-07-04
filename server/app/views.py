@@ -19,42 +19,38 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
+# def recommend_nav(request):
+#     category = request.GET.get('category')
+
+#     if category in ['beer', 'wine', 'cocktail']:
+#         p_comments = Product_Comment.objects \
+#             .filter(product__category__name=category) \
+    
+#     context = {    
+#         'p_comments': p_comments,
+#         'category': category,
+#         'keyword': keyword,
+#         'page': page,
+#     }
+#     return render(request, 'app/blog.html', context)
+
 #리뷰 모음 페이지
 def blog(request):
     # 카테고리 필터
     category = request.GET.get('category')
-    if category in ['beer', 'wine', 'cocktail']:
-        category = Category.objects.get(name=category)
-        products = Product.objects.filter(category_id=category.id)
-    else:
-        category = 'all'
-        products = Product.objects.all()
-
-    # 해당 카테고리의 상품들
-    p_comments = Product_Comment.objects.none()
-    for product in products:
-        p_comments = p_comments | Product_Comment.objects.select_related().filter(product_id=product.id)
-
-    # 키워드 필터
-    search_comments = Product_Comment.objects.none()
     keyword = request.GET.get('keyword')
-    print(keyword)
-    if keyword != "":
-        for comment in p_comments:
-            if keyword in comment.content or keyword in comment.product.name:
-                search_comments = search_comments | comment
-    else:
-        keyword = ''
-        search_comments = p_comments
 
-    # 정렬 필터
-    order = request.GET.get('order')
-    if order == "score up":
-        pass
+    if not keyword:
+        keyword = ""
+
+    if category in ['beer', 'wine', 'cocktail']:
+        p_comments = Product_Comment.objects \
+            .filter(product__category__name=category) \
+            .filter(content__icontains = keyword)
     else:
-        order = ""
-    p_comments = search_comments
-    print(len(p_comments))
+        p_comments = Product_Comment.objects \
+            .filter(content__icontains = keyword)
+
 
     page = request.GET.get('page')
     if not page:
@@ -76,7 +72,6 @@ def blog(request):
         'p_comments': p_comments,
         'category': category,
         'keyword': keyword,
-        'order': order,
         'page': page,
     }
     # return render(request, 'app/blog.html', { 'p_comments': p_comments, 'category': category })
@@ -110,9 +105,20 @@ def index(request):
     return render(request, 'app/index.html', context)
 
 
+def recommand1(request):
+    products = Product.objects.order_by('?')[:16]
+
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
+
 # 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
-    products = Product.objects.order_by('?')[:16]
+    category = request.GET.get('category')
+    if (category == None) or (category == '0'):
+        products = Product.objects.order_by('?')[:16]
+    else:
+        products = Product.objects.filter(category_id = category).order_by('?')[:16]
 
     return render(request, 'app/recommand.html', {
         'products': products
