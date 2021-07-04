@@ -2,23 +2,6 @@
 {% block content %}
 {% load static %}
 
-
-<!-- Section -->
-<div class="container-fluid dark section no-padding">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12">
-				<ul class="horz-menu center-menu">
-					<li class="active"><span><a href="#">All</a></span></li>
-					<li><span><a href="#">Beer</a></span></li>
-					<li><span><a href="#">Wine</a></span></li>
-					<li><span><a href="#">Cock tail</a></span></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-
 <!-- 주류 추천 멘트-->
 <div class="container-fluid super-dark section" style="position: relative; width: 100%;">
 	<div class="container" style="position: relative; width: 100%;">
@@ -45,7 +28,7 @@
 				<div id={{ product.id }} style="background-color: black; margin: 5px; border-radius: 10px" class="product-click">
 					<a href="/product_single/?p_id={{ product.id }}" target="_blank">
 						<div class="counter" >				
-							<img src="{% static 'images/beer/product.image' %}" class="svg" alt="" />
+							<img src='/static/images/beer/{{product.image}}' class="svg" alt="" />
 						</div>
 						<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
 					</a>
@@ -67,34 +50,5 @@
 		</div>
 	</div>
 </div>
-
-{% comment %} <!-- 추천 제품 클릭 시 새 페이지 띄우기 -->
-<script type="text/javascript">
-	$(document).ready(function () {
-		
-		// product-click 버튼
-		$(".product-click").click(function(event){
-			$current = $(event.currentTarget)
-			id = $current.attr('id')
-			// 아이디 주고 그에 맞는 링크로 이동
-			$.ajax({
-				url: "/api/submit_recommand_ml/",
-				data: {'selected_list': selected_list.join('-')},
-				dataType: 'json',
-				type: 'post',
-				error: function (response) {
-					window.alert("문제가 있습니다. 다시 해보세요~");
-					spinner.stop(myTarget);
-				},
-				success: function (response) {
-					spinner.stop(myTarget);
-					if(response.result === 'ok'){
-						location.replace("/recommand_result")
-					}
-				}
-			});
-		})
-	})
-</script> {% endcomment %}
 
 {% endblock %}
