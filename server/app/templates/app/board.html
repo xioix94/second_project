@@ -116,7 +116,7 @@
 						<!-- 이전페이지 -->
 							{% if u_c.has_previous %}
     						 <li class="page-item">
-    						     <a class="page-link" href="/board/?page={{ u_c.previous_page_number }}"><</a>
+    						     <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.previous_page_number }}"><</a>
     						 </li>
     						 {% else %}
     						 <li class="page-item disabled">
@@ -126,15 +126,15 @@
 							<!-- 페이지리스트 -->
 							{% for i in pagination %}
 								{% if u_c.number == i %}
-    								<li class="active"><span><a href="/board/?page={{ i }}">{{ i }}</a></span></li>
+    								<li class="active"><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
     							{% else %}
-    								<li><span><a href="/board/?page={{ i }}">{{ i }}</a></span></li>
+    								<li><span><a href="/board/?category={{ category }}&page={{ i }}">{{ i }}</a></span></li>
     							{% endif %}
         					{% endfor %}
 							<!-- 다음페이지 -->
     						{% if u_c.has_next %}
     							<li class="page-item">
-    						    <a class="page-link" href="/board/?page={{ u_c.next_page_number }}">></a>
+    						    <a class="page-link" href="/board/?category={{ category }}&page={{ u_c.next_page_number }}">></a>
     							</li>
     						{% else %}
     							<li class="page-item disabled">
