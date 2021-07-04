@@ -182,7 +182,7 @@
 		</div>
 	</div>
 
-	<!-- Section -->
+	<!-- Section: Comment -->
 	<div class="container-fluid light section no-padding-bottom">
 		<div class="row">
 			<div class="tabs">
@@ -202,9 +202,11 @@
 											<div class="col-sm-11">
 												<h5>{{ p.user.alias }}</h5>
 												<p>{{ p.content }}</p>
-												<span class="edit">
-													<a href="#">Edit</a>
-												</span>
+												{% if request.session.user_id == p.user_id %}
+													<span class="edit">
+														<a href="#" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ p.id }})">Edit</a>
+													</span>
+												{% endif %}
 											</div>
 										</div>
 									</div>
@@ -229,9 +231,9 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-sm-12">
-								<p>Rich, golden color with dark amber and orange hues and a touch of chill haze that clears as the beer warms. Carbonation is quite active, with abnormally large bubbles frothing into a thick white foam head that piles high, sticks and leaves a healthy lacing. Steely and mineral in the nose, soft and powdery, with a dusting of herbal and malty-sweet suggestions. Very smooth on the palate; even and medium-bodied. Malty with bready and biscuity notes running through a light and toasty sweetness. An aggressive alcohol cuts through with spice and a burn, prickling the palate. Distinct herbal hops characters meet the alcohol spice and meld well. Faint taste of ripe stone fruit beneath. Toasty finish, slightly drying, powdery dash of spices.</p>
-
 								<p>One of the most sought-after stouts in Bell's history, Black Note Stout blends the complex aromatics of Expedition Stout with the velvety smooth texture of Double Cream Stout and ages the combination in freshly retired oak bourbon barrels for months. The resulting harmony of flavors captures the finest features of all three components: malty notes of dark chocolate, espresso &amp; dried fruits, all buoyed by the warmth and fragrance of the bourbon barrel. Aimed squarely at the stout and bourbon aficionados, Black Note makes a grand statement about the art of the dark.</p>
+
+								<p>Rich, golden color with dark amber and orange hues and a touch of chill haze that clears as the beer warms. Carbonation is quite active, with abnormally large bubbles frothing into a thick white foam head that piles high, sticks and leaves a healthy lacing. Steely and mineral in the nose, soft and powdery, with a dusting of herbal and malty-sweet suggestions. Very smooth on the palate; even and medium-bodied. Malty with bready and biscuity notes running through a light and toasty sweetness. An aggressive alcohol cuts through with spice and a burn, prickling the palate. Distinct herbal hops characters meet the alcohol spice and meld well. Faint taste of ripe stone fruit beneath. Toasty finish, slightly drying, powdery dash of spices.</p>
 							</div>
 						</div>
 					</div>
@@ -348,6 +350,26 @@
 			</div>
 		</div>
 	</div>
+
+		<!-- Modal -->
+	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="popupModalLabel" data-comment-id="">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<textarea id="modal-message" rows="5"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="save_edit">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script language = "javascript">
@@ -376,5 +398,31 @@ $('.starRev span').click(function(){
   $(this).addClass('on').prevAll('span').addClass('on');
   return false;
 });
+
+let edit_button = (comment_id) => {
+		
+		console.log('edit_button', comment_id)
+
+		$.ajax({
+			url: `/product_single/?p_id=${product_id}&c_id=${comment_id}`,
+			data: $('form#board_comment').serialize(), // nickname=OOOO&password=XXXX
+			type: 'get',
+			success: function(res) {
+					if(res.method === "get"){
+						console.log("susccess, modal show")
+						$('#popupModalLabel').text(res.nickname);
+						$('#modal-message').text(res.content);
+						$('#popupModal').modal('show');
+						$('#popupModalLabel').attr('data-comment-id', comment_id)
+						//location.reload();
+				}
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+	}
+
+
 </script>
 {% endblock %}
