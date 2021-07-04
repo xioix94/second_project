@@ -6,4 +6,4 @@ sklearn
 lightgbm
 pillow
 bcrypt
-
+pyjwt
