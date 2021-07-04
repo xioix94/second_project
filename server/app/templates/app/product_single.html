@@ -256,7 +256,7 @@
 					</div>
 					<div class="col-sm-5 col-sm-push-1 matchHeight">
 						<section class="alignMiddle padding-80-0">  
-							<form class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
+							<form action="javascript:add_product_comment();" class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
 								{% csrf_token %}
 								{% comment %} score
 								user_id {% endcomment %}
@@ -376,5 +376,48 @@ $('.starRev span').click(function(){
   $(this).addClass('on').prevAll('span').addClass('on');
   return false;
 });
+
+add_product_comment = () => {
+	// 0.5 ~ 5점 만점
+	score = 0.0
+	$('.on').each(() => score += 0.5)
+
+	content = ""
+
+	bold = $('#slider_value_view_bold').text() * 1
+	sparkling = $('#slider_value_view_sparkling').text() * 1
+	sweet = $('#slider_value_view_sweet').text() * 1
+	tannic = $('#slider_value_view_tannic').text() * 1
+	acidic = $('#slider_value_view_acidic').text() * 1
+
+	$.ajax({
+		type: "POST",
+		url: "product_single?p_id={{ product_id }}",
+		data: { 
+			CSRF: getCSRFTokenValue(),
+			'score': score,
+			'content': content,
+			'bold': bold,
+			'sparkling': sparkling,
+			'sweet': sweet,
+			'tannic': tannic,
+			'acidic': acidic,
+		},
+		success: (response) => {
+			if(response.result === 'ok'){
+				window.location.reload()
+			}else if()response.result === 'go back'){
+				window.location.href = '/'
+			}
+		},
+		error: (response) => {
+			// .....
+		} ,
+	})
+	.done(function( msg ) {
+		alert( "Data: " + msg );
+	});
+}
+
 </script>
 {% endblock %}

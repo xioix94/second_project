@@ -204,6 +204,7 @@ def product_single(request):
             'alcohol': p_alcohol,
             'category_id': p_category_id,
             'taste': dict,
+            'product_id': product_id,
             'product_comment_list': product_comment_list,
         })
     except:
