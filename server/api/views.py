@@ -8,6 +8,7 @@ from app.models import User
 from django.views.decorators.csrf import csrf_exempt
 from app.models import Product_Comment, Product
 from . import clustering
+import bcrypt
 
 def email_valid(email):
     # 정규식 검사기
@@ -82,6 +83,14 @@ def register(request):
     sex = request.POST.get('sex')
     adult = request.POST.get('adult')
 
+    # password=bcrypt.hashpw(password,bcrypt.gensalt())
+    
+    '''
+    모델에서 저장된거 받아온 pw
+
+    pw.checkpw()
+    
+    '''
     # 성별 치환
     if sex == 'men':
         sex = 0

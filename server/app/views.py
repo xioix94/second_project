@@ -100,7 +100,7 @@ def index(request):
 
     for _ in comments:
         review_num += 1
-    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num}
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments}
 
     return render(request, 'app/index.html', context)
 
