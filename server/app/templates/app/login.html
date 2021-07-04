@@ -1,0 +1,65 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+	
+		<!-- Fake page loading -->
+		<div id="fakeLoader"></div>
+
+		<!-- Wrapper -->
+		<div class="wrapper">
+
+			<!-- Section -->
+			<div class="container-fluid dark section no-padding">
+				<div class="container">
+					<div class="row">
+							<ul class="horz-menu center-menu">
+								<li class="active"><span><a href="#">Login</a></span></li>
+								<li><span><a href="../register">Register</a></span></li>
+							</ul>
+					</div>
+				</div>
+			</div>
+
+			<!-- login Section -->
+			<div class="container-fluid white section">
+				<div class="container">
+						<div class="row">
+							<div class="col-sm-8 col-sm-push-2">
+								<header class="centred">
+									<h1>Login</h1>
+								</header>
+								<hr class="space-40" />
+								<form method="POST">
+									{% csrf_token %}
+									<div class="login" width = "50">
+										<input type="text" placeholder="email" name="email" style="width: 100%" maxlength="20"><br>
+										<input type="password" placeholder="password" name="password" maxlength="15">
+										{% comment %} <a href="#/" class="lost-pass" onclick="window.open(this.href, '_blank', 'width=가로사이즈px,height=세로사이즈px,toolbars=no,scrollbars=no'); return false;">Lost your password?</a> {% endcomment %}
+										{% comment %} <a href="#/" class="lost-pass">Lost your password?</a>
+										<p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
+										<a href="../register" class="lost-pass">Register?</a>  {% endcomment %}
+										<button type="submit" class="btn btn-primary" style="float:right; margin-right:10px">Login</button>
+										<a href="/find_password" class="lost-pass" style="float:left" onclick="window.open(this.href, '_blank', 'width=auto, height=auto, toolbars=yes'); return false;">Forget your password?</a><br>
+										<a href="../register" class="lost-pass" style="float:left">Register?</a> 
+									</div>
+								</form>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		{% if messages == "실패"%}
+			<script type="text/javascript">
+  				alert("로그인에 실패하셨습니다.");
+			</script>
+		{% elif messages == "비밀번호찾기" %}
+		<script type="text/javascript">
+			let a = {{ user.password }};
+  			alert("당신의 비밀번호는 {{user.password}} ***** 입니다. 가려진 부분을 찾고 싶으시면 관리자에게 문의하세요.");
+		</script>
+		{% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+Django==2.2.5
+channels
+channels_redis
+sklearn 
+lightgbm
+pillow

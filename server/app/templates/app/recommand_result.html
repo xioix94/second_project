@@ -1,0 +1,54 @@
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- 주류 추천 멘트-->
+<div class="container-fluid super-dark section" style="position: relative; width: 100%;">
+	<div class="container" style="position: relative; width: 100%;">
+		<div class="col-xs-6 col-sm-3" style="position: relative; width: 100%;">
+			<div style="font-size: 2em; color:#cbb27c"  class="counter">
+				선택한 항목을 기반으로 추천된 제품들입니다. 
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 주류 16개 나열, 클릭 시 회색 상자 -->
+<div class="container-fluid super-dark section">
+	<div class="container">
+		<div class="row">
+		{% for product in products %}
+			{% if forloop.counter0|divisibleby:4 %}	
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			{% endif %}				
+			<div class="col-xs-6 col-sm-3">
+				<div id={{ product.id }} style="background-color: black; margin: 5px; border-radius: 10px" class="product-click">
+					<a href="/product_single/?p_id={{ product.id }}" target="_blank">
+						<div class="counter" >				
+							<img src='/static/images/beer/{{product.image}}' class="svg" alt="" />
+						</div>
+						<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<!-- 다시 고르기, 메인으로 돌아가기 -->
+<div class="container-fluid super-dark section no-padding">
+	<div class="container">
+		<div class="col-sm-12">
+			<ul class="horz-menu center-menu pages">
+				<li class="active"><span><a href="/recommand">try again</a></span></li>
+				<li class="active"><span><a href="/">main</a></span></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,506 @@
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+
+<style>
+.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+.map_wrap {position:relative;width:100%;height:500px;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#menu_wrap .option{text-align: center;}
+#menu_wrap .option p {margin:10px 0;}  
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+#pagination {margin:10px auto;text-align: center;}
+#pagination a {display:inline-block;margin-right:10px;}
+#pagination .on {font-weight: bold; cursor: default;color:#777;}
+html { scroll-behavior: auto; }
+</style>
+
+<div id="fakeLoader"></div>
+
+<div class="wrapper">
+	<!-- Section -->
+	<div style="padding:none" class="container-fluid dark section">
+		<div class="container" style="margin: 0;">
+			<div class="row">
+				<div class="col-sm-20 col-sm-push-1 matchHeight">
+					<div  class="owl-carousel">
+						<!-- Products -->
+						<div class="product item">
+							<a href="our-beer.html">
+								<span>Buy it</span>
+								<img src="http://placehold.it/169x299" alt="Beer can mockup">
+							</a>
+							<h3>Pale ale</h3>
+							<h4>&dollar;4.75</h4>
+						</div>
+						<div class="product item">
+							<a href="our-beer.html">
+								<span>Buy it</span>
+								<img src="http://placehold.it/169x299" alt="Beer can mockup">
+							</a>
+							<h3>Golden ale</h3>
+							<h4>&dollar;5.00</h4>
+						</div>
+						<div class="product item">
+							<a href="our-beer.html">
+								<span>Buy it</span>
+								<img src="http://placehold.it/169x299" alt="Beer can mockup">
+							</a>
+							<h3>IPA</h3>
+							<h4>&dollar;4.50</h4>
+						</div>
+						<div class="product item">
+							<a href="our-beer.html">
+								<span>Buy it</span>
+								<img src="http://placehold.it/169x299" alt="Beer can mockup">
+							</a>
+							<h3>Pale ale</h3>
+							<h4>&dollar;4.50</h4>
+						</div>
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div>
+
+	<!-- Section -->
+	{% comment %} <div class="container-fluid dark section no-padding">
+		<div class="row">
+			<div class="col-sm-6 matchHeight scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatex="-75">
+				<section class="alignMiddle padding-80 mobile-center">
+					<header>
+						<h1>How we create our</h1>
+						<h2>Master brew</h2>
+					</header>
+					<p>Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p>
+					<a href="#" class="btn btn-default"><span>Show me more</span></a>
+				</section>
+			</div>
+			<div class="col-sm-6 matchHeight" style="background-image: url({% static 'images/bg_wine.png' %});">
+				<div class="row">
+					<div class="col-xs-6 icon-grid">
+						<img src="{% static 'images/Hops.svg' %}"  class="svg" alt="Quality Ingredients" />
+						<h4>Quality Ingredients</h4>
+						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
+					</div>
+					<div class="col-xs-6 icon-grid">
+						<img src="{% static 'images/Sun.svg' %}"  class="svg" alt="Natural sunshine" />
+						<h4>Natural sunshine</h4>
+						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
+					</div>
+					<div class="col-xs-6 icon-grid">
+						<img src="{% static 'images/Barrel.svg' %}"  class="svg" alt="Fermentation" />
+						<h4>Fermentation</h4>
+						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
+					</div>
+					<div class="col-xs-6 icon-grid">
+						<img src="{% static 'images/BottleCrate.svg' %}"  class="svg" alt="Unrivalled taste" />
+						<h4>Unrivalled taste</h4>
+						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> {% endcomment %}
+
+	<!-- Section -->
+	<div class="container-fluid light section" style="background-image: url(http://placehold.it/950x640);">
+		<div id="carousel-1" class="carousel slide carousel-fade bs-carousel" data-ride="carousel">
+		
+			<div class="carousel-inner" role="listbox">
+
+				<!-- Slide 1 -->
+				<div class="item active">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-6 matchHeight">
+								<img src="http://placehold.it/555x355" alt="About our Brewery" class="alignMiddle" />
+							</div>
+							<div class="col-sm-5 col-sm-push-1 matchHeight">
+								<section class="alignMiddle mobile-center">
+									<header>
+										<h1>About our</h1>
+										<h2>Brewery</h2>
+									</header>
+									<p>The 12-ounce bottle pours a pitch-black, topped with a creamy tan-colored head that leaves a healthy ringed lace as it settles, with a bit of stick on the glass.</p>
+									<p>A touch of hop bitterness provides some citric edge and melds with the acridness of the brew for a perceived sourness. Smoky characters emerge as the beer warms, as do subtle drops of caramel.</p>
+									<a href="#" class="btn btn-default"><span>Learn more</span></a>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Slide 2 -->
+				<div class="item">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-6 matchHeight">
+								<img src="http://placehold.it/555x355" alt="About our Brewery" class="alignMiddle" />
+							</div>
+							<div class="col-sm-5 col-sm-push-1 matchHeight">
+								<section class="alignMiddle mobile-center">
+									<header>
+										<h1>Made to share with</h1>
+										<h2>Friends</h2>
+									</header>
+									<p>A blend of lambic beers brewed at 3 Fonteinen, with an addition of 30% whole fresh raspberries from the fabled Payottenland and 5% sour cherries. This unfiltered beer will enjoy a spontaneous refermentation in the bottle. No artificial colors or flavor enhancers are added. Lambic is brewed only from 60% barley malt, 40% unmalted wheat, hops and water.</p>
+									<a href="#" class="btn btn-default"><span>Learn more</span></a>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<a class="left carousel-control" href="#carousel-1" data-slide="prev">
+				<span class="fa fa-chevron-left" aria-hidden="true"></span>
+			</a>
+			<a class="right carousel-control" href="#carousel-1" data-slide="next">
+				<span class="fa fa-chevron-right" aria-hidden="true"></span>
+			</a>
+		</div>
+	</div>
+
+	{% comment %} <!-- Section -->
+	<div class="container-fluid light section no-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 latest-post odd matchHeight">
+					<a href="#"></a>
+					<div class="row">
+						<div class="col-sm-10 col-sm-push-1">
+							<header>
+								<span class="date">21 December</span>
+								<h2>Oktoberfest</h2>
+							</header>
+							<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
+							<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
+							<p><a href="#" class="underline">Read more</a></p>
+						</div>
+					</div>
+					<div class="background" style="background-image: url(http://placehold.it/750x535);"></div>
+				</div>
+				<div class="col-sm-6 latest-post even matchHeight">
+					<a href="#"></a>
+					<div class="row">
+						<div class="col-sm-10 col-sm-push-1">
+							<header>
+								<span class="date">14 December</span>
+								<h2>Now stocked in NYC</h2>
+							</header>
+							<p>Brewed with licorice; a proprietary, hand-smoked malt; and almost a pound of East Kent Goldings hops per barrel.</p>
+							<p>Opaque brown in color, with muddy brown edges and a cola-colored head that drops quickly to a ringed lace. Strong and dominating licorice aroma with an underlying robust molasses-ness and highly roasted malts. Thick-ish, deep blackstrap molasses character (sweet, tangy nectar), quite robust.</p>
+							<p><a href="#" class="underline">Read more</a></p>
+						</div>
+					</div>
+					<div class="background" style="background-image: url(http://placehold.it/750x535);"></div>
+				</div>
+			</div>
+		</div>
+	</div> {% endcomment %}
+
+	<!-- 맥주, 와인, 칵테일의 데이터 수, 총 리뷰 수 -->
+	<div class="container-fluid super-dark section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-6 col-sm-3">
+					<div class="counter">
+						<img src="{% static 'images/Can.svg' %}"  class="svg" alt="" />
+						<span>{{beer_num}}</span>
+						Beer
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-3">
+					<div class="counter">
+						<img src="{% static 'images/Sign.svg' %}"  class="svg" alt="" />
+						<span class="one">{{wine_num}}</span>
+						Wine
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-3">
+					<div class="counter">
+						<img src="{% static 'images/Badge.svg' %}"  class="svg" alt="" />
+						<span>{{cock_num}}</span>
+						Cock Tail
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-3">
+					<div class="counter">
+						<img src="{% static 'images/BarrelSide.svg' %}"  class="svg" alt="" />
+						<span>{{review_num}}</span>
+						Total Review 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Section kakao map -->
+	<div class="container-fluid super-dark section">
+		<div class="map_wrap">
+			<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
+			<div id="menu_wrap" class="bg_white">
+				<div class="option">
+					<div>
+						<form onsubmit="searchPlaces(); return false;">
+							<input type="text" id="keyword" value="Keyword" size="10" style="display: inline-block; width: 150px; height: 50px; color: black; padding-right:10px"> 
+							<button type="submit" class="btn-primary" style="display: inline-block;">검색하기</button> 
+						</form>
+					</div>
+				</div>
+				<hr>
+				<ul id="placesList"></ul>
+				<div id="pagination"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d4e228229f7d4b41e502088fe04df773&libraries=services"></script>
+<script type="text/javascript">
+// 마커를 담을 배열입니다
+var markers = [];
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 장소 검색 객체를 생성합니다
+var ps = new kakao.maps.services.Places(); 
+
+// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+// 키워드 검색을 요청하는 함수입니다
+function searchPlaces() {
+    var keyword = document.getElementById('keyword').value;
+
+    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+        alert('키워드를 입력해주세요!');
+        return false;
+    }
+
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    ps.keywordSearch( keyword, placesSearchCB); 
+}
+
+// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+function placesSearchCB(data, status, pagination) {
+    if (status === kakao.maps.services.Status.OK) {
+
+        // 정상적으로 검색이 완료됐으면
+        // 검색 목록과 마커를 표출합니다
+        displayPlaces(data);
+
+        // 페이지 번호를 표출합니다
+        displayPagination(pagination);
+
+    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+        alert('검색 결과가 존재하지 않습니다.');
+        return;
+
+    } else if (status === kakao.maps.services.Status.ERROR) {
+
+        alert('검색 결과 중 오류가 발생했습니다.');
+        return;
+
+    }
+}
+
+// 검색 결과 목록과 마커를 표출하는 함수입니다
+function displayPlaces(places) {
+
+    var listEl = document.getElementById('placesList'), 
+    menuEl = document.getElementById('menu_wrap'),
+    fragment = document.createDocumentFragment(), 
+    bounds = new kakao.maps.LatLngBounds(), 
+    listStr = '';
+    
+    // 검색 결과 목록에 추가된 항목들을 제거합니다
+    removeAllChildNods(listEl);
+
+    // 지도에 표시되고 있는 마커를 제거합니다
+    removeMarker();
+    
+    for ( var i=0; i<places.length; i++ ) {
+
+        // 마커를 생성하고 지도에 표시합니다
+        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+            marker = addMarker(placePosition, i), 
+            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(placePosition);
+
+        // 마커와 검색결과 항목에 mouseover 했을때
+        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+        // mouseout 했을 때는 인포윈도우를 닫습니다
+        (function(marker, title) {
+            kakao.maps.event.addListener(marker, 'mouseover', function() {
+                displayInfowindow(marker, title);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+
+            itemEl.onmouseover =  function () {
+                displayInfowindow(marker, title);
+            };
+
+            itemEl.onmouseout =  function () {
+                infowindow.close();
+            };
+        })(marker, places[i].place_name);
+
+        fragment.appendChild(itemEl);
+    }
+
+    // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+    listEl.appendChild(fragment);
+    menuEl.scrollTop = 0;
+
+    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+    map.setBounds(bounds);
+}
+
+// 검색결과 항목을 Element로 반환하는 함수입니다
+function getListItem(index, places) {
+
+    var el = document.createElement('li'),
+    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                '<div class="info">' +
+                '   <h5>' + places.place_name + '</h5>';
+
+    if (places.road_address_name) {
+        itemStr += '    <span>' + places.road_address_name + '</span>' +
+                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+    } else {
+        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+    }
+                 
+      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+                '</div>';           
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addMarker(position, idx, title) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+        imgOptions =  {
+            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage 
+        });
+
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+    return marker;
+}
+
+// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+function removeMarker() {
+    for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }   
+    markers = [];
+}
+
+// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+function displayPagination(pagination) {
+    var paginationEl = document.getElementById('pagination'),
+        fragment = document.createDocumentFragment(),
+        i; 
+
+    // 기존에 추가된 페이지번호를 삭제합니다
+    while (paginationEl.hasChildNodes()) {
+        paginationEl.removeChild (paginationEl.lastChild);
+    }
+
+    for (i=1; i<=pagination.last; i++) {
+        var el = document.createElement('a');
+        el.href = "#";
+        el.innerHTML = i;
+
+        if (i===pagination.current) {
+            el.className = 'on';
+        } else {
+            el.onclick = (function(i) {
+                return function() {
+                    pagination.gotoPage(i);
+                }
+            })(i);
+        }
+
+        fragment.appendChild(el);
+    }
+    paginationEl.appendChild(fragment);
+}
+
+// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+// 인포윈도우에 장소명을 표시합니다
+function displayInfowindow(marker, title) {
+    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+ // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+function removeAllChildNods(el) {   
+    while (el.hasChildNodes()) {
+        el.removeChild (el.lastChild);
+    }
+}
+</script>
+{% endblock %}

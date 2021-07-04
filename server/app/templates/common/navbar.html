@@ -1,0 +1,159 @@
+{% load static %}
+
+<!-- Navigation -->
+<div class="navbar section no-padding" role="navigation">
+    <!-- Heading -->
+    <div class="heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                    <ul class="social">
+                        <li><a href="javascript:shareFacebook();" class="fa fa-facebook-square"></a></li>
+                        <li><a href="javascript:shareTwitter();" class="fa fa-twitter-square"></a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-8">
+                    <div class="finder">
+                        <a href="#map">
+                            <span class="fa fa-map-marker"></span> Find drink
+                        </a>
+                    </div>
+                    <div class="cart">
+                        <a href="/contact">
+                            <span class="fa fa-envelope-o"></span> contact
+                        </a>
+                    </div>
+                </div>c
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            <ul id="menu-primary" class="nav navbar-nav">
+            
+                <li {% if request.path == "/" %} class="active" {% endif %}>
+                    <span>
+                        <a href="/">Home</a>
+                    </span>
+                </li>
+                <li  class="dropdown {% if request.path == '/product/' %} active {% endif %}">
+                    <span>
+                        <a href="/product">drink</a>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li><a href="/product?category=beer" style="color:white">Beer</a></li>
+                        <li><a href="/product?category=wine" style="color:white">Wine</a></li>
+                        <li><a href="/product?category=cocktail" style="color:white">Cocktail</a></li>
+                    </ul>
+                </li>
+                <li {% if request.path == "/recommand/" %} class="active" {% endif %}>
+                    <span>
+                        <a href="/recommand/">Recommend</a>
+                    </span>
+                </li>
+                <li {% if request.path == "/reviews/" %} class="active" {% endif %}>
+                    <span>
+                        <a href="/reviews/">reviews</a>
+                    </span>
+                </li>
+                <li {% if request.path == "/board/" %} class="active" {% endif %}>
+                    <span>
+                        <a href="/board/">board</a>
+                    </span>
+                </li>
+                {% if  request.session.email %}
+                <li class="dropdown">
+                    <span>
+                        <a href="#">환영합니다! {{ request.session.alias }} 님!</a>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/userpage/?email={{ request.session.email }}">My Reviews</a></li>
+                        <li><a href="/logout">Log Out</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li>
+                    <span>
+                        <a href="/login/">login</a>
+                    </span>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="navbar-header">
+            <a href="/" class="logo" title="Craft beer landing page">
+                <img src="{% static 'images/logo.png' %}" alt="Craft Beer HTML Template">
+            </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar top-bar"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+        </div>  
+        
+    </div>
+</div>
+
+<!-- Hero -->
+<div id="hero" class="carousel slide carousel-fade section no-padding" data-ride="carousel">
+    
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#hero" data-slide-to="0" class="active"></li>
+        <li data-target="#hero" data-slide-to="1"></li>
+        <li data-target="#hero" data-slide-to="2"></li>
+    </ol>
+    
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+
+        <div class="item active" >
+            <!-- Content -->
+            <div class="container">
+                <div class="row blurb scrollme animateme" data-when="exit" data-from="0" data-to="1" data-opacity="0" data-translatey="100">
+                    <div class="col-md-10 col-md-offset-1">
+                        <br><br>
+                        <h1 style="padding-top:120px">Give me a woman who loves beer and</h1>
+                        <h2> I will conquer the world</h2>
+                        <a href="/product/?category=beer" class="btn btn-default">
+                            <span>To Beer</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" >
+            <!-- Content -->
+            <div class="container">
+                <div class="row blurb scrollme animateme" data-when="exit" data-from="0" data-to="1" data-opacity="0" data-translatey="100">
+                    <div class="col-md-10 col-md-offset-1">
+                        <h1 style="padding-top:120px">You know, if you drink enough wine</h1>
+                        <h2>it tastes like love</h2>
+                        <a href="/product/?category=wine" class="btn btn-default">
+                            <span>To Wine</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" >
+            <!-- Content -->
+            <div class="container">
+                <div class="row blurb scrollme animateme" data-when="exit" data-from="0" data-to="1" data-opacity="0" data-translatey="100">
+                    <div class="col-md-10 col-md-offset-1">
+                        <h1 style="padding-top:120px">There comes a time in every woman’s life when the only thing that</h1>
+                        <h2>helps is a glass of Champagne.</h2>
+                        <a href="/product/?category=cocktail" class="btn btn-default">
+                            <span>To Cocktail</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

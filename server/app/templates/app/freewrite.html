@@ -1,0 +1,89 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+<!-- Fake page loading -->
+<div id="fakeLoader"></div>
+	<!-- Wrapper -->
+	<div class="wrapper">
+	<!-- Section -->
+		<div class="container-fluid white section">
+			<div class="container">
+					<div class="row">
+						<div class="col-sm-8 col-sm-push-2">
+							<header class="centred">
+								<h1>leave your story</h1>
+							</header>
+							<hr class="space-40" />
+							<form method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<select id="category" name="category">
+									<option value="1">Beer</option>
+									<option value="2">Wine</option>
+									<option value="3">Cocktail</option>
+								</select>
+								제목<br>
+								<input type="text" name="postname" id="postname"><br>
+								내용<br>
+								<textarea rows="10" cols="50" name="contents" id="contents"></textarea><br>
+								<input type="file" name="mainphoto"><br>
+								<div class="col-sm-12 btn-wrap">
+									<button type="submit" class="btn btn-default" id="save"><span>save</span></button>&nbsp;&nbsp;&nbsp;
+									<a href="/board" class="btn btn-primary" style="float:left"><span>cancel</span></a>&nbsp;&nbsp;&nbsp;
+								</div>
+							</form>
+						</div>
+					</div>
+			</div>	
+		</div>
+	</div>
+
+<!-- Modal -->
+{% comment %} <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="popupModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div id="modal-message">message</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	$('#save').click(function() {console.log("save")
+		$.ajax({
+			url: '/board_write/',
+			//data: $('form').serialize(),  // nickname=OOOO&password=XXXX
+			data: {
+				'title': $('#postname').text(),
+				'contents': $('#contents').text(),
+				'category': $('#category').val(),
+			},
+			type: 'post',
+			success: function(res) {
+				//$('#popupModalLabel').text(res.result);
+				//$('#modal-message').text(res.messages);
+				//$('#popupModal').modal('show');//now its working
+				//location.reload();
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+
+		return false;
+	});
+</script> {% endcomment %}
+{% endblock %}

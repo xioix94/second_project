@@ -1,0 +1,90 @@
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+
+
+<!-- Fake page loading -->
+<div id="fakeLoader"></div>
+
+<!-- Wrapper -->
+<div class="wrapper">
+
+	<!-- Section -->
+	<div class="container-fluid light no-padding section">
+		<div class="row">
+			<div class="col-sm-6 matchHeight">
+					<div id="map"></div>
+					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d4e228229f7d4b41e502088fe04df773"></script>
+					<script>
+						var container = document.getElementById('map');
+						var options = {
+							center: new kakao.maps.LatLng(33.450701, 126.570667),
+							level: 3
+						};
+						var map = new kakao.maps.Map(container, options);
+					</script>
+					
+			</div>
+			<div class="col-sm-6 matchHeight">
+				<section class="alignMiddle padding-80 mobile-center">
+					<header>
+						<h1>Feel free to send</h1>
+						<h2>Us a message</h2>
+					</header>
+					<p>한국품질재단 2조에서 만든 주류 추천 서비스 사이트입니다.</p>
+					<p>궁금하신점이나 사이트 에러는 편하게 아래 링크를 통해 문의주세요!</p>
+				</section>
+			</div> 
+		</div>
+	</div>
+
+	<!-- Section -->
+	<div class="container-fluid section no-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 matchHeight">
+					<ul class="contact-list alignMiddle">
+						<li>
+							<i class="fa fa-location-arrow"></i> 
+							<div>
+								Address
+								<span>서울특별시 금천구 가산디지털1로 168</span>
+							</div>
+						</li>
+						<li>
+							<i class="fa fa-envelope"></i> 
+							<div>
+								Email
+								<span>sales@craftbeer-nation.com</span>
+							</div>
+						</li>
+						<li>
+							<i class="fa fa-phone"></i> 
+							<div> 
+								Telephone
+								<span>(0)203 123 4567</span>
+								</div>
+						</li>
+					</ul>
+					<div class="grey-background"></div>
+				</div>
+				<div class="col-sm-5 col-sm-push-1 matchHeight">
+					<section class="alignMiddle padding-80-0">  
+						<form action="https://formspree.io/f/mzbyvagd"
+						method="POST"  class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
+							<input type="text" name="name" placeholder="Name">
+							<input type="email" name="_replyto" placeholder="Email">
+							<textarea name="message" placeholder="Message" rows="5"></textarea>
+							<input type="submit" value="Send" class="btn btn-default">
+						</form>
+					</section>
+				</div> 
+			</div>
+		</div>
+	</div>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzbEe1YItOGVa3h_gT66MTFP056M0xQyo"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gmap3/6.1.0/gmap3.min.js"></script>
+</div>
+
+{% endblock %}
