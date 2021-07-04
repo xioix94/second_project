@@ -393,3 +393,8 @@ def find_password(request):
         else:
             messages = "성공"
             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
+
+def comment_delete(request, pk):
+    comment = get_object_or_404(Product_Comment,id=pk)
+    comment.delete()
+    return redirect('/userpage/')
