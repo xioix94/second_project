@@ -124,8 +124,11 @@ def board_write(request):
             title = request.POST['postname'],
             content = request.POST['contents'],
             time =  timezone.now(),
-            mainphoto =request.FILES['mainphoto'],
         )
+        try:
+            new_board.mainphoto =request.FILES['mainphoto']
+        except:
+            pass
         new_board.save() 
         return HttpResponseRedirect('/board/')
 
