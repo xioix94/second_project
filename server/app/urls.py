@@ -21,5 +21,4 @@ urlpatterns = [
     path('recommand_result/', views.recommand_result),
     path('userpage/modify', views.comment_modify),
     path('logout/', views.logout),
-    path('board_write/', views.board_write),
 ]
