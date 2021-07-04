@@ -35,10 +35,12 @@
 							<h2>{{ board.title }}</h2>
 						</header>
 						<p> {{ board.content }}</p>
-						<p>A rich-looking, deep-copper-hued beer, leaning toward the dark side, with an off-white foam head that drops to a fine ringed lace. Aroma is unique. Uniquely British, with a suggestion of dryness, metallic hints, prominent nutty malt character, interesting orchard-esque notes, deep caramel beneath, toasty and soft powdery spices. Lively in the mouth, with a slightly crisp carbonation that peaks and provides some creaminess. Medium, even-bodied, with a round fullness about it. Quite dry up front, with slightly abrasive raw, leafy and pithy characters mixed with some tamed hop bitterness. Wood and earth? Yeah, a bit. Some fruity and berry-like tartness, reminiscent of holiday pie fillings and plump, juicy, almost over-ripe black cherries. Definite apple flavors follow fruit, as well as juicy pear. Robust and hearty as far as beers go. Toasty malts, bready, crust-like. Watery toffee, with hints of vanilla beneath. Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p>
+						{% comment %} <p>A rich-looking, deep-copper-hued beer, leaning toward the dark side, with an off-white foam head that drops to a fine ringed lace. Aroma is unique. Uniquely British, with a suggestion of dryness, metallic hints, prominent nutty malt character, interesting orchard-esque notes, deep caramel beneath, toasty and soft powdery spices. Lively in the mouth, with a slightly crisp carbonation that peaks and provides some creaminess. Medium, even-bodied, with a round fullness about it. Quite dry up front, with slightly abrasive raw, leafy and pithy characters mixed with some tamed hop bitterness. Wood and earth? Yeah, a bit. Some fruity and berry-like tartness, reminiscent of holiday pie fillings and plump, juicy, almost over-ripe black cherries. Definite apple flavors follow fruit, as well as juicy pear. Robust and hearty as far as beers go. Toasty malts, bready, crust-like. Watery toffee, with hints of vanilla beneath. Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p> {% endcomment %}
 
 						<p>The short, stubby, 11.2-ounce Duvel-style bottle releases a dark, leathery-brown brew, with a tan-colored, super-tight, creamy, fluffy lacing. Amazing head retention. Malted milk balls, spicy yeast and a soft herbal Saaz aroma. As soon as the beer hits the palate, it creams up with a light and fluffy feel and lively carbonation. Slight up-front sharpness, a meld of light hop bitterness and slight medicinal phenols, with a warming alcohol bite riding its wake. Notes of pith and leaf. Herbal tea and a tease of pepper tucked beneath a moderate residual sweetness, with flavors of toffee, brown bread, dried fruits and fermented honey. Some spice emerges from the alcohol as it warms. Finish goes dry, with some residual malt sweetness and bready yeast in the back.</p>
-					
+
+						{% comment %} <p>The short, stubby, 11.2-ounce Duvel-style bottle releases a dark, leathery-brown brew, with a tan-colored, super-tight, creamy, fluffy lacing. Amazing head retention. Malted milk balls, spicy yeast and a soft herbal Saaz aroma. As soon as the beer hits the palate, it creams up with a light and fluffy feel and lively carbonation. Slight up-front sharpness, a meld of light hop bitterness and slight medicinal phenols, with a warming alcohol bite riding its wake. Notes of pith and leaf. Herbal tea and a tease of pepper tucked beneath a moderate residual sweetness, with flavors of toffee, brown bread, dried fruits and fermented honey. Some spice emerges from the alcohol as it warms. Finish goes dry, with some residual malt sweetness and bready yeast in the back.</p> {% endcomment %}
+
 					</div>
 				</div>
 			</div>
@@ -61,7 +63,7 @@
 							<div class="col-sm-11">
 								<h5>{{ board_comment.user.alias }}</h5>
 								<p>{{ board_comment.content }}</p>
-								<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p>
+								{% comment %} <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p> {% endcomment %}
 								<span class="edit">
 									<a href="#">Delete</a> | <a href="#">Edit</a>
 								</span>
@@ -95,7 +97,8 @@
 								{% comment %} <input type="text" name="name" placeholder="Name"> {% endcomment %}
 								{% comment %} <input type="email" name="_replyto" placeholder="Email"> {% endcomment %}
 								<textarea name="comment" placeholder="Comment" rows="5"></textarea>
-								<input type="submit" value="Post comment" class="btn btn-default" id="post-comment">
+								{% comment %} <a href="#" class="btn btn-default" id="comment" method="post"><span>Post comment</span></a>  {% endcomment %}
+								<input type="submit" value="Post comment" class="btn btn-default" id="comment">
 							</form>
 						</section>
 					</div> 
@@ -163,16 +166,26 @@
 </body>
 
 <script>
-	$('#post-comment').click(function() {
+	$('#comment').click(function() {
+		console.log("post-comment")
 		$.ajax({
-			url: '/board_single/', // views.py에서의 함수명
+			url: '/board/single/?id={{ board_id }}', // views.py에서의 함수명
 			data: $('form').serialize(),  // nickname=OOOO&password=XXXX
-			type: 'post',
+			type: 'POST',
+			dataType: 'json',
 			success: function(res) {
-				$('#popupModalLabel').text(res.result);
-				$('#modal-message').text(res.messages);
-				$('#popupModal').modal('show');//now its working
-				location.reload();
+				if(res.result === "Success"){
+					$('#popupModalLabel').text(res.result);
+					$('#modal-message').text(res.messages);
+					$('#popupModal').modal('show');//now its working
+					location.reload();
+				}else if(res.result === "Fail"){
+					if(res.messages === "go back"){
+						window.location = '/login'
+					}else {
+						location.reload();
+					}
+				}
             },
 			error: function(res) {
 				// .....
