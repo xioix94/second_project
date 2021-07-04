@@ -1,7 +1,7 @@
 from django.http.response import HttpResponseRedirect
-from server.app.models import Category, User
+from app.models import Category, User
 from django.shortcuts import redirect, render
-from server.app.models import Board, Board_Comment
+from app.models import Board, Board_Comment
 from django.core.paginator import Paginator
 from django.utils import timezone
 
