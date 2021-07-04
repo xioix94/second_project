@@ -17,7 +17,6 @@ import pickle
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import train_test_split
 import joblib
-from celery import shared_task
 from datetime import datetime, date
 
 # all_model = LGBMClassifier() # category = 0
