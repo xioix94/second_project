@@ -138,3 +138,7 @@ STATIC_URL = '/static/'
 # 세션 셋팅 
 SESSION_COOKIE_AGE = 600 # 600초 타임아웃
 SESSION_SAVE_EVERY_REQUEST = True
+
+#보드 사진파일 저장
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def board(request):
-    boards = Board.objects.select_related('user')
+    boards = Board.objects.select_related('user').order_by('-time')
 
     page = request.GET.get('page')
 
@@ -105,9 +105,13 @@ def board_write(request):
             category_id = request.POST['category'],
             title = request.POST['postname'],
             content = request.POST['contents'],
-            time =  timezone.now()
+            time =  timezone.now(),
+            mainphoto =request.FILES['mainphoto'],
         )
         new_board.save() 
         return HttpResponseRedirect('/board/')
 
     return render(request, 'app/freewrite.html')
+
+def board_delete(request):
+    pass

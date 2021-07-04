@@ -18,7 +18,7 @@
 								<h1>leave your story</h1>
 							</header>
 							<hr class="space-40" />
-							<form method="POST">
+							<form method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
 								<select id="category" name="category">
 									<option value="1">Beer</option>

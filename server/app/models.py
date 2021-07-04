@@ -19,6 +19,7 @@ class Board(models.Model):
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=2000)
     time = models.DateTimeField()
+    mainphoto = models.ImageField(upload_to='images/',blank=True, null=True)
 
 
 class Board_Comment(models.Model):
