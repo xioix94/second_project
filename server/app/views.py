@@ -5,7 +5,7 @@ from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import date
-
+import bcrypt, jwt
 
 # Create your views here.
 def page_404(request):
@@ -98,7 +98,9 @@ def index(request):
 
     for _ in comments:
         review_num += 1
-    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments}
+    # randoms : 제품 슬라이드 칸에 들어갈 사진 9장 추출용
+    randoms = Product_Comment.objects.select_related('product').order_by('?')[:9]
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments, 'randoms':randoms}
 
     return render(request, 'app/index.html', context)
 
@@ -395,6 +397,17 @@ def login(request):
 
         try:
             member = User.objects.get(email=email,password=password)
+            #---------비밀번호 확인--------#
+                 # 사용자가 입력한 비밀번호를 인코딩하고, 사용자의 이메일과 매칭되는 DB의 비밀번호를 찾아와서 인코딩. 이 두 값을 bcrypt.checkpw로 비교하면 됨
+                 
+            # if bcrypt.checkpw(password.encode('utf-8'), User.password.encode('utf-8')) :
+            #     print('암호화 된 비밀번호 확인')
+        
+            #----------토큰 발행----------#
+            # token = jwt.encode({'email' : data['email']}, SECRET_KEY, algorithm = "HS256")
+            # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
+            #-----------------------------#
+            # return JsonResponse({"token" : token }, status=200)    # 토큰을 담아서 응답
         except:
             messages = "실패"
             return render(request, 'app/login.html', {'messages' : messages})
