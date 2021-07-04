@@ -19,6 +19,21 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
+# def recommend_nav(request):
+#     category = request.GET.get('category')
+
+#     if category in ['beer', 'wine', 'cocktail']:
+#         p_comments = Product_Comment.objects \
+#             .filter(product__category__name=category) \
+    
+#     context = {    
+#         'p_comments': p_comments,
+#         'category': category,
+#         'keyword': keyword,
+#         'page': page,
+#     }
+#     return render(request, 'app/blog.html', context)
+
 #리뷰 모음 페이지
 def blog(request):
     # 카테고리 필터
@@ -90,9 +105,20 @@ def index(request):
     return render(request, 'app/index.html', context)
 
 
+def recommand1(request):
+    products = Product.objects.order_by('?')[:16]
+
+    return render(request, 'app/recommand.html', {
+        'products': products
+    })
+
 # 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
-    products = Product.objects.order_by('?')[:16]
+    category = request.GET.get('category')
+    if (category == None) or (category == '0'):
+        products = Product.objects.order_by('?')[:16]
+    else:
+        products = Product.objects.filter(category_id = category).order_by('?')[:16]
 
     return render(request, 'app/recommand.html', {
         'products': products
@@ -261,13 +287,13 @@ def profile(request):
 
             result = "Success"
             messages = "Profile change succeeded."
+            return JsonResponse({'result': result, 'messages': messages})
 
         except:
             result = "Fail"
             messages = "Profile change failed."
-            # return render(request, 'app/login.html', {'messages' : messages})
+            return render(request, 'app/login.html', {'messages' : messages})
 
-        return JsonResponse({'result': result, 'messages': messages})
 
 
 def to_members_form(request):
@@ -313,6 +339,7 @@ def login(request):
     else:
         email = request.POST['email']
         password = request.POST['password']
+        print(id)
 
         try:
             member = User.objects.get(email=email,password=password)
@@ -321,6 +348,7 @@ def login(request):
             return render(request, 'app/login.html', {'messages' : messages})
         else:
             request.session['email'] = email
+            request.session['user_id'] = member.id
             request.session['alias'] = member.alias
             return render(request, 'app/index.html')
 

@@ -3,6 +3,10 @@
 {% load static %}
 {% block content %}
 
+
+
+
+
 <body class="single">
 
 	<!-- Fake page loading -->
@@ -59,18 +63,22 @@
 					<div class="col-sm-12 user-comments">
 						{% for board_comment in board_comments %}
 						
-						<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+						<div class="row scrollme animateme"  data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 							<div class="col-sm-1">
 								<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
 							</div>
-							<div class="col-sm-11">
-								<h5>{{ board_comment.user.alias }}</h5>
-								<p>{{ board_comment.content }}</p>
-								{% comment %} <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p> {% endcomment %}
-								<span class="edit">
-									<a href="#">Delete</a> | <a href="#">Edit</a>
-								</span>
-							</div>
+							<form id="board_comment">
+								<div class="col-sm-11">
+									<h5>{{ board_comment.user.alias }}</h5>
+									<p>{{ board_comment.content }}</p>
+									{% comment %} <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p> {% endcomment %}
+									{% if request.session.user_id == board_comment.user_id %}
+										<span class="edit">
+											<a href="#" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ board_comment.id }})">Edit</a>
+										</span>
+									{% endif %}
+								</div>
+							</form>
 						</div>
 
 						{% endfor %}
@@ -151,24 +159,28 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="popupModalLabel">Modal title</h5>
+					<h5 class="modal-title" id="popupModalLabel" data-comment-id="">Modal title</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id="modal-message">message</div>
+					<textarea id="modal-message" rows="5"></textarea>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="save_edit">OK</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
+
+
+
 </body>
 
-<script>
+
+<script type="text/javascript">
 	$('#comment').click(function() {
 		console.log("post-comment")
 		$.ajax({
@@ -178,9 +190,9 @@
 			dataType: 'json',
 			success: function(res) {
 				if(res.result === "Success"){
-					$('#popupModalLabel').text(res.result);
-					$('#modal-message').text(res.messages);
-					$('#popupModal').modal('show');//now its working
+					//$('#popupModalLabel').text(res.result);
+					//$('#modal-message').text(res.messages);
+					//$('#popupModal').modal('show');//now its working
 					location.reload();
 				}else if(res.result === "Fail"){
 					if(res.messages === "go back"){
@@ -188,6 +200,56 @@
 					}else {
 						location.reload();
 					}
+				}
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+
+		return false;
+	});
+
+	let edit_button = (comment_id) => {
+		console.log('edit_button', comment_id)
+
+		$.ajax({
+			url: `/board/edit/?id=${comment_id}`,
+			data: $('form#board_comment').serialize(), // nickname=OOOO&password=XXXX
+			type: 'get',
+			success: function(res) {
+					if(res.method === "get"){
+						console.log("susccess, modal show")
+						$('#popupModalLabel').text(res.nickname);
+						$('#modal-message').text(res.content);
+						$('#popupModal').modal('show');//now its working
+						$('#popupModalLabel').attr('data-comment-id', comment_id)
+						//location.reload();
+				}
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+	}
+
+	$('#save_edit').click(function() {
+		comment_id = $('#popupModalLabel').attr('data-comment-id')
+		console.log("save_edit", comment_id)
+
+		$.ajax({
+			url: `/board/edit/`,
+			data: {
+				'comment_id': comment_id,
+				'content': $('#modal-message').val(),
+			},  // nickname=OOOO&password=XXXX
+			type: 'POST',
+			dataType: 'json',
+			success: function(res) {
+				if(res.result === "Success"){
+					location.reload();
+				}else if(res.result === "Fail"){
+					window.location.href = '/'
 				}
             },
 			error: function(res) {
