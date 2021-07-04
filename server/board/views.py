@@ -1,4 +1,4 @@
-from django.http.response import HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseRedirect, JsonResponse, HttpResponse
 from app.models import Category, User
 from django.shortcuts import redirect, render
 from app.models import Board, Board_Comment
@@ -92,22 +92,22 @@ def single(request):
 
 
 def board_write(request):
-    if not request.session['email']:
-        return redirect('/login')
-
+    if request.method == 'GET':
+        if request.session.get('email'):
+            return render(request, 'app/freewrite.html', {})
+        else:
+            return redirect('/login/')
     elif request.method == 'POST':
-        user_email = request.session.get['email']
-        print(user_email)
-        user = User.objects.get(email=user_email)
-        print(user)
-        new_board = Board (
-            user_id = user.id,
-            category_id = request.POST.get('category'),
-            title = request.POST.get('postname'),
-            content = request.POST.get('contents'),
-            time =  timezone.now(),
+        user_email = request.session['email']
+        user_id = User.objects.get(email=user_email)
+        new_board = Board(
+            user_id = user_id.id,
+            category_id = request.POST['category'],
+            title = request.POST['postname'],
+            content = request.POST['contents'],
+            time =  timezone.now()
         )
-        print(new_board)
-        new_board.save()
+        new_board.save() 
         return HttpResponseRedirect('/board/')
+
     return render(request, 'app/freewrite.html')
