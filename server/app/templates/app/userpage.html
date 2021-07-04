@@ -56,15 +56,16 @@
 
 							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 								<div class="col-sm-1">
-									<img src="/static/images/beer/{{ user_comment.product.image }}" style = "max-width: 160%;height:155px;border-radius: 80%; margin-top: -5px;" alt="Craft ale HTML template" />
+									<img src="/static/images/beer/{{ user_comment.product.image }}" style = "max-width: 200%; max-height: 200%; position: relative; left: -30px;" alt="Craft ale HTML template" />
 								</div>
 								<div class="col-sm-11">
 									<h5>{{ user_comment.product.name }}</h5>
 									<p>{{ user_comment.content }}</p>
-
+									{% if request.session.user_id == user_comment.user_id %}
 									<span class="edit">
-										<a href="/userpage/modify?comment_id={{user_comment.id}}">Edit</a> | <a href="">Delete</a>
+										<a href="/userpage/modify?comment_id={{user_comment.id}}">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete/">Delete</a>
 									</span>
+									{% endif %}
 								</div>
 							</div>
 
@@ -85,7 +86,7 @@
 							<!-- 이전페이지 -->
 								{% if u_c.has_previous %}
        							 <li class="page-item">
-       							     <a class="page-link" href="?page={{ u_c.previous_page_number }}"><</a>
+       							     <a class="page-link" href="?email={{ user.email }}&page={{ u_c.previous_page_number }}"><</a>
        							 </li>
        							 {% else %}
        							 <li class="page-item disabled">
@@ -95,15 +96,15 @@
 								<!-- 페이지리스트 -->
 								{% for i in pagination %}
 									{% if u_c.number == i %}
-        								<li class="active"><span><a href="?page={{ i }}">{{ i }}</a></span></li>
+        								<li class="active"><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
       								{% else %}
-        								<li><span><a href="?page={{ i }}">{{ i }}</a></span></li>
+        								<li><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
       								{% endif %}
             					{% endfor %}
 								<!-- 다음페이지 -->
         						{% if u_c.has_next %}
         							<li class="page-item">
-        						    <a class="page-link" href="?page={{ u_c.next_page_number }}">></a>
+        						    <a class="page-link" href="?email={{ user.email }}&page={{ u_c.next_page_number }}">></a>
         							</li>
         						{% else %}
         							<li class="page-item disabled">
