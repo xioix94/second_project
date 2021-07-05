@@ -204,7 +204,8 @@
 												<p>{{ p.content }}</p>
 												{% if request.session.user_id == p.user_id %}
 													<span class="edit">
-														<a href="#" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ p.id }})">Edit</a>
+														<a href="#" id="delete">Delete</a> | 
+														<a href="#" id="comment-edit" data-comment="{{ p.content }}" data-bold="{{ p.bold }}" data-sparkling="{{ p.sparkling }}" data-sweet="{{ p.sweet }}" data-tannic={{ p.tannic }} data-acidic={{ p.acidic }} data-product-id={{ p.product_id }} onClick="edit_button({{ p.id }})">Edit</a>
 													</span>
 												{% endif %}
 											</div>
@@ -260,8 +261,6 @@
 						<section class="alignMiddle padding-80-0">  
 							<form action="javascript:add_product_comment();" class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
 								{% csrf_token %}
-								{% comment %} score
-								user_id {% endcomment %}
 
 								<div class="starRev">
 									<span class="starR1 on"></span>
@@ -306,7 +305,7 @@
 									<input id="acidic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
 								</div>
 
-								<textarea id="comment-area" name="comment" placeholder="Comment" rows="5"></textarea> {% comment %} content {% endcomment %}
+								<textarea id="comment-area" name="comment" placeholder="Comment" rows="5"></textarea> 
 								<input type="submit" value="Post comment" class="btn btn-default" id="post-comment">
 							</form>
 						</section>
@@ -351,7 +350,7 @@
 		</div>
 	</div>
 
-		<!-- Modal -->
+	<!-- Modal -->
 	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -361,11 +360,55 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<textarea id="modal-message" rows="5"></textarea>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="save_edit">OK</button>
+				<div style="margin-left: 50px">
+					<div class="modal_starRev">
+						<span id="starR1" class="starR1 on"></span>
+						<span id="starR2" class="starR2"></span>
+						<span id="starR1" class="starR1"></span>
+						<span id="starR2" class="starR2"></span>
+						<span id="starR1" class="starR1"></span>
+						<span id="starR2" class="starR2"></span>
+						<span id="starR1" class="starR1"></span>
+						<span id="starR2" class="starR2"></span>
+						<span id="starR1" class="starR1"></span>
+						<span id="starR2" class="starR2"></span>
+					</div>
+
+					<hr style="border: 0px"></hr>
+					<hr style="border: 0px"></hr>
+					<hr style="border: 0px"></hr>
+
+					<div class="Container" >
+						<h4 style="display: inline-block">Bold: </h4>
+						<h4 id = "modal_slider_value_view_modal_bold" style="display: inline-block">0</h4>						  
+						<input id="modal_bold" style="width: 80%;" class="modal_slider_range" type="range" value="0" min="0" max="100"></input>						  
+					</div>
+					<div class="Container" >
+						<h4 style="display: inline-block">Sparkling: </h4>
+						<h4 id = "modal_slider_value_view_modal_sparkling" style="display: inline-block">0</h4>						  
+						<input id="modal_sparkling" style="width: 80%;" class="modal_slider_range" type="range" value="0" min="0" max="100"></input>						  
+					</div>
+					<div class="Container" >
+						<h4 style="display: inline-block">Sweet: </h4>
+						<h4 id = "modal_slider_value_view_modal_sweet" style="display: inline-block">0</h4>						  
+						<input id="modal_sweet" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+					</div>
+					<div class="Container" >
+						<h4 style="display: inline-block">Tannic: </h4>
+						<h4 id = "modal_slider_value_view_modal_tannic" style="display: inline-block">0</h4>						  
+						<input id="modal_tannic" style="width: 80%;" class="modal_slider_range" type="range" value="0" min="0" max="100"></input>						  
+					</div>
+					<div class="Container" >
+						<h4 style="display: inline-block">Acidic: </h4>
+						<h4 id = "modal_slider_value_view_modal_acidic" style="display: inline-block">0</h4>						  
+						<input id="modal_acidic" style="width: 80%;" class="modal_slider_range" type="range" value="0" min="0" max="100"></input>						  
+					</div>
+					<div class="modal-body">
+						<textarea id="modal-message" rows="5"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="save_edit">OK</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -373,7 +416,7 @@
 </div>
 
 <script language = "javascript">
-
+<!-- comment -->
 	function ShowSliderValue(val, id)
 	{
 		new_id = "slider_value_view" + "_" + id
@@ -397,12 +440,40 @@
 		return false;
 	});
 
+
+<!-- edit comment -->
+	function ModalShowSliderValue(val, id)
+	{
+		new_id = "modal_slider_value_view" + "_" + id;
+		var obValueView = document.getElementById(new_id);
+		obValueView.innerHTML = val
+	}
+
+	var ModalRangeSlider = function(){
+		var range = $('.modal_slider_range');
+		
+		range.on('input', function(){		
+			ModalShowSliderValue(this.value, this.id);
+		});
+	};
+
+	ModalRangeSlider();
+
+	$('.modal_starRev span').click(function(){
+		$(this).parent().children('span').removeClass('on');
+		$(this).addClass('on').prevAll('span').addClass('on');
+		return false;
+	});
+
 	let getCSRFTokenValue = () => $('input[name=csrfmiddlewaretoken]').val()
 
+<!-- add comment -->
 	add_product_comment = () => {
 		// 0.5 ~ 5점 만점
 		score = 0.0
 		$('.on').each(() => score += 0.5)
+		score -= 0.5;		
+		console.log(score)
 
 		content = $('#comment-area').val()
 
@@ -451,17 +522,57 @@ $('.starRev span').click(function(){
 
 let edit_button = (comment_id) => {
 		
-		console.log('edit_button', comment_id)
+		console.log('product_single edit_button', comment_id)
+
+		product_id = $('#comment-edit').attr('data-product-id')
+		content = $('#comment-edit').attr('data-comment')
+		console.log(content)
 
 		$.ajax({
-			url: `/product_single/?p_id=${product_id}&c_id=${comment_id}`,
-			data: $('form#board_comment').serialize(), // nickname=OOOO&password=XXXX
+			//url: `/product_single/edit/?p_id=${product_id}&c_id=${comment_id}`,
+			url: '/product_single/edit_comment/',
+			data: { 
+				'p_id': product_id,
+				'c_id': comment_id,
+			},
 			type: 'get',
 			success: function(res) {
 					if(res.method === "get"){
+						// on 쓰여진 값 모두 지우고 시작
+						const spans = $('.modal_starRev > span')
+						for(let i = 1; i < 10; i++) {
+							console.log(spans[i])
+							$(spans[i]).removeClass('on');
+						}
+						
+						let score = res.score * 2;
+						for(let i = 0; i < score; i++) {
+							console.log(spans[i])
+							$(spans[i]).addClass('on');
+						}
+						console.log("get" + res.score)
+
+						//$(starR1).attr('starR1','class_name');
+
 						console.log("susccess, modal show")
 						$('#popupModalLabel').text(res.nickname);
 						$('#modal-message').text(res.content);
+						bold = Math.round(res.bold * 100);
+						$('#modal_slider_value_view_modal_bold').text(bold);
+						$('#modal_bold').val(bold);
+						sparkling = Math.round(res.sparkling * 100);
+						$('#modal_slider_value_view_modal_sparkling').text(sparkling);
+						$('#modal_sparkling').val(sparkling);
+						sweet = Math.round(res.sweet * 100);
+						$('#modal_slider_value_view_modal_sweet').text(sweet);
+						$('#modal_sweet').val(sweet);
+						tannic = Math.round(res.tannic * 100);
+						$('#modal_slider_value_view_modal_tannic').text(tannic);
+						$('#modal_tannic').val(tannic);
+						acidic = Math.round(res.acidic * 100);
+						$('#modal_slider_value_view_modal_acidic').text(acidic);
+						$('#modal_acidic').val(acidic);
+						
 						$('#popupModal').modal('show');
 						$('#popupModalLabel').attr('data-comment-id', comment_id)
 						//location.reload();
@@ -473,6 +584,52 @@ let edit_button = (comment_id) => {
 		})
 	}
 
+$('#save_edit').click(function() {
+		comment_id = $('#popupModalLabel').attr('data-comment-id')
+		console.log("save_edit comment_id = ", comment_id)
+
+		// 0.5 ~ 5점 만점
+		score = 0.0
+		$('.on').each(() => score += 0.5)
+		score -= 0.5
+
+		content = $('#comment-area').val()
+
+		bold = $('#modal_slider_value_view_modal_bold').text() * 0.01
+		sparkling = $('#modal_slider_value_view_modal_sparkling').text() * 0.01
+		sweet = $('#modal_slider_value_view_modal_sweet').text() * 0.01
+		tannic = $('#modal_slider_value_view_modal_tannic').text() * 0.01
+		acidic = $('#modal_slider_value_view_modal_acidic').text() * 0.01
+		console.log(bold, sparkling, sweet, tannic, acidic)
+
+		$.ajax({
+			url: '/product_single/edit_comment/',
+			data: {
+				'comment_id': comment_id,
+				'content': $('#modal-message').val(),
+				'score': score,
+				'bold': bold,
+				'sparkling': sparkling,
+				'sweet': sweet,
+				'tannic': tannic,
+				'acidic': acidic,
+			}, 
+			type: 'POST',
+			dataType: 'json',
+			success: function(res) {
+				if(res.result === "Success"){
+					location.reload();
+				}else if(res.result === "Fail"){
+					window.location.href = '/'
+				}
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+
+		return false;
+	});
 
 </script>
 {% endblock %}
