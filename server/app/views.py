@@ -326,17 +326,34 @@ def to_members_form(request):
 
 def userpage(request):
     email = request.GET.get('email')
-
     user = User.objects.get(email=email)
+    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related()
 
+    #카테고리 검색부 
+    # if category in ['beer', 'wine', 'cocktail']:
+    #     user_cat = Product_Comment.product_id.
+    #     user_comment.product.category
+    #     category = category.name
+    # else:
+    #     category = 'All'
+    #     user_comments = Product_Comment.objects.all()
+   
+    #키워드 검색부
+    keyword = request.GET.get('keyword')
+    if not keyword:
+        keyword = ""
+    else:
+        user_comments = Product_Comment.objects\
+            .filter(user_id=user.id)\
+            .filter(content__icontains = keyword)
 
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
-
+    user_comments = user_comments.select_related().order_by('-time')   
     
     review_num = 0
 
     for _ in user_comments:
         review_num += 1
+
 
     page = request.GET.get('page')
 
@@ -344,7 +361,6 @@ def userpage(request):
         page = '1'
 
     p = Paginator(user_comments, 10)
-
     u_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
@@ -389,26 +405,26 @@ def login(request):
                 return redirect('/')
 
 
-def comment_modify(request):
+# def comment_modify(request):
 
-    if request.method == "POST":
-        form = userpage(request.POST, instance=user_comments)
+#     if request.method == "POST":
+#         form = userpage(request.POST, instance=user_comments)
 
-        if form.is_valid():
-            user_comments = form.save(commit=False)
-            user_comments.save()
-            messages.success(request,'수정되었습니다')
-            return redirect('app:userpage', user_id = user.id)
+#         if form.is_valid():
+#             user_comments = form.save(commit=False)
+#             user_comments.save()
+#             messages.success(request,'수정되었습니다')
+#             return redirect('app:userpage', user_id = user.id)
 
-    elif request.method == "GET":
-        # 수정페이지 보여주는 역할
-        comment_id = request.GET.get('comment_id')
-        user_comment = Product_Comment.objects.get(id=comment_id)
+#     elif request.method == "GET":
+#         # 수정페이지 보여주는 역할
+#         comment_id = request.GET.get('comment_id')
+#         user_comment = Product_Comment.objects.get(id=comment_id)
 
-        return render(request, 'app/freewrite.html')
+#         return render(request, 'app/freewrite.html')
 
-    else:
-        pass
+#     else:
+#         pass
 
 
 @csrf_exempt
@@ -496,6 +512,9 @@ def find_password(request):
             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
 
 def comment_delete(request, pk):
+    comments = Product_Comment.objects.get(id=pk)
+    email = User.objects.get(id=comments.user_id)
     comment = get_object_or_404(Product_Comment,id=pk)
     comment.delete()
-    return redirect('/userpage/')
+    messages = '삭제성공'
+    return render(request, 'app/userpage.html', {'messages': messages, 'email': email.email})
