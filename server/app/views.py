@@ -392,20 +392,19 @@ def login(request):
         try:
             member = User.objects.get(email=email)
 
-        except:
-            messages = "실패"
-            return render(request, 'app/login.html', {'messages' : messages})
-        else:
             if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
-                # token = jwt.encode({'email' : member['email']}, SECRET_KEY, algorithm = "HS256")
-                # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
-        
-                # return JsonResponse({"token" : token }, status=200) 
-                # print('암호화 된 비밀번호 확인')
                 request.session['email'] = email
                 request.session['user_id'] = member.id
                 request.session['alias'] = member.alias
                 return redirect('/')
+                
+            else:
+                messages = "실패"
+                return render(request, 'app/login.html', {'messages' : messages})
+            
+        except:
+            messages = "실패"
+            return render(request, 'app/login.html', {'messages' : messages})
 
 
 # def comment_modify(request):
