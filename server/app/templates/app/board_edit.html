@@ -1,0 +1,79 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% extends "common/base.html" %}
+
+{% load static %}
+{% block content %}
+<!-- Fake page loading -->
+<div id="fakeLoader"></div>
+	<!-- Wrapper -->
+	<div class="wrapper">
+	<!-- Section -->
+		<div class="container-fluid white section">
+			<div class="container">
+					<div class="row">
+						<div class="col-sm-8 col-sm-push-2">
+							<header class="centred">
+								<h1>leave your story</h1>
+							</header>
+							<hr class="space-40" />
+							<form method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<select id="category" name="category">
+									<option value="1">Beer</option>
+									<option value="2">Wine</option>
+									<option value="3">Cocktail</option>
+								</select>
+								제목<br>
+								<input type="text" name="postname" id="postname" value={{ board.title }}></input><br>
+								내용<br>
+								<textarea rows="10" cols="50" name="contents" id="contents">{{ board.content }}</textarea><br>
+								<input type="file" name="mainphoto"><br>
+								<div class="col-sm-12 btn-wrap">
+									<button type="submit" class="btn btn-default" data-id="{{ board.id }}" id="save"><span>save</span></button>&nbsp;&nbsp;&nbsp;
+									<a href="/board" class="btn btn-primary" style="float:left"><span>cancel</span></a>&nbsp;&nbsp;&nbsp;
+								</div>
+							</form>
+						</div>
+					</div>
+			</div>	
+		</div>
+	</div>
+
+<script>
+{% comment %} function save(){
+	let title = $('#postname').val();
+	let content = $('#contents').val();
+	let board_id = $('#save').attr('data-id')
+	//window.location.href = "/board/board_edit/?id=" + board_id + "&title=" + title + "&content=" + content;
+	window.location.href = "/board/board_single/"
+} {% endcomment %}
+
+
+$('#save').click(function() {
+	board_id = $('#save').attr('data-id')
+		$.ajax({
+			url: `/board/board_edit/?id=${ board_id }`,
+			data: {
+				'title': $('#postname').val(),
+				'content': $('#contents').val(),
+			},  
+			type: 'POST',
+			dataType: 'json',
+			success: function(res) {
+				if(res.result === "Success"){
+					window.location.href = `/board/single/?id=${res.board_id}`
+				}else if(res.result === "Fail"){
+					window.location.href = '/board/'
+				}
+            },
+			error: function(res) {
+				// .....
+			} 
+		})
+
+		return false;
+	});
+</script>
+{% endblock %}
