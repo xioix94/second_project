@@ -3,7 +3,59 @@
 {% load static %}
 
 {% block content %}
+<style>
+	.board {
+		padding-left: 60px;
+		padding-right: 60px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
 
+	.date {
+		font-size: unset;
+		margin: 0;
+		color: #cbb27c;
+		font-family: 'GRAND HOTEL', cursive;
+		float: right;
+	}
+
+	.latest-post:before {
+		width: 100%;
+	}
+
+	.remote-button {
+		position: absolute;
+		right: 0;
+	}
+
+	ul.horz-menu li span.search:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
+	}
+	ul.horz-menu li span.search2:after, ul.horz-menu li span.search:before {
+		background-color:#1b1d1e;
+	}
+
+	#search_keyword {
+		border:none; 
+		margin-bottom:0; 
+		background-color:#fff;
+		text-align: center;
+	}
+
+	#search-type {
+		border:none; 
+		margin-bottom:0; 
+		padding-left:50px;
+		width: 170px;
+	}
+
+	.empty-page {
+		width: auto;
+		height: 400px;
+		text-align: center;
+		line-height: 400px;
+	}
+</style>
 	
 	<body class="single">
 
@@ -21,8 +73,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
+						<ul class="horz-menu">
 							<p class="author center-menu">{{ user.alias }} / <a href="#comments">3 reviews</a></p>
-							<ul class="horz-menu">
 								<li ><span class="search"><select name="search-type" id="search-type">
 									<option value="">All</option>
 									<option value="beer">Beer</option>
@@ -63,15 +115,14 @@
 						</div>
 						<div class="col-sm-12 user-comments">
 							{% for user_comment in u_c %}
-
-							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+								<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
 								<div class="col-sm-1">
 									<img src="/static/images/beer/{{ user_comment.product.image }}" style = "max-width: 200%; max-height: 200%; position: relative; left: -30px;" alt="Craft ale HTML template" />
 								</div>
 								<div class="col-sm-11">
 									<h5>{{ user_comment.product.name }}</h5>
 									<p>{{ user_comment.content }}</p>
-									{% if request.session.user_id == user_comment.user_id %}
+									{% if request.session.user_id == user_comment.user_id or request.session.user_id == 38%}
 									<span class="edit">
 										<a href="/userpage/modify?comment_id={{user_comment.id}}">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete/">Delete</a>
 									</span>
@@ -135,11 +186,12 @@
 
 		console.log("keyword: ", keyword)
 
-		window.location.replace(`?category=${category}&keyword=${keyword.toLowerCase()}`);
+		window.location.replace(`?email={{ user.email }}&category=${category}&keyword=${keyword.toLowerCase()}`);
 	}
+	{% if messages%}
+		window.location.replace(`/userpage/?email={{ email }}&keyword=`);	
+	{%endif%}
 	</script>
-		
-		
 	</body>
 </html>
 {% endblock %}

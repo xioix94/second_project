@@ -202,7 +202,7 @@
 											<div class="col-sm-11">
 												<h5>{{ p.user.alias }}</h5>
 												<p>{{ p.content }}</p>
-												{% if request.session.user_id == p.user_id %}
+												{% if request.session.user_id == p.user_id or request.session.user_id == 38 %}
 													<span class="edit">
 														<a href="#" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ p.id }})">Edit</a>
 													</span>

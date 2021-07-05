@@ -20,7 +20,7 @@ urlpatterns = [
     path('register/', views.register),
     path('recommand/', views.recommand),
     path('recommand_result/', views.recommand_result),
-    path('userpage/modify', views.comment_modify),
-    path('userpage/<int:pk>/delete', views.comment_delete),
+    # path('userpage/modify', views.comment_modify),
+    path('userpage/<int:pk>/delete/', views.comment_delete),
     path('logout/', views.logout),
 ]
