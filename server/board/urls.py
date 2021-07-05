@@ -8,4 +8,5 @@ urlpatterns = [
     path('board_edit/', views.board_edit),
     path('write/',views.board_write),
     path('single/<int:pk>/delete/', views.board_delete),
+    path('single/comments/<int:pk>/delete/', views.board_comments_delete),
 ]

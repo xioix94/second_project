@@ -121,7 +121,7 @@ def recommand(request):
         products = Product.objects.order_by('?')[:16]
     else:
         products = Product.objects.filter(category_id = category).order_by('?')[:16]
-
+    request.session['category'] = str(category)
     return render(request, 'app/recommand.html', {
         'products': products
     })
@@ -131,14 +131,15 @@ def recommand(request):
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
+    category = int(request.session.get('category'))
 
-    products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
+    products = Product.objects.filter(kmeans=cluster, category=category).order_by('?')[:16]
 
     for product in products:
         print(product.kmeans)
 
     return render(request, 'app/recommand_result.html', {
-        'products': products
+        'products': products, 'cluster':cluster
     })
 
 def register(request):
@@ -302,7 +303,10 @@ def profile(request):
 
             # db에 저장
             user.alias = nickname
-            user.password = password
+            password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+            password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+            password_crypt = password_crypt.decode('utf-8')   
+            user.password = password_crypt
             user.save()
 
             # session에 재저장
@@ -325,17 +329,34 @@ def to_members_form(request):
 
 def userpage(request):
     email = request.GET.get('email')
-
     user = User.objects.get(email=email)
+    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related()
 
+    #카테고리 검색부 
+    # if category in ['beer', 'wine', 'cocktail']:
+    #     user_cat = Product_Comment.product_id.
+    #     user_comment.product.category
+    #     category = category.name
+    # else:
+    #     category = 'All'
+    #     user_comments = Product_Comment.objects.all()
+   
+    #키워드 검색부
+    keyword = request.GET.get('keyword')
+    if not keyword:
+        keyword = ""
+    else:
+        user_comments = Product_Comment.objects\
+            .filter(user_id=user.id)\
+            .filter(content__icontains = keyword)
 
-    user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
-
+    user_comments = user_comments.select_related().order_by('-time')   
     
     review_num = 0
 
     for _ in user_comments:
         review_num += 1
+
 
     page = request.GET.get('page')
 
@@ -343,7 +364,6 @@ def userpage(request):
         page = '1'
 
     p = Paginator(user_comments, 10)
-
     u_c = p.page(page)
 
     start_page = (int(page) - 1) // 10 * 10 + 1
@@ -372,42 +392,41 @@ def login(request):
         try:
             member = User.objects.get(email=email)
 
-        except:
-            messages = "실패"
-            return render(request, 'app/login.html', {'messages' : messages})
-        else:
             if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
-                # token = jwt.encode({'email' : member['email']}, SECRET_KEY, algorithm = "HS256")
-                # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
-        
-                # return JsonResponse({"token" : token }, status=200) 
-                # print('암호화 된 비밀번호 확인')
                 request.session['email'] = email
                 request.session['user_id'] = member.id
                 request.session['alias'] = member.alias
                 return redirect('/')
+                
+            else:
+                messages = "실패"
+                return render(request, 'app/login.html', {'messages' : messages})
+            
+        except:
+            messages = "실패"
+            return render(request, 'app/login.html', {'messages' : messages})
 
 
-def comment_modify(request):
+# def comment_modify(request):
 
-    if request.method == "POST":
-        form = userpage(request.POST, instance=user_comments)
+#     if request.method == "POST":
+#         form = userpage(request.POST, instance=user_comments)
 
-        if form.is_valid():
-            user_comments = form.save(commit=False)
-            user_comments.save()
-            messages.success(request,'수정되었습니다')
-            return redirect('app:userpage', user_id = user.id)
+#         if form.is_valid():
+#             user_comments = form.save(commit=False)
+#             user_comments.save()
+#             messages.success(request,'수정되었습니다')
+#             return redirect('app:userpage', user_id = user.id)
 
-    elif request.method == "GET":
-        # 수정페이지 보여주는 역할
-        comment_id = request.GET.get('comment_id')
-        user_comment = Product_Comment.objects.get(id=comment_id)
+#     elif request.method == "GET":
+#         # 수정페이지 보여주는 역할
+#         comment_id = request.GET.get('comment_id')
+#         user_comment = Product_Comment.objects.get(id=comment_id)
 
-        return render(request, 'app/freewrite.html')
+#         return render(request, 'app/freewrite.html')
 
-    else:
-        pass
+#     else:
+#         pass
 
 
 @csrf_exempt
@@ -495,6 +514,9 @@ def find_password(request):
             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
 
 def comment_delete(request, pk):
+    comments = Product_Comment.objects.get(id=pk)
+    email = User.objects.get(id=comments.user_id)
     comment = get_object_or_404(Product_Comment,id=pk)
     comment.delete()
-    return redirect('/userpage/')
+    messages = '삭제성공'
+    return render(request, 'app/userpage.html', {'messages': messages, 'email': email.email})

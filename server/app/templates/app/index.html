@@ -55,7 +55,7 @@ html { scroll-behavior: auto; }
 						<!-- Products -->
 						{% for random1 in randoms %}
 						<div class="product item">
-							<a href="/static/images/beer/{{random1.image}}" >
+							<a href="/product_single/?p_id={{random1.product_id}}" >
 								<span>To Product</span>
 								<img src='/static/images/beer/{{random1.product.image}}' class="svg" alt="image" />
 							</a>

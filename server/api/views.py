@@ -122,20 +122,21 @@ def submit_recommand_ml(request):
     bd, sp, sw, tan, acid, alc = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
     comments = Product_Comment.objects.select_related('product')
     for comment in comments:
-        count += 1
-        alc = comment.product.alcohol
+        alc_temp = comment.product.alcohol
         if comment.product_id in selected_list:
+            count += 1
             bd += comment.bold
             sp += comment.sparkling
             sw += comment.sweet
             tan += comment.tannic
             acid += comment.acidic
+            alc += alc_temp
     bd /= count
     sp /= count
     sw /= count
     tan /= count
     acid /= count
-    
+    alc /= count
     # 군집값 리스트, 선택값들의 평균에 대한 군집 반환
     cluster = clustering.return_cluster([bd, sp, sw, tan, acid, alc])
     
