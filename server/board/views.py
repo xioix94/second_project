@@ -110,15 +110,10 @@ def single(request):
 
 @csrf_exempt
 def edit_comment(request):
-    print("views.py board/edit_comment")
-    
     if request.method == 'GET':
-        print("views.py board/edit_comment 'GET'")
         comment_id = request.GET.get('id')
-        print(comment_id)
         board_comments = Board_Comment.objects.select_related('user').get(id=comment_id)
 
-        print()
         return JsonResponse({
             'method': 'get',
             'content': board_comments.content,
@@ -126,27 +121,20 @@ def edit_comment(request):
         })
 
     else:
-        print("views.py board/edit_comment 'POST'")
         if not request.session.get('email'):
-            print("views.py board/edit_comment 'not email session'")
             return JsonResponse({
                 'result': 'Fail',
                 'messages': 'go back',
             })
         
         else:
-
             try:
                 comment_id = request.POST['comment_id']
                 comment = request.POST['content']
-                print(comment_id)
-                print(comment)
 
                 board_comment = Board_Comment.objects.get(id=comment_id)
-                print(board_comment)
 
                 # db에 저장
-                
                 board_comment.content = comment
                 board_comment.time = date.today()
                 board_comment.save()
@@ -157,7 +145,6 @@ def edit_comment(request):
                 return JsonResponse({'result': result, 'messages': messages})
 
             except Exception as e:
-                print(str(e))
                 result = "Fail"
                 messages = "Board comment save failed."
                 return JsonResponse({

@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from datetime import date
 import bcrypt, jwt
 from config.settings import SECRET_KEY
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def page_404(request):
@@ -120,44 +121,19 @@ def recommand(request):
         products = Product.objects.order_by('?')[:16]
     else:
         products = Product.objects.filter(category_id = category).order_by('?')[:16]
-
+    request.session['category'] = str(category)
     return render(request, 'app/recommand.html', {
         'products': products
     })
 
-# @csrf_exempt
-# def board_write(request):
-#     if request.method == 'GET':
-#         if request.session.get('email'):
-#             return render(request, 'app/freewrite.html', {})
-#         else:
-#             return redirect('/login/')
-#     else:
-#         if request.session.get('email'):
-#             email = request.session.get('email')
-#             print(email)
-#             user = User.objects.get(email=email)
-
-#             title = request.POST.get('title')
-#             print(title)
-#             contents = request.POST.get('contents')
-#             print(contents)
-#             category_id = request.POST.get('category')
-#             print(category_id)
-#             try:
-#                 b = Board(title=title, content=contents, category_id=category_id, user_id=user.id)
-#                 # b.save()
-#             except:
-#                 return render(request, 'app/board.html', {})
-#         else:
-#             return render(request, 'app/login.html', {})
 
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
+    category = int(request.session.get('category'))
 
-    products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
+    products = Product.objects.filter(kmeans=cluster, category=category).order_by('?')[:16]
 
     for product in products:
         print(product.kmeans)
@@ -211,6 +187,7 @@ def product_single(request):
                 'product_id': product_id,
                 'product_comment_list': product_comment_list,
             })
+
         elif request.method == 'POST':
             if not request.session.get('email'):
                 return JsonResponse({
@@ -225,16 +202,6 @@ def product_single(request):
             sweet = int(request.POST.get('sweet')) / 100
             tannic = int(request.POST.get('tannic')) / 100
             acidic = int(request.POST.get('acidic')) / 100
-
-            print(product_id)
-            print(user_id)
-            print(score)
-            print(content)
-            print(bold)
-            print(sparkling)
-            print(sweet)
-            print(tannic)
-            print(acidic)
 
             Product_Comment(
                 user_id = user_id,
@@ -259,8 +226,8 @@ def product_single(request):
                 'result': 'Fail',
                 'message': 'go back',
             })
+
     except Exception as e:
-        print(str(e))
         return JsonResponse({
                 'result': 'Fail',
                 'message': 'go back',
@@ -361,7 +328,6 @@ def userpage(request):
     email = request.GET.get('email')
     user = User.objects.get(email=email)
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related()
-    category = request.GET.get('category')
 
     #카테고리 검색부 
     # if category in ['beer', 'wine', 'cocktail']:
@@ -381,9 +347,14 @@ def userpage(request):
             .filter(user_id=user.id)\
             .filter(content__icontains = keyword)
 
-    user_comments = user_comments.select_related().order_by('-time')
-   
-   
+    user_comments = user_comments.select_related().order_by('-time')   
+    
+    review_num = 0
+
+    for _ in user_comments:
+        review_num += 1
+
+
     page = request.GET.get('page')
 
     if not page:
@@ -402,7 +373,8 @@ def userpage(request):
         'u_c' : u_c,
         'pagination' : range(start_page, end_page + 1),
         'user': user,
-        'category': category,
+        'user_comments': user_comments,
+        'review_num': review_num,
     })
 
 
@@ -453,6 +425,71 @@ def login(request):
 
 #     else:
 #         pass
+
+
+@csrf_exempt
+def edit_comment(request):
+    if request.method == 'GET':
+        comment_id = request.GET['c_id']
+        product_comment = Product_Comment.objects.select_related('user').get(id=comment_id)
+        print(comment_id)
+        print(product_comment)
+
+        return JsonResponse({
+            'method': 'get',
+            'content': product_comment.content,
+            'nickname': product_comment.user.alias,
+            'score': product_comment.score,
+            'bold': product_comment.bold,
+            'sparkling': product_comment.sparkling,
+            'sweet': product_comment.sweet,
+            'tannic': product_comment.tannic,
+            'acidic': product_comment.acidic,
+        })
+
+    else:
+        if not request.session.get('email'):
+            return JsonResponse({
+                'result': 'Fail',
+                'messages': 'go back',
+            })
+        
+        else:
+            try:
+                comment_id = request.POST['comment_id']
+                comment = request.POST['content']
+                score = request.POST['score']
+                bold = request.POST['bold']
+                sparkling = request.POST['sparkling']
+                sweet = request.POST['sweet']
+                tannic = request.POST['tannic']
+                acidic = request.POST['acidic']
+
+                product_comment = Product_Comment.objects.get(id=comment_id)
+
+                # db에 저장
+                product_comment.content = comment
+                product_comment.score = score
+                product_comment.bold = bold
+                product_comment.sparkling = sparkling
+                product_comment.sweet = sweet
+                product_comment.tannic = tannic
+                product_comment.acidic = acidic
+                product_comment.time = date.today()
+                product_comment.save()
+            
+                result = "Success"
+                messages = "Board comment save succeeded."
+                
+                return JsonResponse({'result': result, 'messages': messages})
+
+            except Exception as e:
+                result = "Fail"
+                messages = "Board comment save failed."
+                return JsonResponse({
+                    'result': 'Fail',
+                    'messages': 'error',
+                })
 
 
 def logout(request):
