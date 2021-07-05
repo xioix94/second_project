@@ -1,6 +1,7 @@
 {% extends "common/base.html" %}
-
 {% load static %}
+
+
 {% block content %}
 
 <body class="single">
@@ -42,7 +43,7 @@
 					<br>
 					<br>
 
-					{% if request.session.user_id == board.user_id %}
+					{% if request.session.user_id == board.user_id or request.session.user_id == 38 %}
 						<span class="edit">
 							<a href="/board/single/{{board.id}}/delete/">Delete</a> | <a href="/board/board_edit/?id={{ board.id }}">Edit</a>
 						</span>
@@ -63,9 +64,6 @@
 						{% for board_comment in board_comments %}
 						
 						<div class="row scrollme animateme"  data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-							<div class="col-sm-1">
-								<img src="http://placehold.it/72x72" alt="Craft ale HTML template" />
-							</div>
 							<form id="board_comment">
 								<div class="col-sm-11">
 									<h5>{{ board_comment.user.alias }}</h5>
@@ -116,42 +114,6 @@
 			</div>
 		</div>
 
-		<!-- Share Section -->
-		<div class="container-fluid super-dark section no-padding">
-			<div class="row">
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-facebook"></i>
-					<h4>Facebook</h4>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-instagram"></i>
-					<h4>Instagram</h4>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-linkedin"></i>
-					<h4>Linked In</h4>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-twitter"></i>
-					<h4>Twitter</h4>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-google-plus"></i>
-					<h4>Google +</h4>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-					<a href="#"></a>
-					<i class="fa fa-pinterest"></i>
-					<h4>Pinterest</h4>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
@@ -176,13 +138,6 @@
 
 
 <script type="text/javascript">
-
-	let getLink = widnow.location.seacrh;
-
-
-
-
-
 	$('#comment').click(function() {
 		console.log("post-comment")
 		$.ajax({
