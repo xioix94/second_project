@@ -3,10 +3,6 @@
 {% load static %}
 {% block content %}
 
-
-
-
-
 <body class="single">
 
 	<!-- Fake page loading -->
@@ -26,6 +22,7 @@
 			</div>
 		</div>
 
+		<!-- Section: Board content-->
 		<!-- Section -->
 		<div class="container-fluid light section">
 			<div class="container">
@@ -36,23 +33,25 @@
 						{%endif%}
 						<header>
 							<span class="date">{{ board.time|date:'y-m-d' }}</span>
-							<h2>{{ board.title }}</h2>
+							<h2 id="board_title">{{ board.title }}</h2>
 						</header>
-						<p> {{ board.content }}</p>
-						{% comment %} <p>A rich-looking, deep-copper-hued beer, leaning toward the dark side, with an off-white foam head that drops to a fine ringed lace. Aroma is unique. Uniquely British, with a suggestion of dryness, metallic hints, prominent nutty malt character, interesting orchard-esque notes, deep caramel beneath, toasty and soft powdery spices. Lively in the mouth, with a slightly crisp carbonation that peaks and provides some creaminess. Medium, even-bodied, with a round fullness about it. Quite dry up front, with slightly abrasive raw, leafy and pithy characters mixed with some tamed hop bitterness. Wood and earth? Yeah, a bit. Some fruity and berry-like tartness, reminiscent of holiday pie fillings and plump, juicy, almost over-ripe black cherries. Definite apple flavors follow fruit, as well as juicy pear. Robust and hearty as far as beers go. Toasty malts, bready, crust-like. Watery toffee, with hints of vanilla beneath. Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p> {% endcomment %}
-
-						<p>The short, stubby, 11.2-ounce Duvel-style bottle releases a dark, leathery-brown brew, with a tan-colored, super-tight, creamy, fluffy lacing. Amazing head retention. Malted milk balls, spicy yeast and a soft herbal Saaz aroma. As soon as the beer hits the palate, it creams up with a light and fluffy feel and lively carbonation. Slight up-front sharpness, a meld of light hop bitterness and slight medicinal phenols, with a warming alcohol bite riding its wake. Notes of pith and leaf. Herbal tea and a tease of pepper tucked beneath a moderate residual sweetness, with flavors of toffee, brown bread, dried fruits and fermented honey. Some spice emerges from the alcohol as it warms. Finish goes dry, with some residual malt sweetness and bready yeast in the back.</p>
-						{% comment %} <p>The short, stubby, 11.2-ounce Duvel-style bottle releases a dark, leathery-brown brew, with a tan-colored, super-tight, creamy, fluffy lacing. Amazing head retention. Malted milk balls, spicy yeast and a soft herbal Saaz aroma. As soon as the beer hits the palate, it creams up with a light and fluffy feel and lively carbonation. Slight up-front sharpness, a meld of light hop bitterness and slight medicinal phenols, with a warming alcohol bite riding its wake. Notes of pith and leaf. Herbal tea and a tease of pepper tucked beneath a moderate residual sweetness, with flavors of toffee, brown bread, dried fruits and fermented honey. Some spice emerges from the alcohol as it warms. Finish goes dry, with some residual malt sweetness and bready yeast in the back.</p> {% endcomment %}
+						<p id="board_content"> {{ board.content }}</p>
+						<br>
+						<br>
 					</div>
 					<br>
 					<br>
+
 					{% if request.session.user_id == board.user_id %}
-						<button class="btn btn-primary" style="float:right; margin-right:10px"><a href="/board/single/{{board.id}}/delete/">Delete</a></button>
-					{% endif %} 
+						<span class="edit">
+							<a href="/board/single/{{board.id}}/delete/">Delete</a> | <a href="/board/board_edit/?id={{ board.id }}">Edit</a>
+						</span>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 
+		<!-- Section: Board comment-->
 		<!-- Section -->
 		<div class="container-fluid section">
 			<div class="container">
@@ -174,6 +173,13 @@
 
 
 <script type="text/javascript">
+
+	let getLink = widnow.location.seacrh;
+
+
+
+
+
 	$('#comment').click(function() {
 		console.log("post-comment")
 		$.ajax({
@@ -199,6 +205,7 @@
 				// .....
 			} 
 		})
+
 
 		return false;
 	});
