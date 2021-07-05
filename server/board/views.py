@@ -182,3 +182,11 @@ def board_delete(request,pk):
     board = get_object_or_404(Board,id=pk)
     board.delete()
     return redirect('/board/')
+
+
+def board_comments_delete(request,pk):
+    board = Board_Comment.objects.get(id=pk)
+    board_comment = get_object_or_404(Board_Comment,id=pk)
+    board_comment.delete()
+    messages = '삭제성공'
+    return render(request, 'app/board_single.html', {'messages': messages, 'board_id': board.board_id})

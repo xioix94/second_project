@@ -7,7 +7,7 @@
 	<div class="container" style="position: relative; width: 100%;">
 		<div class="col-xs-6 col-sm-3" style="position: relative; width: 100%;">
 			<div style="font-size: 2em; color:#cbb27c"  class="counter">
-				선택한 항목을 기반으로 추천된 제품들입니다. 
+				선택한 항목을 기반으로 추천된 제품들입니다.    {{cluster}}
 			</div>
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 						<div class="counter" >				
 							<img src='/static/images/beer/{{product.image}}' class="svg" alt="" />
 						</div>
-						<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name }}</h1>
+						<h1 style="text-align: center; font-size: 1em; color:#cbb27c; font-weight:bold; margin-top:5px">{{ product.name}}    {{product.kmeans }}</h1>
 					</a>
 				</div>
 			</div>

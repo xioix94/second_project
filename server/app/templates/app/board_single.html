@@ -74,7 +74,7 @@
 									{% comment %} <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p> {% endcomment %}
 									{% if request.session.user_id == board_comment.user_id or request.session.user_id == 38 %}
 										<span class="edit">
-											<a href="#" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ board_comment.id }})">Edit</a>
+											<a href="/board/single/comments/{{board_comment.id}}/delete/" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ board_comment.id }})">Edit</a>
 										</span>
 									{% endif %}
 								</div>
@@ -255,6 +255,11 @@
 
 		return false;
 	});
+
+
+	{% if messages%}
+		window.location.replace(`/board/single/?id={{board_id}}`);	
+	{%endif%}
 </script>
 
 {% endblock %}
