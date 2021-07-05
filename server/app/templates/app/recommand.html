@@ -21,10 +21,10 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<ul align='center' class="horz-menu">
-						<li {% if category == "all" %} class="active" {% endif %}><span><a href="?category=0">All</a></span></li>
-						<li {% if category == "beer" %} class="active" {% endif %}><span><a href="?category=1">Beer</a></span></li>
-						<li {% if category == "wine" %} class="active" {% endif %}><span><a href="?category=2">Wine</a></span></li>
-						<li {% if category == "cocktail" %} class="active" {% endif %}><span><a href="?category=3">Cocktail</a></span></li>
+						<li {% if category == "all" %} class="active" {% endif %}><span><a class='category0' href="?category=0">All</a></span></li>
+						<li {% if category == "beer" %} class="active" {% endif %}><span><a class='category1' href="?category=1">Beer</a></span></li>
+						<li {% if category == "wine" %} class="active" {% endif %}><span><a class='category2' href="?category=2">Wine</a></span></li>
+						<li {% if category == "cocktail" %} class="active" {% endif %}><span><a class='category3' href="?category=3">Cocktail</a></span></li>
 					</ul>	
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 			corners: 1, // Corner roundness (0..1)
 			rotate: 0, // The rotation offset
 			direction: 1, // 1: clockwise, -1: counterclockwise
-			color: 'red', // #rgb or #rrggbb or array of colors
+			color: '#cbb27c', // #rgb or #rrggbb or array of colors
 			speed: 1, // Rounds per second
 			trail: 60, // Afterglow percentage
 			shadow: false, // Whether to render a shadow
@@ -139,7 +139,13 @@
 				success: function (response) {
 					spinner.stop(myTarget);
 					if(response.result === 'ok'){
-						location.replace("/recommand_result")
+						let category = location.search
+						try {
+							category = category.split('=')[1];
+						} catch(e) {
+							category = 0;
+						}
+						location.replace(`/recommand_result/?category=${category}`)
 					}
 				}
 			});
