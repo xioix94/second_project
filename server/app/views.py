@@ -121,7 +121,7 @@ def recommand(request):
         products = Product.objects.order_by('?')[:16]
     else:
         products = Product.objects.filter(category_id = category).order_by('?')[:16]
-
+    request.session['category'] = str(category)
     return render(request, 'app/recommand.html', {
         'products': products
     })
@@ -131,8 +131,9 @@ def recommand(request):
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
+    category = int(request.session.get('category'))
 
-    products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
+    products = Product.objects.filter(kmeans=cluster, category=category).order_by('?')[:16]
 
     for product in products:
         print(product.kmeans)
