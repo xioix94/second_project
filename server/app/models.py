@@ -34,7 +34,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     image = models.CharField(max_length=1000)
     alcohol = models.FloatField()  # 알콜 도수
-    kmeans = models.IntegerField() # 머신러닝 군집 분류 5개(0~4)
+    kmeans = models.IntegerField(null=True) # 머신러닝 군집 분류 5개(0~4)
 
 class Product_Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
