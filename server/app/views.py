@@ -139,7 +139,7 @@ def recommand_result(request):
         print(product.kmeans)
 
     return render(request, 'app/recommand_result.html', {
-        'products': products
+        'products': products, 'cluster':cluster
     })
 
 def register(request):

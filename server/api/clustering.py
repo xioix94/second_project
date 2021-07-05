@@ -30,7 +30,6 @@ def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 =
     # 업데이트 해줌
     model = Model_Info.objects.order_by('-update_time').first()
     now = date.today()
-    print(model)
     if (model == None) or (now - model.update_time.date()).days > 7:
         update_cluster(0)
         update_cluster(1)
@@ -71,7 +70,6 @@ def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 =
         model = joblib.load(file_name) 
 
     result = model.predict(test)
-
     return result[0]
 
 
@@ -119,8 +117,7 @@ def update_cluster(category_id):
     y = content_list.iloc[:, -1]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, shuffle=False)
     
-    model = LGBMClassifier(n_estimators=1000, num_leaves=50, subsample=0.8,
-                      min_child_samples=60, max_depth=20)
+    model = LGBMClassifier()
     model.fit(X_train, y_train)
 
     if category_id == 0:
