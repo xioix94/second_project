@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import date
 import bcrypt, jwt
+from config.settings import SECRET_KEY
 
 # Create your views here.
 def page_404(request):
@@ -165,6 +166,8 @@ def recommand_result(request):
         'products': products
     })
 
+def register(request):
+    return render(request, 'app/register.html')
 
 def login_form(request):
     return render(request, 'app/login_form.html')
@@ -383,8 +386,6 @@ def userpage(request):
         'user_comments': user_comments,
     })
 
-def register(request):
-    return render(request, 'app/register.html')
 
 
 def login(request):
@@ -393,29 +394,24 @@ def login(request):
     else:
         email = request.POST['email']
         password = request.POST['password']
-        print(id)
 
         try:
-            member = User.objects.get(email=email,password=password)
-            #---------비밀번호 확인--------#
-                 # 사용자가 입력한 비밀번호를 인코딩하고, 사용자의 이메일과 매칭되는 DB의 비밀번호를 찾아와서 인코딩. 이 두 값을 bcrypt.checkpw로 비교하면 됨
-                 
-            # if bcrypt.checkpw(password.encode('utf-8'), User.password.encode('utf-8')) :
-            #     print('암호화 된 비밀번호 확인')
-        
-            #----------토큰 발행----------#
-            # token = jwt.encode({'email' : data['email']}, SECRET_KEY, algorithm = "HS256")
-            # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
-            #-----------------------------#
-            # return JsonResponse({"token" : token }, status=200)    # 토큰을 담아서 응답
+            member = User.objects.get(email=email)
+
         except:
             messages = "실패"
             return render(request, 'app/login.html', {'messages' : messages})
         else:
-            request.session['email'] = email
-            request.session['user_id'] = member.id
-            request.session['alias'] = member.alias
-            return render(request, 'app/index.html')
+            if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
+                # token = jwt.encode({'email' : member['email']}, SECRET_KEY, algorithm = "HS256")
+                # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
+        
+                # return JsonResponse({"token" : token }, status=200) 
+                # print('암호화 된 비밀번호 확인')
+                request.session['email'] = email
+                request.session['user_id'] = member.id
+                request.session['alias'] = member.alias
+                return redirect('/')
 
 
 def comment_modify(request):

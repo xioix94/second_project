@@ -22,6 +22,16 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<p class="author center-menu">{{ user.alias }} / <a href="#comments">3 reviews</a></p>
+							<ul class="horz-menu">
+								<li ><span class="search"><select name="search-type" id="search-type">
+									<option value="">All</option>
+									<option value="beer">Beer</option>
+									<option value="wine">Wine</option>
+									<option value="cocktail">Cocktail</option>
+								</select></span></li>
+								<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
+								<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -38,7 +48,7 @@
 								<h2>{{ user.alias }}</h2>
 								<span class="date">email</span>
 								<h3>{{ user.email }}</h3>
-							</header>
+							</header>	
 						</div>
 					</div>
 				</div>
@@ -117,76 +127,17 @@
 				</div>
 		</div>
 
+	<script type="text/javascript">
+	keyword_search = () => {
+		console.log("search start")
+		const keyword = $('#search_keyword').val()
+		const category = $('#search-type').val()
 
+		console.log("keyword: ", keyword)
 
-
-
-
-			{% comment %} <!-- Section -->
-			<div class="container-fluid light section no-padding">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-6 dark matchHeight">
-							<section class="alignMiddle padding-80-0 mobile-center">
-								<header>
-									<h1>Leave a</h1>
-									<h2>Comment</h2>
-								</header>
-								<p>A tough one to drink. The use of molasses and licorice is simply overwhelming and without balance.</p>
-							</section>
-							<div class="grey-background" style="background-image: url(http://placehold.it/750x565); background-size: cover;"></div>
-						</div>
-						<div class="col-sm-5 col-sm-push-1 matchHeight">
-							<section class="alignMiddle padding-80-0">  
-								<form class=" scrollme animateme" data-when="enter" data-from="1" data-to="0" data-opacity="0" data-scale="1.1">
-									<input type="text" name="name" placeholder="Name">
-									<input type="email" name="_replyto" placeholder="Email">
-									<textarea name="comment" placeholder="Comment" rows="5"></textarea>
-									<input type="submit" value="Post comment" class="btn btn-default">
-								</form>
-							</section>
-						</div> 
-					</div>
-				</div>
-			</div>
-
-			<!-- Section -->
-			<div class="container-fluid super-dark section no-padding">
-				<div class="row">
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-facebook"></i>
-						<h4>Facebook</h4>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-instagram"></i>
-						<h4>Instagram</h4>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-linkedin"></i>
-						<h4>Linked In</h4>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-twitter"></i>
-						<h4>Twitter</h4>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-google-plus"></i>
-						<h4>Google +</h4>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 icon-grid share-this">
-						<a href="#"></a>
-						<i class="fa fa-pinterest"></i>
-						<h4>Pinterest</h4>
-					</div>
-				</div>
-			</div> {% endcomment %}
-
-		</div>
+		window.location.replace(`?category=${category}&keyword=${keyword.toLowerCase()}`);
+	}
+	</script>
 		
 		
 	</body>
