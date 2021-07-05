@@ -5,8 +5,9 @@ from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import date
+import bcrypt, jwt
+from config.settings import SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
-
 
 # Create your views here.
 def page_404(request):
@@ -99,7 +100,9 @@ def index(request):
 
     for _ in comments:
         review_num += 1
-    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments}
+    # randoms : 제품 슬라이드 칸에 들어갈 사진 9장 추출용
+    randoms = Product_Comment.objects.select_related('product').order_by('?')[:9]
+    context = {'beer_num':beer_num, 'wine_num':wine_num, 'cock_num':cock_num, 'review_num':review_num, 'prodects':products, 'comments':comments, 'randoms':randoms}
 
     return render(request, 'app/index.html', context)
 
@@ -138,6 +141,8 @@ def recommand_result(request):
         'products': products
     })
 
+def register(request):
+    return render(request, 'app/register.html')
 
 def login_form(request):
     return render(request, 'app/login_form.html')
@@ -323,7 +328,14 @@ def userpage(request):
 
     user = User.objects.get(email=email)
 
+
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
+    
+    review_num = 0
+
+    for _ in user_comments:
+        review_num += 1
 
     page = request.GET.get('page')
 
@@ -345,10 +357,9 @@ def userpage(request):
         'pagination' : range(start_page, end_page + 1),
         'user': user,
         'user_comments': user_comments,
+        'review_num': review_num,
     })
 
-def register(request):
-    return render(request, 'app/register.html')
 
 
 def login(request):
@@ -357,18 +368,24 @@ def login(request):
     else:
         email = request.POST['email']
         password = request.POST['password']
-        print(id)
 
         try:
-            member = User.objects.get(email=email,password=password)
+            member = User.objects.get(email=email)
+
         except:
             messages = "실패"
             return render(request, 'app/login.html', {'messages' : messages})
         else:
-            request.session['email'] = email
-            request.session['user_id'] = member.id
-            request.session['alias'] = member.alias
-            return render(request, 'app/index.html')
+            if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
+                # token = jwt.encode({'email' : member['email']}, SECRET_KEY, algorithm = "HS256")
+                # token = token.decode('utf-8')                          # 유니코드 문자열로 디코딩
+        
+                # return JsonResponse({"token" : token }, status=200) 
+                # print('암호화 된 비밀번호 확인')
+                request.session['email'] = email
+                request.session['user_id'] = member.id
+                request.session['alias'] = member.alias
+                return redirect('/')
 
 
 def comment_modify(request):

@@ -83,14 +83,6 @@ def register(request):
     sex = request.POST.get('sex')
     adult = request.POST.get('adult')
 
-    # password=bcrypt.hashpw(password,bcrypt.gensalt())
-    
-    '''
-    모델에서 저장된거 받아온 pw
-
-    pw.checkpw()
-    
-    '''
     # 성별 치환
     if sex == 'men':
         sex = 0
@@ -103,6 +95,10 @@ def register(request):
     # 비밀번호 비교
     if password != password2:
         return redirect("/register")
+    # 비밀번호 암호화
+    password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+    password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+    password_crypt = password_crypt.decode('utf-8')             # DB에 저장할 수 있는 유니코드 문자열 형태로 디코딩
     # 닉네임 비교
     users = User.objects.all()
     for user in users:
@@ -112,31 +108,14 @@ def register(request):
     if not adult:
         return redirect("/register")
 
-    User.objects.create(email=email, password=password, alias=alias, sex=sex)
+    User.objects.create(email=email, password=password_crypt, alias=alias, sex=sex)
 
     return redirect("/login")
-
-
-def login(request):
-    if request.method == 'GET':
-        return render(request, 'app/login_check.html', {})
-    else:
-        user_id = request.POST['email']
-        user_pw = request.POST['password']
-
-        try:
-            member = User.objects.get(email=user_id,password=user_pw)
-        except:
-            return HttpResponse('로그인 실패')
-        else:
-            # request.session['email'] = user_id
-            return HttpResponse('로그인 성공')
 
 @csrf_exempt
 def submit_recommand_ml(request):
     selected_list_string = request.POST.get('selected_list')
     selected_list = list(map(int, selected_list_string.split('-')))
-
 
     cluster = -1
     count = 0

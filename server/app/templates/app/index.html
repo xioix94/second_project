@@ -53,14 +53,16 @@ html { scroll-behavior: auto; }
 				<div class="col-sm-20 col-sm-push-1 matchHeight">
 					<div  class="owl-carousel">
 						<!-- Products -->
+						{% for random1 in randoms %}
 						<div class="product item">
-							<a href="our-beer.html">
-								<span>Buy it</span>
-								<img src="" alt="Beer can mockup">
+							<a href="/static/images/beer/{{random1.image}}" >
+								<span>To Product</span>
+								<img src='/static/images/beer/{{random1.product.image}}' class="svg" alt="image" />
 							</a>
-							<h3>a</h3>
-							<h4>&dollar;4.75</h4>
+							<h3>{{random1.product.name}}</h3>
+							<h4></h4>
 						</div>
+						{% endfor %}
 					</div>
 				</div> 
 			</div>

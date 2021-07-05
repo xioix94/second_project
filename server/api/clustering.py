@@ -30,7 +30,8 @@ def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 =
     # 업데이트 해줌
     model = Model_Info.objects.order_by('-update_time').first()
     now = date.today()
-    if not model.update_time or (now - model.update_time.date()).days > 7:
+    print(model)
+    if (model == None) or (now - model.update_time.date()).days > 7:
         update_cluster(0)
         update_cluster(1)
         # 데이터 추가 후에 주석 해제
