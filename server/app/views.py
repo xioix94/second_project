@@ -106,14 +106,6 @@ def index(request):
 
     return render(request, 'app/index.html', context)
 
-
-def recommand1(request):
-    products = Product.objects.order_by('?')[:16]
-
-    return render(request, 'app/recommand.html', {
-        'products': products
-    })
-
 # 추천 페이지에 맥주 데이터 가져오기 (16개)
 def recommand(request):
     category = request.GET.get('category')
@@ -131,9 +123,14 @@ def recommand(request):
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
-    category = int(request.session.get('category'))
+    selected_category = int(request.session.get('category'))
+    # selected_category = int(request.session.get('category'))
+    # selected_category = localStorage.getItem("category")
 
-    products = Product.objects.filter(kmeans=cluster, category=category).order_by('?')[:16]
+    if selected_category == 0:
+        products = Product.objects.filter(kmeans=cluster).order_by('?')[:16]
+    else:
+        products = Product.objects.filter(kmeans=cluster, category=selected_category).order_by('?')[:16]
 
     for product in products:
         print(product.kmeans)
