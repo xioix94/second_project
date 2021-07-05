@@ -192,9 +192,6 @@ def board_edit(request):
         if request.GET['id']:
             id = request.GET['id']
             board = Board.objects.get(id=id)
-            title = board.title
-            content = board.content
-            category = board.category_id
             return render(request, 'app/board_edit.html', {'board': board})
         else:
             return redirect('/board/')
