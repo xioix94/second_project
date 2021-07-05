@@ -18,6 +18,12 @@ def board(request):
     else:
         category = 'All'
         Post = Board.objects.all()
+
+    #댓글 갯수 보여주기 추가
+
+    board_id = request.GET.get('id')
+    comment = Board_Comment.objects.filter(board_id=board_id)
+
     
     #성준's 검색필터 적용
     keyword = request.GET.get('keyword')
@@ -47,7 +53,9 @@ def board(request):
         'category': category,
         'pagination' : range(start_page, end_page + 1),
         'boards': boards,
-        'keyword': keyword
+        'keyword': keyword,
+        'board_comments': comment,
+        
     })
 
 @csrf_exempt
