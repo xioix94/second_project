@@ -362,7 +362,14 @@ def userpage(request):
 
     user = User.objects.get(email=email)
 
+
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related('product')
+
+    
+    review_num = 0
+
+    for _ in user_comments:
+        review_num += 1
 
     page = request.GET.get('page')
 
@@ -384,6 +391,7 @@ def userpage(request):
         'pagination' : range(start_page, end_page + 1),
         'user': user,
         'user_comments': user_comments,
+        'review_num': review_num,
     })
 
 
