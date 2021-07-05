@@ -178,45 +178,6 @@ def board_write(request):
 
     return render(request, 'app/freewrite.html')
 
-
-def board_edit(request):
-    if request.method == 'GET':
-        if request.GET['id']:
-            id = request.GET['id']
-            board = Board.objects.get(id=id)
-            title = board.title
-            content = board.content
-            category = board.category_id
-            return render(request, 'app/board_edit.html', {'board': board})
-        else:
-            return redirect('/board/')
-
-    else:
-        try:
-            id = request.GET['id']
-            print(id)
-            board = Board.objects.get(id=id)
-            print(board)
-
-            # db에 저장
-            board.title = request.POST['title']
-            board.content = request.POST['content']
-            board.time = date.today()
-            result = 'Success'
-
-            try:
-                board.mainphoto = request.FILES['mainphoto']
-            except:
-                print("except")
-                
-            board.save()
-        except:
-            result = "Fail"
-
-        return JsonResponse({'result': result, 'board_id': board.id})
-        
-
-
 def board_delete(request,pk):
     board = get_object_or_404(Board,id=pk)
     board.delete()
