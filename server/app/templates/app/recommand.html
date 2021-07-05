@@ -140,8 +140,7 @@
 					spinner.stop(myTarget);
 					if(response.result === 'ok'){
 						let category = location.search
-						try {
-							category = category.split('=')[1];
+						category = category.split('=')[1];
 						} catch(e) {
 							category = 0;
 						}
