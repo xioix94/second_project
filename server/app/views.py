@@ -303,7 +303,10 @@ def profile(request):
 
             # db에 저장
             user.alias = nickname
-            user.password = password
+            password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+            password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+            password_crypt = password_crypt.decode('utf-8')   
+            user.password = password_crypt
             user.save()
 
             # session에 재저장
