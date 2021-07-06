@@ -138,6 +138,7 @@
 								$('input#email').css({
 									'border-bottom-color': 'red',
 								})
+								alert('이메일 형식이 아니거나 이미 존재하는 이메일입니다.')
 							}
 						},
 						error: function(result){
@@ -168,6 +169,7 @@
 								$('input#alias').css({
 									'border-bottom-color': 'red',
 								})
+								alert('이미 존재하는 닉네임입니다.')
 							}
 						},
 						error: function(result){
@@ -201,27 +203,40 @@
 				// summit 버튼 눌러서 제출 
 				$('input#submit').click(function(event){					
 					submit = $('input#submit').val()
-					
-					$.ajax({
-						url: "/api/submit_valid/",
-						type: "POST",
-						dataType: "JSON",
-						data: {
-							'submit': submit,
-						},
-						success: function(result){
-							if(result.result == 'ok'){
-								console.log('pass')
+
+					const adult = $('#adult');
+					if(!adult.is(':checked')) {
+						alert('성인 확인을 해주세요.')
+					}
+					else{
+						$.ajax({
+							url: "/api/register/",
+							type: "POST",
+							dataType: "JSON",
+							data: {
+								'email': email,
+								'pw2': pw2,
+								'alias' : alias,
+								'sex' : sex,
+							},
+							success: function(result){
+								if(result.result === 'Fail'){
+									window.alert(result.message)
+								} 							
+								if(result.result == 'ok'){
+									console.log('pass')
+								} else {
+									console.log('fail')
+								}
+		
 								
-							} else {
-								console.log('fail')
-								
-							}
-						},
-						error: function(result){
-							console.log(result)
-						},
-					})
+							},
+							error: function(result){
+								console.log(result)
+							},
+						})
+					}
+					return false;
 				})
 
 			});
