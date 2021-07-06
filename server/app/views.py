@@ -123,7 +123,7 @@ def recommand(request):
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
-    selected_category = int(request.session.get('category'))
+    selected_category = int(request.GET.get('category'))
     # selected_category = int(request.session.get('category'))
     # selected_category = localStorage.getItem("category")
 
