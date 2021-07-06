@@ -231,12 +231,14 @@
 							},
 							success: function(result){
 								if(result.result === 'Fail'){
+									console.log("register ajax fail")
 									window.alert(result.message)
 								} 							
 								if(result.result == 'ok'){
-									console.log('pass')
+									console.log('register ok')
+									window.location.href = '/login/'
 								} else {
-									console.log('fail')
+									console.log('register fail')
 								}
 		
 								

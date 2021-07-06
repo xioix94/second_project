@@ -75,48 +75,52 @@ def submit_valid(request):
     return JsonResponse({'result' : True})
 
 def register(request):
-    print("register")
-    # submit 접근처리
-    email = request.POST.get('email')
-    print(email)
-    password = request.POST.get('pw1')
-    print(password)
-    password2 = request.POST.get('pw2')
-    print(password2)
-    alias = request.POST.get('alias')
-    print(alias)
-    sex = request.POST.get('sex')
-    adult = request.POST.get('adult')
+    try:
+        print("register")
+        # submit 접근처리
+        email = request.POST.get('email')
+        print(email)
+        password = request.POST.get('pw1')
+        print(password)
+        password2 = request.POST.get('pw2')
+        print(password2)
+        alias = request.POST.get('alias')
+        print(alias)
+        sex = request.POST.get('sex')
+        print(sex)
 
-    # 성별 치환
-    if sex == 'male':
-        sex = 0
-    else:
-        sex = 1
-
-
-    # 이메일 검증 구현
-    if not email_valid(email) or not email_duplicate(email):
-        return redirect("/register")
-    
-    # 비밀번호 비교
-    if password != password2:
-        return redirect("/register")
-    
-    # 비밀번호 암호화
-    password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
-    password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
-    password_crypt = password_crypt.decode('utf-8')             # DB에 저장할 수 있는 유니코드 문자열 형태로 디코딩
-    
-    # 닉네임 비교
-    users = User.objects.all()
-    for user in users:
-        if user.alias == alias:
+        # 이메일 검증 구현
+        if not email_valid(email) or not email_duplicate(email):
             return redirect("/register")
+        
+        # 비밀번호 비교
+        if password != password2:
+            return redirect("/register")
+        
+        # 비밀번호 암호화
+        password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+        password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+        password_crypt = password_crypt.decode('utf-8')             # DB에 저장할 수 있는 유니코드 문자열 형태로 디코딩
+        
+        # 닉네임 비교
+        users = User.objects.all()
+        for user in users:
+            if user.alias == alias:
+                return redirect("/register")
 
-    User.objects.create(email=email, password=password_crypt, alias=alias, sex=sex)
+        User.objects.create(email=email, password=password_crypt, alias=alias, sex=sex)
+        
+        result = "ok"
+        message = "Success to register"
 
-    return redirect("/login")
+        return JsonResponse({'result': result, 'message': message})
+
+    except:
+        result = "Fail"
+        message = "Fail to register"
+        return JsonResponse({'result': result, 'message': message})
+
+
 
 @csrf_exempt
 def submit_recommand_ml(request):
