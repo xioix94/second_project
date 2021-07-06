@@ -114,7 +114,7 @@ def register(request):
         message = "Success to register"
 
         return JsonResponse({'result': result, 'message': message})
-        
+
     except:
         result = "Fail"
         message = "Fail to register"

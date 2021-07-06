@@ -573,3 +573,21 @@ def product_comment_delete(request, pk):
     comment.delete()
     messages = '삭제성공'
     return render(request, 'app/product_single.html', {'messages': messages, 'p_id': comments.product_id})
+
+
+def profile_delete(request):
+    if request.method == 'GET':
+        return render(request, 'app/userdelete.html', {})
+    else:
+        user_id = request.session.get('user_id')
+        password = request.POST['password']
+        member = User.objects.get(id=user_id)
+        
+        if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
+            request.user.delete()
+            logout(request)
+            messages.success(request, "회원탈퇴가 완료되었습니다.")
+            return redirect('/login/')
+        else:
+            messages.success(request, "비밀번호를 확인해주세요.")
+        return render(request, 'app/profile.html', {})
