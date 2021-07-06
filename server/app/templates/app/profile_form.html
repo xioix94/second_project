@@ -26,7 +26,10 @@
 							</div>
 							<div class="row">
 								<div class="col-sm-6">
-									<input type="password" placeholder="password" name="password" value={{ password }}>
+									<input id="pw1" type="password" name="password" placeholder="password">
+								</div>
+								<div class="col-sm-6">
+									<input id="pw2" type="password" name="password2" placeholder="password check">
 								</div>
 							</div>
 							<!-- Form end -->
@@ -66,6 +69,54 @@
 </div>
 
 <script>
+
+password_check = function(event){
+	pw1 = $('input#pw1').val()
+	pw2 = $('input#pw2').val()
+	
+	$.ajax({
+		url: "/api/password_valid/",
+		type: "POST",
+		dataType: "JSON",
+		data: {
+			'pw1' : pw1,
+			'pw2': pw2,
+		},
+		success: function(result){
+			if(result.result == 'ok'){
+				console.log('pass')
+				$('input#pw2').css({
+					'border-bottom-color': '#cbb27c',
+				})
+				$('input#pw1').css({
+					'border-bottom-color': '#cbb27c',
+				})
+			} else {
+				console.log('fail')
+				$('input#pw2').css({
+					'border-bottom-color': 'red',
+				})
+				$('input#pw1').css({
+					'border-bottom-color': 'red',
+				})
+			}
+		},
+		error: function(result){
+			console.log(result)
+		},
+	})
+}
+
+// 패스워드 일치 검증
+$('input#pw1').blur(password_check)
+$('input#pw2').blur(password_check)
+
+$('').blur(function(event){
+})
+
+$('').blur(function(event){
+})
+
 	$('#save').click(function() {
 		$.ajax({
 			url: '/profile/',
@@ -76,7 +127,7 @@
 				$('#popupModalLabel').text(res.result);
 				$('#modal-message').text(res.messages);
 				$('#popupModal').modal('show');//now its working
-				//location.reload();
+				windows.location.href = '/';
             },
 			error: function(res) {
 				// .....
