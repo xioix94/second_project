@@ -47,11 +47,11 @@ html { scroll-behavior: auto; }
 
 <div class="wrapper">
 	<!-- Section -->
-	<div style="padding:none" class="container-fluid dark section">
+	<div class="container-fluid dark section">
 		<div class="container" style="margin: 0;">
 			<div class="row">
 				<div class="col-sm-20 col-sm-push-1 matchHeight">
-					<div  class="owl-carousel">
+					<div  class="carousel slide">
 						<!-- Products -->
 						{% for random1 in randoms %}
 						<div class="product item">
@@ -68,69 +68,6 @@ html { scroll-behavior: auto; }
 			</div>
 		</div>
 	</div>
-
-	{% comment %}  <!-- index에서 사진 띄우기 -->
-	<div style="padding:none" class="container-fluid dark section">
-		<div class="container" style="margin: 0;">
-			<div class="row">
-				<div class="col-sm-20 col-sm-push-1 matchHeight">
-					<div  class="owl-carousel">
-						<!-- Products -->
-						{% for product in products %}
-						<div class="product item">
-							<a href="/static/images/beer/{{product.image}}">
-								<span>To Product</span>
-								<img src=/static/images/beer/{{product.image}} alt="image">
-							</a>
-							<h3>product.name</h3>
-							<h4></h4>
-						</div>
-						{% endfor %}
-					</div>
-				</div> 
-			</div>
-		</div>
-	</div> {% endcomment %}
-
-	<!-- Section -->
-	{% comment %} <div class="container-fluid dark section no-padding">
-		<div class="row">
-			<div class="col-sm-6 matchHeight scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatex="-75">
-				<section class="alignMiddle padding-80 mobile-center">
-					<header>
-						<h1>How we create our</h1>
-						<h2>Master brew</h2>
-					</header>
-					<p>Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p>
-					<a href="#" class="btn btn-default"><span>Show me more</span></a>
-				</section>
-			</div>
-			<div class="col-sm-6 matchHeight" style="background-image: url({% static 'images/bg_wine.png' %});">
-				<div class="row">
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Hops.svg' %}"  class="svg" alt="Quality Ingredients" />
-						<h4>Quality Ingredients</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Sun.svg' %}"  class="svg" alt="Natural sunshine" />
-						<h4>Natural sunshine</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Barrel.svg' %}"  class="svg" alt="Fermentation" />
-						<h4>Fermentation</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/BottleCrate.svg' %}"  class="svg" alt="Unrivalled taste" />
-						<h4>Unrivalled taste</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> {% endcomment %}
 
 	<!-- Section -->
 	<div class="container-fluid light section" >

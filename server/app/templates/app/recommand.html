@@ -21,10 +21,10 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<ul align='center' class="horz-menu">
-						<li {% if category == "all" %} class="active" {% endif %}><span><a class='category0' href="?category=0">All</a></span></li>
-						<li {% if category == "beer" %} class="active" {% endif %}><span><a class='category1' href="?category=1">Beer</a></span></li>
-						<li {% if category == "wine" %} class="active" {% endif %}><span><a class='category2' href="?category=2">Wine</a></span></li>
-						<li {% if category == "cocktail" %} class="active" {% endif %}><span><a class='category3' href="?category=3">Cocktail</a></span></li>
+						<li {% if request.get_full_path == "/recommand/?category=0" %} class="active" {% endif %}><span><a class='category0' href="?category=0">All</a></span></li>
+						<li {% if request.get_full_path == "/recommand/?category=1" %} class="active" {% endif %}><span><a class='category1' href="?category=1">Beer</a></span></li>
+						<li {% if request.get_full_path == "/recommand/?category=2" %} class="active" {% endif %}><span><a class='category2' href="?category=2">Wine</a></span></li>
+						<li {% if request.get_full_path == "/recommand/?category=3" %} class="active" {% endif %}><span><a class='category3' href="?category=3">Cocktail</a></span></li>
 					</ul>	
 				</div>
 			</div>

@@ -69,7 +69,6 @@ def board_edit(request):
         try:
             id = request.GET.get('id')
             board = Board.objects.get(id=id)
-            print('@'*40)
 
             # db에 저장
             board.category_id = request.POST['category']
@@ -83,7 +82,6 @@ def board_edit(request):
             result = 'Success'  
             board.save()
         except Exception as e:
-            print(e)
             result = "Fail"
 
         return JsonResponse({'result': result, 'board_id': id})

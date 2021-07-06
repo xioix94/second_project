@@ -433,8 +433,6 @@ def edit_comment(request):
     if request.method == 'GET':
         comment_id = request.GET['c_id']
         product_comment = Product_Comment.objects.select_related('user').get(id=comment_id)
-        print(comment_id)
-        print(product_comment)
 
         return JsonResponse({
             'method': 'get',

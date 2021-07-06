@@ -13,7 +13,6 @@ import bcrypt
 def email_valid(email):
     # 정규식 검사기
     email_test = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-    print(email)
     if not email_test.match(email):
         return False
     return True
