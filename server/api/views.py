@@ -84,7 +84,7 @@ def register(request):
     adult = request.POST.get('adult')
 
     # 성별 치환
-    if sex == 'men':
+    if sex == 'male':
         sex = 0
     else:
         sex = 1

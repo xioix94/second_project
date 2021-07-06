@@ -1,0 +1,45 @@
+{% load static %}
+{% block content %}
+
+<div id="fakeLoader"></div>
+	<div class="wrapper">
+		<div class="container-fluid white section">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-sm-push-2">
+						<div class="jumbotron">
+							<div class="container text-center">
+								<form id="user_delete">
+									{% csrf_token %}
+                                    <p><strong>{{ user.alias }}</strong> 회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. <br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.</p>
+									<div class="form-group">
+										<small>본인인증을 위해 비밀번호를 입력해주세요.</small>
+										<input type="text" id="password" class="form-control" name="password">
+									</div>
+									<label>
+                                        <input type="checkbox" name="ck" onClick="checkDisable(this.form)">
+                                        <span>유의사항 동의</span>
+                                    </label>
+                                        <button type="submit" name="bt" disabled="true" >탈퇴하기</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    function checkDisable(form) {
+        if (form.ck.checked == true) {
+            form.bt.disabled = false;
+        } else {
+            form.bt.disabled = true;
+        }
+    }
+</script>
+{% endblock %}
