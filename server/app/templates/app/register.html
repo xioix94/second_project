@@ -51,25 +51,29 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<select name=>
-												<option class="col-sm-6" >men</option>
-												<option>women</option>
+												<option class="col-sm-6" >male</option>
+												<option>female</option>
 											</select>
 										</div>
 									</div>
 									
-									<div class="row">
-										<div class="col-sm-6" style="color: red; font-weight: 800">
-											<input id="adult" name="adult" type="checkbox"> are you adult?
+									<form name="checkadult"> 
+										<div class="row">
+											<div class="col-sm-6" style="color: red; font-weight: 800">
+												<form>
+													<input id="adult" name="adult" type="checkbox"> are you adult?
+												</form>
+											</div>
 										</div>
-									</div>
-									<!-- Form end -->
+										<!-- Form end -->
 
-									<div class="row">
-										<div class="col-sm-8 btn-wrap">
-											<input id=submit type="submit" style="float: none;" class="btn btn-default" value="submit">
-											<a href="/" class="btn btn-grey"><span>cancel</span></a>
+										<div class="row">
+											<div class="col-sm-8 btn-wrap">
+												<input id=submit type="submit" style="float: none;" class="btn btn-default" value="submit">
+												<a href="/" class="btn btn-grey"><span>cancel</span></a>
+											</div>
 										</div>
-									</div>
+									</form>
 								</form>
 							</div>
 						</div>
@@ -225,5 +229,6 @@
 				})
 
 			});
+
 			</script>
 		{% endblock %}

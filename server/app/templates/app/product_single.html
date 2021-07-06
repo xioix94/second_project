@@ -201,6 +201,7 @@
 										<div class="row">
 											<div class="col-sm-11">
 												<h5>{{ p.user.alias }}</h5>
+												<h3>score: {{ p.score }}</h3>
 												<p>{{ p.content }}</p>
 												{% if request.session.user_id == p.user_id or request.session.user_id == 38 %}
 													<span class="edit">
@@ -281,28 +282,28 @@
 
 								<div class="Container">
 									<h4 style="display: inline-block">Bold: </h4>
-									<h4 id = "slider_value_view_bold" style="display: inline-block">0</h4>						  
-									<input id="bold" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+									<h4 id = "slider_value_view_bold" style="display: inline-block">{{ taste.bold }}</h4>						  
+									<input id="bold" style="width: 80%;" class="slider_range" type="range" value="{{ taste.bold }}" min="0" max="100"></input>						  
 								</div>
 								<div class="Container" >
 									<h4 style="display: inline-block">Sparkling: </h4>
-									<h4 id = "slider_value_view_sparkling" style="display: inline-block">0</h4>						  
-									<input id="sparkling" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+									<h4 id = "slider_value_view_sparkling" style="display: inline-block">{{ taste.sparkling }}</h4>						  
+									<input id="sparkling" style="width: 80%;" class="slider_range" type="range" value="{{ taste.sparkling }}" min="0" max="100"></input>						  
 								</div>
 								<div class="Container" >
 									<h4 style="display: inline-block">Sweet: </h4>
-									<h4 id = "slider_value_view_sweet" style="display: inline-block">0</h4>						  
-									<input id="sweet" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+									<h4 id = "slider_value_view_sweet" style="display: inline-block">{{ taste.sweet }}</h4>						  
+									<input id="sweet" style="width: 80%;" class="slider_range" type="range" value="{{ taste.sweet }}" min="0" max="100"></input>						  
 								</div>
 								<div class="Container" >
 									<h4 style="display: inline-block">Tannic: </h4>
-									<h4 id = "slider_value_view_tannic" style="display: inline-block">0</h4>						  
-									<input id="tannic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+									<h4 id = "slider_value_view_tannic" style="display: inline-block">{{ taste.tannic }}</h4>						  
+									<input id="tannic" style="width: 80%;" class="slider_range" type="range" value="{{ taste.tannic }}" min="0" max="100"></input>						  
 								</div>
 								<div class="Container" >
 									<h4 style="display: inline-block">Acidic: </h4>
-									<h4 id = "slider_value_view_acidic" style="display: inline-block">0</h4>						  
-									<input id="acidic" style="width: 80%;" class="slider_range" type="range" value="0" min="0" max="100"></input>						  
+									<h4 id = "slider_value_view_acidic" style="display: inline-block">{{ taste.acidic }}</h4>						  
+									<input id="acidic" style="width: 80%;" class="slider_range" type="range" value="{{ taste.acidic }}" min="0" max="100"></input>						  
 								</div>
 
 								<textarea id="comment-area" name="comment" placeholder="Comment" rows="5"></textarea> 

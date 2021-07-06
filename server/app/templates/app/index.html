@@ -69,28 +69,28 @@ html { scroll-behavior: auto; }
 		</div>
 	</div>
 
-	{% comment %}  <!-- index에서 사진 띄우기 -->
+	{% comment %} <!-- index에서 사진 띄우기 -->
 	<div style="padding:none" class="container-fluid dark section">
 		<div class="container" style="margin: 0;">
 			<div class="row">
 				<div class="col-sm-20 col-sm-push-1 matchHeight">
-					<div  class="owl-carousel">
+					<div  class="owl-carousel"> {% endcomment %}
 						<!-- Products -->
-						{% for product in products %}
-						<div class="product item">
-							<a href="/static/images/beer/{{product.image}}">
+						{% comment %} {% for product in products %} {% endcomment %}
+						{% comment %} <div class="product item"> {% endcomment %}
+							{% comment %} <a href="/static/images/beer/{{product.image}}">
 								<span>To Product</span>
 								<img src=/static/images/beer/{{product.image}} alt="image">
 							</a>
 							<h3>product.name</h3>
-							<h4></h4>
-						</div>
-						{% endfor %}
-					</div>
+							<h4></h4> {% endcomment %}
+						{% comment %} </div> {% endcomment %}
+						{% comment %} {% endfor %} {% endcomment %}
+					{% comment %} </div>
 				</div> 
 			</div>
-		</div>
-	</div> {% endcomment %}
+		</div> 
+	</div>  {% endcomment %}
 
 	<!-- Section -->
 	{% comment %} <div class="container-fluid dark section no-padding">

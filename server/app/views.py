@@ -8,6 +8,10 @@ from datetime import date
 import bcrypt, jwt
 from config.settings import SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
+import smtplib
+from email.mime.text import MIMEText
+import random
+import string
 
 # Create your views here.
 def page_404(request):
@@ -17,6 +21,38 @@ def page_404(request):
 
 def blog_single(request):
     return render(request, 'app/blog_single.html')
+
+
+@csrf_exempt
+def find_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        char_set = string.ascii_lowercase + string.digits
+        temp_password = ''.join(random.sample(char_set*6, 6))
+        msg = f'임시 비밀번호는 [{temp_password}]입니다.\n해당 비밀번호로 로그인해주세요.'
+
+        # 해당 메일 계정의 비밀번호를 임시 비밀번호로 변경
+        user = User.objects.get(email=email)
+        user.password = temp_password
+        user.save()
+
+        # 발신자주소, 수신자주소, 메시지
+        send_mail('rladbwjd1023@gmail.com', email, msg)
+        return render(request, 'app/login.html')
+    else:
+        print("find_password GET")
+        return render(request, 'app/findpass.html', {})
+
+
+def send_mail(from_email, to_email, msg):
+    smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465) # SMTP 설정
+    smtp.login(from_email, 'tpjimdlikzbppdnv') # 인증정보 설정
+    msg = MIMEText(msg)
+    msg['Subject'] = '[booze-on 임시 비밀번호 발송] ' + to_email # 제목
+    msg['To'] = from_email # 수신 이메일
+    smtp.sendmail(from_email, to_email, msg.as_string())
+    smtp.quit()
 
 
 # def recommend_nav(request):
@@ -142,9 +178,6 @@ def recommand_result(request):
 def register(request):
     return render(request, 'app/register.html')
 
-def login_form(request):
-    return render(request, 'app/login_form.html')
-
 
 def product_single(request):
     try:
@@ -168,11 +201,11 @@ def product_single(request):
                 dict['acidic'] += p.acidic
                 dict['score'] += p.score
 
-            dict['bold'] = (dict['bold'] / len(product_comment_list)) * 100
-            dict['sparkling'] = (dict['sparkling'] / len(product_comment_list)) * 100
-            dict['sweet'] = (dict['sweet'] / len(product_comment_list))  * 100
-            dict['tannic'] = (dict['tannic'] / len(product_comment_list))  * 100
-            dict['acidic'] = (dict['acidic'] / len(product_comment_list))  * 100
+            dict['bold'] = round((dict['bold'] / len(product_comment_list)) * 100)
+            dict['sparkling'] = round((dict['sparkling'] / len(product_comment_list)) * 100)
+            dict['sweet'] = round((dict['sweet'] / len(product_comment_list))  * 100)
+            dict['tannic'] = round((dict['tannic'] / len(product_comment_list))  * 100)
+            dict['acidic'] = round((dict['acidic'] / len(product_comment_list))  * 100)
             dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
 
             return render(request, 'app/product_single.html', {
@@ -278,11 +311,13 @@ def profile(request):
     if request.method == 'GET':
         # 현재 로그인한 user 정보를 DB에서 가져옴
         try:
+            print("profile 'GET'")
             email = request.session.get('email')
             user = User.objects.get(email=email)
 
             nickname = user.alias
             password = user.password
+            print(nickname, password)
 
             return render(request, 'app/profile_form.html', {
                 'nickname': nickname,
@@ -291,32 +326,42 @@ def profile(request):
         except:
             return render(request, 'app/login.html', {})
     else:
+        print("request: " + str(request))
         nickname = request.POST['nickname']
-        password = request.POST['password']
+        print(nickname)
 
         try:
             email = request.session.get('email')
+            print(email)
             user = User.objects.get(email=email)
 
-            # db에 저장
-            user.alias = nickname
-            password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
-            password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
-            password_crypt = password_crypt.decode('utf-8')   
-            user.password = password_crypt
-            user.save()
+            # 비밀번호 중복 체크
+            pw1 = request.POST.get('password')
+            pw2 = request.POST.get('password2')
+            print(pw1, pw2)
 
-            # session에 재저장
-            request.session['alias'] = nickname
+            if pw1 != pw2:
+                print("not matched")
+                return JsonResponse({'result' : 'Fail', 'messages': 'Password is not match.'})
 
-            result = "Success"
-            messages = "Profile change succeeded."
-            return JsonResponse({'result': result, 'messages': messages})
+            else:
+                print("matched")
+                # db에 저장
+                user.alias = nickname
+                password = pw1.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+                password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+                password_crypt = password_crypt.decode('utf-8')   
+                user.password = password_crypt
+                user.save()
+
+                # session에 재저장
+                request.session['alias'] = nickname
+
+                return JsonResponse({'result' : 'Success', 'messages': 'Profile change succeeded.'})
 
         except:
-            result = "Fail"
             messages = "Profile change failed."
-            return render(request, 'app/login.html', {'messages' : messages})
+            return render(request, 'app/login.html', {'result': 'Fail', 'messages' : messages})
 
 
 
@@ -495,20 +540,22 @@ def logout(request):
     request.session.clear()
     return redirect('/')
 
-def find_password(request):
-    if request.method == 'GET':
-        return render(request, 'app/findpass.html', {})
-    else:
-        email = request.POST['email']
+    
+# def find_password(request):
+#     if request.method == 'GET':
+#         return render(request, 'app/findpass.html', {})
+#     else:
+#         email = request.POST['email']
 
-        try:
-            user = User.objects.get(email=email)
-        except:
-            messages = "실패"
-            return render(request, 'app/findpass.html', {'messages' : messages, 'email': email })
-        else:
-            messages = "성공"
-            return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
+#         try:
+#             user = User.objects.get(email=email)
+#         except:
+#             messages = "실패"
+#             return render(request, 'app/findpass.html', {'messages' : messages, 'email': email })
+#         else:
+#             messages = "성공"
+#             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
+
 
 def comment_delete(request, pk):
     comments = Product_Comment.objects.get(id=pk)
