@@ -80,4 +80,10 @@
         }
     }
 </script>
+
+{% if messages == '비밀번호 오류'%}
+	<script type="text/javascript">
+  			alert("비밀번호를 확인해주세요.");
+	</script>
+{%endif%}
 {% endblock %}

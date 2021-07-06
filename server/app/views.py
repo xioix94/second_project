@@ -582,12 +582,11 @@ def profile_delete(request):
         user_id = request.session.get('user_id')
         password = request.POST['password']
         member = User.objects.get(id=user_id)
-        print('@'*40)
         if bcrypt.checkpw(password.encode('utf-8'), member.password.encode('utf-8')):
             member.delete()
             logout(request)
-            messages.success(request, "회원탈퇴가 완료되었습니다.")
-            return redirect('/login/')
+            messages = '회원탈퇴 성공'
+            return render(request, 'app/login.html', {'messages': messages})
         else:
-            messages.success(request, "비밀번호를 확인해주세요.")
-        return render(request, 'app/profile.html', {})
+            messages = '비밀번호 오류'
+            return render(request, 'app/userdelete.html', {'messages': messages})
