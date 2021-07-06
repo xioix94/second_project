@@ -67,19 +67,24 @@ def adult_value(request):
 @csrf_exempt
 def submit_valid(request):
     email = request.POST.get('email')
-    password = request.POST.get('password')
-    password2 = request.POST.get('password2')
+    password = request.POST.get('pw1')
+    password2 = request.POST.get('pw2')
     alias = request.POST.get('alias')
     sex = request.POST.get('sex')
 
     return JsonResponse({'result' : True})
 
 def register(request):
+    print("register")
     # submit 접근처리
     email = request.POST.get('email')
-    password = request.POST.get('password')
-    password2 = request.POST.get('password2')
+    print(email)
+    password = request.POST.get('pw1')
+    print(password)
+    password2 = request.POST.get('pw2')
+    print(password2)
     alias = request.POST.get('alias')
+    print(alias)
     sex = request.POST.get('sex')
     adult = request.POST.get('adult')
 
@@ -88,6 +93,7 @@ def register(request):
         sex = 0
     else:
         sex = 1
+
 
     # 이메일 검증 구현
     if not email_valid(email) or not email_duplicate(email):
@@ -107,10 +113,6 @@ def register(request):
     for user in users:
         if user.alias == alias:
             return redirect("/register")
-    
-    # 성인 확인
-    if not adult:
-        return JsonResponse({'result': 'Fail', 'message': 'adult not ok'})
 
     User.objects.create(email=email, password=password_crypt, alias=alias, sex=sex)
 
