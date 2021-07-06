@@ -45,7 +45,7 @@
 
 					{% if request.session.user_id == board.user_id or request.session.user_id == 38 %}
 						<span class="edit">
-							<a href="/board/single/{{board.id}}/delete/">Delete</a> | <a href="/board/board_edit/?id={{ board.id }}">Edit</a>
+							<a href="/board/single/{{board.id}}/delete/" style="color: rgb(182, 156, 12);" >Delete</a> | <a href="/board/board_edit/?id={{ board.id }}" style="color: rgb(182, 156, 12);" >Edit</a>
 						</span>
 					{% endif %}
 				</div>
