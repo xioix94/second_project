@@ -22,5 +22,6 @@ urlpatterns = [
     path('recommand_result/', views.recommand_result),
     # path('userpage/modify', views.comment_modify),
     path('userpage/<int:pk>/delete/', views.comment_delete),
+    path('product_single/<int:pk>/delete/', views.product_comment_delete),
     path('logout/', views.logout),
 ]

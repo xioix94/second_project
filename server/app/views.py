@@ -159,7 +159,7 @@ def recommand(request):
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
     cluster = int(request.session.get('cluster'))
-    selected_category = int(request.session.get('category'))
+    selected_category = int(request.GET.get('category'))
     # selected_category = int(request.session.get('category'))
     # selected_category = localStorage.getItem("category")
 
@@ -185,7 +185,7 @@ def product_single(request):
 
         if request.method == 'GET':
             product = Product.objects.get(id=product_id)
-            product_comment_list = Product_Comment.objects.filter(product_id=product_id).select_related('user')
+            product_comment_list = Product_Comment.objects.filter(product_id=product_id).select_related('user').order_by('-id')
 
             p_name = product.name
             p_image = product.image
@@ -207,6 +207,8 @@ def product_single(request):
             dict['tannic'] = round((dict['tannic'] / len(product_comment_list))  * 100)
             dict['acidic'] = round((dict['acidic'] / len(product_comment_list))  * 100)
             dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
+
+
 
             return render(request, 'app/product_single.html', {
                 'name': p_name,
@@ -476,8 +478,6 @@ def edit_comment(request):
     if request.method == 'GET':
         comment_id = request.GET['c_id']
         product_comment = Product_Comment.objects.select_related('user').get(id=comment_id)
-        print(comment_id)
-        print(product_comment)
 
         return JsonResponse({
             'method': 'get',
@@ -564,3 +564,12 @@ def comment_delete(request, pk):
     comment.delete()
     messages = '삭제성공'
     return render(request, 'app/userpage.html', {'messages': messages, 'email': email.email})
+
+
+
+def product_comment_delete(request, pk):
+    comments = Product_Comment.objects.get(id=pk)
+    comment = get_object_or_404(Product_Comment,id=pk)
+    comment.delete()
+    messages = '삭제성공'
+    return render(request, 'app/product_single.html', {'messages': messages, 'p_id': comments.product_id})

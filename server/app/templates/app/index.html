@@ -47,11 +47,11 @@ html { scroll-behavior: auto; }
 
 <div class="wrapper">
 	<!-- Section -->
-	<div style="padding:none" class="container-fluid dark section">
-		<div class="container" style="margin: 0;">
+	<div class="container-fluid dark section">
+		<div class="container" style="margin: 0; width: 100%;">
 			<div class="row">
-				<div class="col-sm-20 col-sm-push-1 matchHeight">
-					<div  class="owl-carousel">
+				<div class="col-sm-11" style="height:auto; width: 100%;">
+					<div  class="owl-carousel" style=" height:; width: 100%;">
 						<!-- Products -->
 						{% for random1 in randoms %}
 						<div class="product item">
@@ -69,68 +69,6 @@ html { scroll-behavior: auto; }
 		</div>
 	</div>
 
-	{% comment %} <!-- index에서 사진 띄우기 -->
-	<div style="padding:none" class="container-fluid dark section">
-		<div class="container" style="margin: 0;">
-			<div class="row">
-				<div class="col-sm-20 col-sm-push-1 matchHeight">
-					<div  class="owl-carousel"> {% endcomment %}
-						<!-- Products -->
-						{% comment %} {% for product in products %} {% endcomment %}
-						{% comment %} <div class="product item"> {% endcomment %}
-							{% comment %} <a href="/static/images/beer/{{product.image}}">
-								<span>To Product</span>
-								<img src=/static/images/beer/{{product.image}} alt="image">
-							</a>
-							<h3>product.name</h3>
-							<h4></h4> {% endcomment %}
-						{% comment %} </div> {% endcomment %}
-						{% comment %} {% endfor %} {% endcomment %}
-					{% comment %} </div>
-				</div> 
-			</div>
-		</div> 
-	</div>  {% endcomment %}
-
-	<!-- Section -->
-	{% comment %} <div class="container-fluid dark section no-padding">
-		<div class="row">
-			<div class="col-sm-6 matchHeight scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatex="-75">
-				<section class="alignMiddle padding-80 mobile-center">
-					<header>
-						<h1>How we create our</h1>
-						<h2>Master brew</h2>
-					</header>
-					<p>Dusting of cinnamon. Orange zest flavors become more pronounced as the beer warms, pulling through toward the finish. Man, this beer is all over the place. Quite dry in the finish, with a lingering yeasty character, touch of toasty sweetness and a bitey feel on the palate.</p>
-					<a href="#" class="btn btn-default"><span>Show me more</span></a>
-				</section>
-			</div>
-			<div class="col-sm-6 matchHeight" style="background-image: url({% static 'images/bg_wine.png' %});">
-				<div class="row">
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Hops.svg' %}"  class="svg" alt="Quality Ingredients" />
-						<h4>Quality Ingredients</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Sun.svg' %}"  class="svg" alt="Natural sunshine" />
-						<h4>Natural sunshine</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/Barrel.svg' %}"  class="svg" alt="Fermentation" />
-						<h4>Fermentation</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-					<div class="col-xs-6 icon-grid">
-						<img src="{% static 'images/BottleCrate.svg' %}"  class="svg" alt="Unrivalled taste" />
-						<h4>Unrivalled taste</h4>
-						<p>Claritas est etiam processus dynamicus, qui sequitur mutationem.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> {% endcomment %}
 
 	<!-- Section -->
 	<div class="container-fluid light section" >
@@ -147,11 +85,11 @@ html { scroll-behavior: auto; }
 								<section class="alignMiddle mobile-center">
 									<header>
 										<h1>About our</h1>
-										<h2>Brewery</h2>
+										<h2>Beer</h2>
 									</header>
 									<p>The 12-ounce bottle pours a pitch-black, topped with a creamy tan-colored head that leaves a healthy ringed lace as it settles, with a bit of stick on the glass.</p>
 									<p>A touch of hop bitterness provides some citric edge and melds with the acridness of the brew for a perceived sourness. Smoky characters emerge as the beer warms, as do subtle drops of caramel.</p>
-									<a href="#" class="btn btn-default"><span>Learn more</span></a>
+									<a href="/product/?category=beer" class="btn btn-default"><span>Learn more</span></a>
 								</section>
 							</div>
 						</div>
@@ -167,11 +105,31 @@ html { scroll-behavior: auto; }
 							<div class="col-sm-5 col-sm-push-1 matchHeight">
 								<section class="alignMiddle mobile-center">
 									<header>
-										<h1>Made to share with</h1>
-										<h2>Friends</h2>
+										<h1>About our</h1>
+										<h2>Wine</h2>
 									</header>
 									<p>A blend of lambic beers brewed at 3 Fonteinen, with an addition of 30% whole fresh raspberries from the fabled Payottenland and 5% sour cherries. This unfiltered beer will enjoy a spontaneous refermentation in the bottle. No artificial colors or flavor enhancers are added. Lambic is brewed only from 60% barley malt, 40% unmalted wheat, hops and water.</p>
-									<a href="#" class="btn btn-default"><span>Learn more</span></a>
+									<a href="/product/?category=wine" class="btn btn-default"><span>Learn more</span></a>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Slide 3 -->
+				<div class="item">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-6 matchHeight">
+								<img src="http://placehold.it/555x355" alt="About our Brewery" class="alignMiddle" />
+							</div>
+							<div class="col-sm-5 col-sm-push-1 matchHeight">
+								<section class="alignMiddle mobile-center">
+									<header>
+										<h1>About our</h1>
+										<h2>Cocktail</h2>
+									</header>
+									<p>A blend of lambic beers brewed at 3 Fonteinen, with an addition of 30% whole fresh raspberries from the fabled Payottenland and 5% sour cherries. This unfiltered beer will enjoy a spontaneous refermentation in the bottle. No artificial colors or flavor enhancers are added. Lambic is brewed only from 60% barley malt, 40% unmalted wheat, hops and water.</p>
+									<a href="/product/?category=cocktail" class="btn btn-default"><span>Learn more</span></a>
 								</section>
 							</div>
 						</div>
@@ -186,6 +144,7 @@ html { scroll-behavior: auto; }
 				<span class="fa fa-chevron-right" aria-hidden="true"></span>
 			</a>
 		</div>
+		<br><br><br><br><br>
 	</div>
 
 	{% comment %} <!-- Section -->

@@ -189,7 +189,7 @@
 				<ul>
 					<li><a href="#reviews">Customer reviews</a></li>
 					<li><a href="#description">Full description</a></li>
-					<li><a href="#details">Beer details</a></li>
+					<li><a href="#details">Details</a></li>
 				</ul>
 				<div id="reviews">
 					<div class="container">
@@ -205,7 +205,7 @@
 												<p>{{ p.content }}</p>
 												{% if request.session.user_id == p.user_id or request.session.user_id == 38 %}
 													<span class="edit">
-														<a href="#" id="delete">Delete</a> | 
+														<a href="/product_single/{{p.id}}/delete/" id="delete">Delete</a> | 
 														<a href="#" id="comment-edit" data-comment="{{ p.content }}" data-bold="{{ p.bold }}" data-sparkling="{{ p.sparkling }}" data-sweet="{{ p.sweet }}" data-tannic={{ p.tannic }} data-acidic={{ p.acidic }} data-product-id={{ p.product_id }} onClick="edit_button({{ p.id }})">Edit</a>
 													</span>
 												{% endif %}
@@ -595,6 +595,9 @@ $('#save_edit').click(function() {
 
 		return false;
 	});
+	{% if messages%}
+		window.location.replace(`/product_single/?p_id={{ p_id }}`);	
+	{%endif%}
 
 </script>
 {% endblock %}

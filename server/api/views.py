@@ -72,7 +72,7 @@ def submit_valid(request):
     alias = request.POST.get('alias')
     sex = request.POST.get('sex')
 
-    return True
+    return JsonResponse({'result' : True})
 
 def register(request):
     # submit 접근처리
@@ -92,21 +92,25 @@ def register(request):
     # 이메일 검증 구현
     if not email_valid(email) or not email_duplicate(email):
         return redirect("/register")
+    
     # 비밀번호 비교
     if password != password2:
         return redirect("/register")
+    
     # 비밀번호 암호화
     password = password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
     password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
     password_crypt = password_crypt.decode('utf-8')             # DB에 저장할 수 있는 유니코드 문자열 형태로 디코딩
+    
     # 닉네임 비교
     users = User.objects.all()
     for user in users:
         if user.alias == alias:
             return redirect("/register")
+    
     # 성인 확인
     if not adult:
-        return redirect("/register")
+        return JsonResponse({'result': 'Fail', 'message': 'adult not ok'})
 
     User.objects.create(email=email, password=password_crypt, alias=alias, sex=sex)
 
