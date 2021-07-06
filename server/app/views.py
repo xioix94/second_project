@@ -152,7 +152,7 @@ def product_single(request):
 
         if request.method == 'GET':
             product = Product.objects.get(id=product_id)
-            product_comment_list = Product_Comment.objects.filter(product_id=product_id).select_related('user')
+            product_comment_list = Product_Comment.objects.filter(product_id=product_id).select_related('user').order_by('-id')
 
             p_name = product.name
             p_image = product.image
@@ -174,6 +174,8 @@ def product_single(request):
             dict['tannic'] = (dict['tannic'] / len(product_comment_list))  * 100
             dict['acidic'] = (dict['acidic'] / len(product_comment_list))  * 100
             dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
+
+
 
             return render(request, 'app/product_single.html', {
                 'name': p_name,
