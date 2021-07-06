@@ -517,3 +517,12 @@ def comment_delete(request, pk):
     comment.delete()
     messages = '삭제성공'
     return render(request, 'app/userpage.html', {'messages': messages, 'email': email.email})
+
+
+
+def product_comment_delete(request, pk):
+    comments = Product_Comment.objects.get(id=pk)
+    comment = get_object_or_404(Product_Comment,id=pk)
+    comment.delete()
+    messages = '삭제성공'
+    return render(request, 'app/product_single.html', {'messages': messages, 'p_id': comments.product_id})

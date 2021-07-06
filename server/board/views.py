@@ -19,11 +19,6 @@ def board(request):
         category = 'All'
         Post = Board.objects.all()
 
-    #댓글 갯수 보여주기 추가
-
-    board_id = request.GET.get('id')
-    comment = Board_Comment.objects.filter(board_id=board_id)
-
     
     #성준's 검색필터 적용
     keyword = request.GET.get('keyword')
@@ -54,7 +49,6 @@ def board(request):
         'pagination' : range(start_page, end_page + 1),
         'boards': boards,
         'keyword': keyword,
-        'board_comments': comment,
         
     })
 
@@ -234,9 +228,6 @@ def board_edit(request):
         if request.GET['id']:
             id = request.GET['id']
             board = Board.objects.get(id=id)
-            title = board.title
-            content = board.content
-            category = board.category_id
             return render(request, 'app/board_edit.html', {'board': board})
         else:
             return redirect('/board/')
