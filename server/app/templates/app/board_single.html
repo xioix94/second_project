@@ -12,12 +12,14 @@
 	<!-- Wrapper -->
 	<div class="wrapper">
 
-		<!-- Section -->
-		<div class="container-fluid dark section no-padding">
+		<div style="height: 100px; text-align: center;" class="container-fluid dark section no-padding">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-12">
-						<p class="author center-menu">Posted by {{ board.user.alias }} / <a href="#comments">{{ board_comments.count }} comments</a></p>
+					<div  class="col-sm-12">
+						<ul style="padding: 0 0 0 0; margin: 100 0 100 0; height:100px; " class="horz-menu">
+							<li ><p style="height:100px; padding:30px 0 0 0" class="author center-menu">Posted by {{ board.user.alias }} / <a href="#comments">{{ board_comments.count }} comments</a></p><li>
+							<li><span><a href='../' onclick="keyword_search()" class="btn-default">To List</a></span></li>
+						</ul>	
 					</div>
 				</div>
 			</div>
