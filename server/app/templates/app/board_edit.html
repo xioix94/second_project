@@ -21,9 +21,9 @@
 							<form method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
 								<select id="category" name="category">
-									<option value="1">Beer</option>
-									<option value="2">Wine</option>
-									<option value="3">Cocktail</option>
+									<option {%if  category  == 1 %} selected='selected' {% endif %} value="1">Beer</option>
+									<option {%if  category  == 2 %} selected='selected' {% endif %} value="2">Wine</option>
+									<option {%if  category  == 3 %} selected='selected' {% endif %} value="3">Cocktail</option>
 								</select>
 								제목<br>
 								<input type="text" name="title" id="title" value={{ board.title }}></input><br>

@@ -54,7 +54,6 @@ def board(request):
 
 @csrf_exempt
 def board_edit(request):
-    print('#'*40)
     if request.method == 'GET':
         if request.GET['id']:
             id = request.GET['id']
@@ -62,7 +61,7 @@ def board_edit(request):
             title = board.title
             content = board.content
             category = board.category_id
-            return render(request, 'app/board_edit.html', {'board': board})
+            return render(request, 'app/board_edit.html', {'board': board , 'category': category})
         else:
             return redirect('/board/')
 
@@ -70,8 +69,10 @@ def board_edit(request):
         try:
             id = request.GET.get('id')
             board = Board.objects.get(id=id)
+            print('@'*40)
 
             # db에 저장
+            board.category_id = request.POST['category']
             board.title = request.POST['title']
             board.content = request.POST['content']
             board.time = date.today()
