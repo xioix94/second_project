@@ -117,9 +117,7 @@
 					<div class="row" style="padding-top: 30px; padding-bottom: 30px;">
 						<div class="col-sm-10 col-sm-push-1">
 							<header>
-								{% if comment.count > 0 %}
-								<h2 style="font-size: small;">{{ board.title }}  {{ comment.count }}</h2>
-								{% endif %}
+								<h2 style="font-size: small;">{{ board.title }} [{{ board.board_comment_set.count }}] </h2>
 							</header>
 							<p style="font-size: smaller;">{{ board.content|slice:":100" }}</p>
 							<p>

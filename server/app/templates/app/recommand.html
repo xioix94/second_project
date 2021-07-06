@@ -139,8 +139,12 @@
 				success: function (response) {
 					spinner.stop(myTarget);
 					if(response.result === 'ok'){
-						let category = location.search
-						category = category.split('=')[1];
+						let category = location.search;
+						try{
+							console.log(location.search)
+							category = category.split('=')[1];
+							console.log(category)
+							if(!category) category = 0;
 						} catch(e) {
 							category = 0;
 						}
