@@ -24,4 +24,6 @@ urlpatterns = [
     path('userpage/<int:pk>/delete/', views.comment_delete),
     path('product_single/<int:pk>/delete/', views.product_comment_delete),
     path('logout/', views.logout),
+    path('profile/delete/', views.profile_delete),
+
 ]
