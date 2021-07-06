@@ -26,9 +26,9 @@
 									<option value="3">Cocktail</option>
 								</select>
 								제목<br>
-								<input type="text" name="postname" id="postname" value={{ board.title }}></input><br>
+								<input type="text" name="title" id="title" value={{ board.title }}></input><br>
 								내용<br>
-								<textarea rows="10" cols="50" name="contents" id="contents">{{ board.content }}</textarea><br>
+								<textarea rows="10" cols="50" name="content" id="content">{{ board.content }}</textarea><br>
 								<input type="file" name="mainphoto"><br>
 								<div class="col-sm-12 btn-wrap">
 									<button type="submit" class="btn btn-default" data-id="{{ board.id }}" id="save"><span>save</span></button>&nbsp;&nbsp;&nbsp;
@@ -42,25 +42,17 @@
 	</div>
 
 <script>
-{% comment %} function save(){
-	let title = $('#postname').val();
-	let content = $('#contents').val();
-	let board_id = $('#save').attr('data-id')
-	//window.location.href = "/board/board_edit/?id=" + board_id + "&title=" + title + "&content=" + content;
-	window.location.href = "/board/board_single/"
-} {% endcomment %}
 
 
 $('#save').click(function() {
 	board_id = $('#save').attr('data-id')
+	const formData = new FormData($('form')[0]);
 		$.ajax({
 			url: `/board/board_edit/?id=${ board_id }`,
-			data: {
-				'title': $('#postname').val(),
-				'content': $('#contents').val(),
-			},  
+			data: formData,
 			type: 'POST',
-			dataType: 'json',
+			processData: false,
+			contentType: false,
 			success: function(res) {
 				if(res.result === "Success"){
 					window.location.href = `/board/single/?id=${res.board_id}`
