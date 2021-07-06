@@ -42,12 +42,15 @@
 					</div>
 					<br>
 					<br>
-
+					<div class="col-sm-12 user-comments">
 					{% if request.session.user_id == board.user_id or request.session.user_id == 38 %}
 						<span class="edit">
-							<a href="/board/single/{{board.id}}/delete/">Delete</a> | <a href="/board/board_edit/?id={{ board.id }}">Edit</a>
+							<a href="/board/single/{{board.id}}/delete/" id="delete" style="font-family: sans-serif;" >Delete</a> | <a href="/board/board_edit/?id={{ board.id }}" id="delete" style="font-family: sans-serif;">Edit</a>
 						</span>
 					{% endif %}
+					<br>
+					<br>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -71,7 +74,7 @@
 									{% comment %} <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p> {% endcomment %}
 									{% if request.session.user_id == board_comment.user_id or request.session.user_id == 38 %}
 										<span class="edit">
-											<a href="/board/single/comments/{{board_comment.id}}/delete/" id="delete">Delete</a> | <a href="#" onClick="edit_button({{ board_comment.id }})">Edit</a>
+											<a href="/board/single/comments/{{board_comment.id}}/delete/" id="delete" style="font-family: sans-serif;">Delete</a> | <a href="#" onClick="edit_button({{ board_comment.id }})">Edit</a>
 										</span>
 									{% endif %}
 								</div>
