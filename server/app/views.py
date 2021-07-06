@@ -12,6 +12,7 @@ import smtplib
 from email.mime.text import MIMEText
 import random
 import string
+import re
 
 # Create your views here.
 def page_404(request):
@@ -23,23 +24,59 @@ def blog_single(request):
     return render(request, 'app/blog_single.html')
 
 
+def email_valid(email):
+    # 정규식 검사기
+    email_test = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+    if not email_test.match(email):
+        return False
+    return True
+
+def email_duplicate(email):
+    #데이터 베이스 조회
+    print("email_duplicate 확인 이메일 : " + email)
+    users = User.objects.all()
+    for user in users:
+        print(user.email)
+        if user.email == email:
+            print("exists")
+            return False
+    return True
+
+
 @csrf_exempt
 def find_password(request):
     if request.method == 'POST':
+        print("find_password POST")
         email = request.POST.get('email')
+        print(email)
 
+        # 중복된 이메일이 있어야 성공(이메일이 존재한다는 뜻)
+        if email_valid(email) and (email_duplicate(email)):
+            print("일치하는 회원이 없음")
+            return JsonResponse({'result': 'no', 'message': '일치하는 회원이 없습니다.'})
+
+        # 임시 비밀번호 생성
         char_set = string.ascii_lowercase + string.digits
         temp_password = ''.join(random.sample(char_set*6, 6))
         msg = f'임시 비밀번호는 [{temp_password}]입니다.\n해당 비밀번호로 로그인해주세요.'
+        print(msg)
+
+        # 임시 비밀번호 암호화
+        password = temp_password.encode('utf-8')                 # 입력된 패스워드를 바이트 형태로 인코딩
+        password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+        password_crypt = password_crypt.decode('utf-8')             # DB에 저장할 수 있는 유니코드 문자열 형태로 디코딩
 
         # 해당 메일 계정의 비밀번호를 임시 비밀번호로 변경
         user = User.objects.get(email=email)
-        user.password = temp_password
+        user.password = password_crypt
+
+        # DB에 저장
         user.save()
 
         # 발신자주소, 수신자주소, 메시지
         send_mail('rladbwjd1023@gmail.com', email, msg)
-        return render(request, 'app/login.html')
+        return JsonResponse({'result': 'ok', 'message': '임시 비밀번호를 해당 메일로 발송하였습니다.'})
+        # return render(request, 'app/login.html')
     else:
         print("find_password GET")
         return render(request, 'app/findpass.html', {})
