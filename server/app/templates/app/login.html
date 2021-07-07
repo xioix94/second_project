@@ -5,7 +5,11 @@
 
 {% load static %}
 {% block content %}
-	
+
+<style>
+html { scroll-behavior: smooth; }
+</style>
+
 		<!-- Fake page loading -->
 		<div id="fakeLoader"></div>
 
@@ -23,41 +27,46 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- login Section -->
-			<div class="container-fluid white section">
-				<div class="container">
-						<div class="row">
-							<div class="col-sm-8 col-sm-push-2">
-								<header class="centred">
-									<h1>Login</h1>
-								</header>
-								<hr class="space-40" />
-								<form method="POST">
-									{% csrf_token %}
-									<div class="login" width = "50">
-										<input type="text" placeholder="email" name="email" style="width: 100%" maxlength="40"><br>
-										<input type="password" placeholder="password" name="password" maxlength="15">
-										{% comment %} <a href="#/" class="lost-pass" onclick="window.open(this.href, '_blank', 'width=가로사이즈px,height=세로사이즈px,toolbars=no,scrollbars=no'); return false;">Lost your password?</a> {% endcomment %}
-										{% comment %} <a href="#/" class="lost-pass">Lost your password?</a>
-										<p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
-										<a href="../register" class="lost-pass">Register?</a>  {% endcomment %}
-										<button type="submit" class="btn btn-primary" style="float:right; margin-right:10px">Login</button>
-										<a href="/find_password" class="lost-pass" style="float:left" onclick="window.open(this.href, '_blank', 'width=auto, height=auto, toolbars=yes'); return false;">Forget your password?</a><br>
-									</div>
-								</form>
-							</div>
-						</div>
-				</div>
-			</div>
 		</div>
-		{% if messages == "실패"%}
-			<script type="text/javascript">
-  				alert("로그인에 실패하셨습니다.");
-			</script>
-		{% elif messages == "회원탈퇴 성공" %}
-		<script type="text/javascript">
-  			alert("회원탈퇴가 완료되었습니다.");
-		</script>
-		{% endif %}
+	</div>
+
+	<!-- login Section -->
+	<div class="container-fluid white section">
+		<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-sm-push-2">
+						<header class="centred">
+							<h1>Login</h1>
+						</header>
+						<hr class="space-40" />
+						<form method="POST">
+							{% csrf_token %}
+							<div class="login" width = "50">
+								<input type="text" placeholder="email" name="email" style="width: 100%" maxlength="40"><br>
+								<input type="password" placeholder="password" name="password" maxlength="15">
+								{% comment %} <a href="#/" class="lost-pass" onclick="window.open(this.href, '_blank', 'width=가로사이즈px,height=세로사이즈px,toolbars=no,scrollbars=no'); return false;">Lost your password?</a> {% endcomment %}
+								{% comment %} <a href="#/" class="lost-pass">Lost your password?</a>
+								<p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
+								<a href="../register" class="lost-pass">Register?</a>  {% endcomment %}
+								<button type="submit" class="btn btn-primary" style="float:right; margin-right:10px">Login</button>
+								<a href="/find_password/#label_email" class="lost-pass" style="float:left" onclick="window.open(this.href, '_blank', 'width=auto, height=auto, toolbars=yes'); return false;">Forget your password?</a><br>
+							</div>
+						</form>
+						<br><br><br><br>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+
+{% if messages == "실패"%}
+<script type="text/javascript">
+	alert("로그인에 실패하셨습니다.");
+</script>
+{% elif messages == "회원탈퇴 성공" %}
+<script type="text/javascript">
+	alert("회원탈퇴가 완료되었습니다.");
+</script>
+{% endif %}
+
 {% endblock %}
