@@ -67,7 +67,7 @@
                 </li>
                 <li {% if request.path == "/recommand/" %} class="active" {% endif %}>
                     <span>
-                        <a href="/recommand/">Recommend</a>
+                        <a href="/recommand/#rec">Recommend</a>
                     </span>
                 </li>
                 <li {% if request.path == "/reviews/" %} class="active" {% endif %}>
@@ -86,7 +86,7 @@
                         <a href="#">환영합니다! {{ request.session.alias }} 님!</a>
                     </span>
                     <ul class="dropdown-menu">
-                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/profile/#pro_wr">Profile</a></li>
                         <li><a href="/userpage/?email={{ request.session.email }}">My Reviews</a></li>
                         <li><a href="/logout">Log Out</a></li>
                     </ul>
@@ -94,7 +94,7 @@
                 {% else %}
                 <li>
                     <span>
-                        <a href="/login/">login</a>
+                        <a href="/login/#login_wr">login</a>
                     </span>
                 </li>
                 {% endif %}
