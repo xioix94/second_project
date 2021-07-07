@@ -78,83 +78,84 @@
 	.starR2.on{background-position:-15px 0;}
 </style>
 	
-	<body class="single">
+<body class="single">
 
-		<!-- Fake page loading -->
-		<!-- <div id="fakeLoader"></div> -->
+	<!-- Fake page loading -->
+	<!-- <div id="fakeLoader"></div> -->
 
-		<!-- Wrapper -->
-		<div class="wrapper">
-			<!-- Section -->
-			<div class="container-fluid dark section no-padding">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<p class="author center-menu">{{ user.alias }} / <a href="#comments">{{ review_num }} reviews</a></p>
-							<ul class="horz-menu">
-								<li ><span class="search"><select name="search-type" id="search-type">
-									<option value="">All</option>
-									<option value="beer">Beer</option>
-									<option value="wine">Wine</option>
-									<option value="cocktail">Cocktail</option>
-								</select></span></li>
-								<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
-								<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
-							</ul>
-						</div>
+	<!-- Wrapper -->
+	<div class="wrapper">
+		<!-- Section -->
+		<div class="container-fluid dark section no-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<p class="author center-menu">{{ user.alias }} / <a href="#comments">{{ review_num }} reviews</a></p>
+						<ul class="horz-menu">
+							<li ><span class="search"><select name="search-type" id="search-type">
+								<option value="">All</option>
+								<option value="beer">Beer</option>
+								<option value="wine">Wine</option>
+								<option value="cocktail">Cocktail</option>
+							</select></span></li>
+							<li class="active"><span class="search2"><input type="text" id="search_keyword"></span></li>
+							<li><span><a href='javascript:void(0);' onclick="keyword_search()" class="btn-default">Search</a></span></li>
+						</ul>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- Section -->
-			<div class="container-fluid light section">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12 single-blog">
-							{% comment %} <img src="http://placehold.it/750x535" alt="Craft beer single blog post" /> {% endcomment %}
-							<header>
-								<a style="color: rgb(197, 168, 4); font-family: 'Grand Hotel', cursive; font-size:x-large;">Name</a>
-								<h2>{{ user.alias }}</h2>
-								<a style="color: rgb(197, 168, 4); font-family: 'Grand Hotel', cursive; font-size:x-large;"> email</a>
-								<h3>{{ user.email }}</h3>
-							</header>	
-						</div>
+		<!-- Section -->
+		<div class="container-fluid light section">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 single-blog">
+						{% comment %} <img src="http://placehold.it/750x535" alt="Craft beer single blog post" /> {% endcomment %}
+						<header>
+							<a style="color: rgb(197, 168, 4); font-family: 'Grand Hotel', cursive; font-size:x-large;">Name</a>
+							<h2>{{ user.alias }}</h2>
+							<a style="color: rgb(197, 168, 4); font-family: 'Grand Hotel', cursive; font-size:x-large;"> email</a>
+							<h3>{{ user.email }}</h3>
+						</header>	
 					</div>
 				</div>
-				<br><br><br><br>
 			</div>
+			<br><br><br><br>
+		</div>
 
-			<!-- Section -->
-			<div class="container-fluid section">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h3 id="comments">Reviews</h3>
-						</div>
-						<div class="col-sm-12 user-comments">
-							{% for user_comment in u_c %}
-								<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
-								<div class="col-sm-1">
-									<img src="/static/images/beer/{{ user_comment.product.image }}" style = "max-width: 200%; max-height: 200%; position: relative; left: -30px;" alt="Craft ale HTML template" />
-								</div>
-								<br><br>
-								<div class="col-sm-11">
-									<h5>{{ user_comment.product.name }}</h5>
-									<p>{{ user_comment.content }}</p>
-									{% if request.session.user_id == user_comment.user_id or request.session.user_id == 38%}
-									<span class="edit">
-										<a href="#" onClick="edit_button({{ user_comment.id }})">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete">Delete</a>
-									</span>
-									{% endif %}
-								</div>
+		<!-- Section -->
+		<div class="container-fluid section">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<h3 id="comments">Reviews</h3>
+					</div>
+					<br><br><br><br><br>
+					<div class="col-sm-12 user-comments">
+						{% for user_comment in u_c %}
+							<div class="row scrollme animateme" data-when="enter" data-from="0.75" data-to="0" data-opacity="0" data-translatey="75">
+							<div class="col-sm-1">
+								<img src="/static/images/beer/{{ user_comment.product.image }}" style = "max-width: 200%; max-height: 200%; position: relative; left: -30px;" alt="Craft ale HTML template" />
 							</div>
-
-							{% endfor %}
-
+							<br><br>
+							<div class="col-sm-11">
+								<h5>{{ user_comment.product.name }}</h5>
+								<p>{{ user_comment.content }}</p>
+								{% if request.session.user_id == user_comment.user_id or request.session.user_id == 38%}
+								<span class="edit">
+									<a href="#" onClick="edit_button({{ user_comment.id }})">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete">Delete</a>
+								</span>
+								{% endif %}
+							</div>
 						</div>
-					</div> 
-				</div>
+
+						{% endfor %}
+
+					</div>
+				</div> 
 			</div>
+		</div>
 
 		<!-- Section: paging -->
 		<div class="container-fluid super-dark section no-padding">
@@ -165,37 +166,39 @@
 							<ul class="horz-menu center-menu pages" >
 							<!-- 이전페이지 -->
 								{% if u_c.has_previous %}
-       							 <li class="page-item">
-       							     <a class="page-link" href="?email={{ user.email }}&page={{ u_c.previous_page_number }}"><</a>
-       							 </li>
-       							 {% else %}
-       							 <li class="page-item disabled">
-       							     <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
-       							 </li>
-       							{% endif %}
+									<li class="page-item">
+										<a class="page-link" href="?email={{ user.email }}&page={{ u_c.previous_page_number }}"><</a>
+									</li>
+									{% else %}
+									<li class="page-item disabled">
+										<a class="page-link" tabindex="-1" aria-disabled="true" href="#"><</a>
+									</li>
+								{% endif %}
 								<!-- 페이지리스트 -->
 								{% for i in pagination %}
 									{% if u_c.number == i %}
-        								<li class="active"><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
-      								{% else %}
-        								<li><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
-      								{% endif %}
-            					{% endfor %}
+										<li class="active"><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
+									{% else %}
+										<li><span><a href="?email={{ user.email }}&page={{ i }}">{{ i }}</a></span></li>
+									{% endif %}
+								{% endfor %}
 								<!-- 다음페이지 -->
-        						{% if u_c.has_next %}
-        							<li class="page-item">
-        						    <a class="page-link" href="?email={{ user.email }}&page={{ u_c.next_page_number }}">></a>
-        							</li>
-        						{% else %}
-        							<li class="page-item disabled">
-        						    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
-        							</li>
-        						{% endif %}
+								{% if u_c.has_next %}
+									<li class="page-item">
+									<a class="page-link" href="?email={{ user.email }}&page={{ u_c.next_page_number }}">></a>
+									</li>
+								{% else %}
+									<li class="page-item disabled">
+									<a class="page-link" tabindex="-1" aria-disabled="true" href="#">></a>
+									</li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>
 				</div>
+			</div>
 		</div>
+	</div>
 
 		<!-- Modal -->
 	<div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
@@ -260,7 +263,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 
 	<script type="text/javascript">
 
@@ -303,8 +305,8 @@
 
 	let getCSRFTokenValue = () => $('input[name=csrfmiddlewaretoken]').val()
 
-let edit_button = (comment_id) => {
-		
+	let edit_button = (comment_id) => {
+			
 		console.log('product_single edit_button', comment_id)
 
 		product_id = $('#comment-edit').attr('data-product-id')
@@ -360,14 +362,14 @@ let edit_button = (comment_id) => {
 						$('#popupModalLabel').attr('data-comment-id', comment_id)
 						//location.reload();
 				}
-            },
+			},
 			error: function(res) {
 				// .....
 			} 
 		})
 	}
 
-$('#save_edit').click(function() {
+	$('#save_edit').click(function() {
 		comment_id = $('#popupModalLabel').attr('data-comment-id')
 		console.log("save_edit comment_id = ", comment_id)
 
@@ -406,7 +408,7 @@ $('#save_edit').click(function() {
 				}else if(res.result === "Fail"){
 					window.location.href = '/'
 				}
-            },
+			},
 			error: function(res) {
 				// .....
 			} 
@@ -416,6 +418,5 @@ $('#save_edit').click(function() {
 	});
 
 	</script>
-	</body>
-</html>
+</body>
 {% endblock %}
