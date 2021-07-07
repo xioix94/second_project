@@ -1,4 +1,4 @@
-from django.http.response import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http.response import HttpResponseRedirect, JsonResponse
 from app.models import Category, User
 from django.shortcuts import get_object_or_404, redirect, render
 from app.models import Board, Board_Comment
@@ -188,7 +188,6 @@ def edit_comment(request):
                     'messages': 'error',
                 })
 
-
 def board_write(request):
     if request.method == 'GET':
         if request.session.get('email'):
@@ -214,12 +213,10 @@ def board_write(request):
 
     return render(request, 'app/freewrite.html')
 
-
 def board_delete(request,pk):
     board = get_object_or_404(Board,id=pk)
     board.delete()
     return redirect('/board/')
-
 
 def board_comments_delete(request,pk):
     board = Board_Comment.objects.get(id=pk)

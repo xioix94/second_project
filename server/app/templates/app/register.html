@@ -1,15 +1,15 @@
 {% extends 'common/base.html' %}
-		
+
 {% block content %}
-	
+
 <!-- Section -->
 <div class="container-fluid dark section no-padding">
 	<div class="container">
 		<div class="row">
-				<ul class="horz-menu center-menu">
-					<li><span><a href="/login/">Login</a></span></li>
-					<li class="active"><span><a href="/register/">Register</a></span></li>
-				</ul>
+			<ul class="horz-menu center-menu">
+				<li><span><a href="/login/">Login</a></span></li>
+				<li class="active"><span><a href="/register/">Register</a></span></li>
+			</ul>
 		</div>
 	</div>
 </div>
@@ -17,115 +17,116 @@
 <!-- Section -->
 <div class="container-fluid white section">
 	<div class="container">
-			<div class="row">
-				<div class="col-sm-8 col-sm-push-2">
-					<form action="/api/register/" method="POST">
-						{% csrf_token %}
-						<header class="centred">
-							<h1>Register</h1>
-						</header>
-						<hr class="space-40" />
-						<!-- Form start -->
-						
-						<div class="row">
-							<div class="col-sm-6">
-								<input id="email" name="email" type="text" placeholder="email">
-							</div>
-						
-						</div>
-						<div class="row">
-							
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<input id="pw1" type="password" name="pw1" placeholder="password">
-							</div>
-							<div class="col-sm-6">
-								<input id="pw2" type="password" name="pw2" placeholder="password check">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<input id=alias type="text" name="alias" placeholder="alias">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<select name='select_sex' id="select_sex">
-									<option value="0">male</option>
-									<option value="1">female</option>
-								</select>
-							</div>
-						</div>
-						
-						<form name="checkadult"> 
-							<div class="row">
-								<div class="col-sm-6" style="color: red; font-weight: 800">
-									<form>
-										<input id="adult" name="adult" type="checkbox"> are you adult?
-									</form>
-								</div>
-							</div>
-							<!-- Form end -->
+		<div class="row">
+			<div class="col-sm-8 col-sm-push-2">
+				<form action="/api/register/" method="POST">
+					{% csrf_token %}
+					<header class="centred">
+						<h1>Register</h1>
+					</header>
+					<hr class="space-40" />
+					<!-- Form start -->
 
-							<div class="row">
-								<div class="col-sm-8 btn-wrap">
-									<input id=submit type="submit" style="float: none;" class="btn btn-default" value="submit">
-									<a href="/" class="btn btn-grey"><span>cancel</span></a>
-								</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<input id="email" name="email" type="text" placeholder="email">
+						</div>
+
+					</div>
+					<div class="row">
+
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<input id="pw1" type="password" name="pw1" placeholder="password">
+						</div>
+						<div class="col-sm-6">
+							<input id="pw2" type="password" name="pw2" placeholder="password check">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<input id=alias type="text" name="alias" placeholder="alias">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<select name='select_sex' id="select_sex">
+								<option value="0">male</option>
+								<option value="1">female</option>
+							</select>
+						</div>
+					</div>
+
+					<form name="checkadult">
+						<div class="row">
+							<div class="col-sm-6" style="color: red; font-weight: 800">
+								<form>
+									<input id="adult" name="adult" type="checkbox"> are you adult?
+								</form>
 							</div>
-						</form>
+						</div>
+						<!-- Form end -->
+
+						<div class="row">
+							<div class="col-sm-8 btn-wrap">
+								<input id=submit type="submit" style="float: none;" class="btn btn-default"
+									value="submit">
+								<a href="/" class="btn btn-grey"><span>cancel</span></a>
+							</div>
+						</div>
 					</form>
-				</div>
+				</form>
 			</div>
+		</div>
 	</div>
 </div>
-			
-	<script type="text/javascript">
-	password_check = function(event){
-			pw1 = $('input#pw1').val()
-			pw2 = $('input#pw2').val()
-			
-			$.ajax({
-				url: "/api/password_valid/",
-				type: "POST",
-				dataType: "JSON",
-				data: {
-					'pw1' : pw1,
-					'pw2': pw2,
-				},
-				success: function(result){
-					if(result.result == 'ok'){
-						console.log('pass')
-						$('input#pw2').css({
-							'border-bottom-color': '#cbb27c',
-						})
-						$('input#pw1').css({
-							'border-bottom-color': '#cbb27c',
-						})
-					} else {
-						console.log('fail')
-						$('input#pw2').css({
-							'border-bottom-color': 'red',
-						})
-						$('input#pw1').css({
-							'border-bottom-color': 'red',
-						})
-					}
-				},
-				error: function(result){
-					console.log(result)
-				},
-			})
-		}
 
-	$(document).ready(function() { 
-		
+<script type="text/javascript">
+	password_check = function (event) {
+		pw1 = $('input#pw1').val()
+		pw2 = $('input#pw2').val()
+
+		$.ajax({
+			url: "/api/password_valid/",
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'pw1': pw1,
+				'pw2': pw2,
+			},
+			success: function (result) {
+				if (result.result == 'ok') {
+					console.log('pass')
+					$('input#pw2').css({
+						'border-bottom-color': '#cbb27c',
+					})
+					$('input#pw1').css({
+						'border-bottom-color': '#cbb27c',
+					})
+				} else {
+					console.log('fail')
+					$('input#pw2').css({
+						'border-bottom-color': 'red',
+					})
+					$('input#pw1').css({
+						'border-bottom-color': 'red',
+					})
+				}
+			},
+			error: function (result) {
+				console.log(result)
+			},
+		})
+	}
+
+	$(document).ready(function () {
+
 
 		// 이메일 형식, 중복 검증
-		$('input#email').blur(function(event){					
+		$('input#email').blur(function (event) {
 			email = $('input#email').val()
-			
+
 			$.ajax({
 				url: "/api/email_check/",
 				type: "POST",
@@ -133,8 +134,8 @@
 				data: {
 					'email': email,
 				},
-				success: function(result){
-					if(result.result == 'ok'){
+				success: function (result) {
+					if (result.result == 'ok') {
 						console.log('pass')
 						$('input#email').css({
 							'border-bottom-color': '#cbb27c',
@@ -147,16 +148,16 @@
 						alert('이메일 형식이 아니거나 이미 존재하는 이메일입니다.')
 					}
 				},
-				error: function(result){
+				error: function (result) {
 					console.log(result)
 				},
 			})
 		})
 
 		// 닉네임 중복 확인
-		$('input#alias').blur(function(event){					
+		$('input#alias').blur(function (event) {
 			alias = $('input#alias').val()
-			
+
 			$.ajax({
 				url: "/api/alias_valid/",
 				type: "POST",
@@ -164,8 +165,8 @@
 				data: {
 					'alias': alias,
 				},
-				success: function(result){
-					if(result.result == 'ok'){
+				success: function (result) {
+					if (result.result == 'ok') {
 						console.log('pass')
 						$('input#alias').css({
 							'border-bottom-color': '#cbb27c',
@@ -178,14 +179,15 @@
 						alert('이미 존재하는 닉네임입니다.')
 					}
 				},
-				error: function(result){
+				error: function (result) {
 					console.log(result)
 				},
 			})
 		})
+
 		// 성인 확인
-		$('input#adult').change(function(event){
-			if($('input#adult').is(":checked") == true){
+		$('input#adult').change(function (event) {
+			if ($('input#adult').is(":checked") == true) {
 				$('input#adult').parent().css({
 					'color': '#cbb27c',
 				})
@@ -195,29 +197,29 @@
 				})
 			}
 		})
-		
+
 		// 패스워드 일치 검증
 		$('input#pw1').blur(password_check)
 		$('input#pw2').blur(password_check)
 
-		$('').blur(function(event){
+		$('').blur(function (event) {
 		})
 
-		$('').blur(function(event){
+		$('').blur(function (event) {
 		})
 
 		// summit 버튼 눌러서 제출 
-		$('input#submit').click(function(event){
+		$('input#submit').click(function (event) {
 			const sex = $('select#select_sex').val()
 			console.log(sex)
 
 			submit = $('input#submit').val()
 
 			const adult = $('#adult');
-			if(!adult.is(':checked')) {
+			if (!adult.is(':checked')) {
 				alert('성인 확인을 해주세요.')
 			}
-			else{
+			else {
 				$.ajax({
 					url: "/api/register/",
 					type: "POST",
@@ -225,25 +227,23 @@
 					data: {
 						'email': email,
 						'pw1': $('input#pw1').val(),
-						'pw2' : $('input#pw2').val(),
-						'alias' : alias,
-						'sex' : sex,
+						'pw2': $('input#pw2').val(),
+						'alias': alias,
+						'sex': sex,
 					},
-					success: function(result){
-						if(result.result === 'Fail'){
+					success: function (result) {
+						if (result.result === 'Fail') {
 							console.log("register ajax fail")
 							window.alert(result.message)
-						} 							
-						if(result.result == 'ok'){
+						}
+						if (result.result == 'ok') {
 							console.log('register ok')
 							window.location.href = '/login/'
 						} else {
 							console.log('register fail')
 						}
-
-						
 					},
-					error: function(result){
+					error: function (result) {
 						console.log(result)
 					},
 				})
@@ -253,5 +253,5 @@
 
 	});
 
-	</script>
+</script>
 {% endblock %}

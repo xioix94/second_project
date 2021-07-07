@@ -1,29 +1,18 @@
-from django.db import models
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
-from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-import re
 
-from sklearn.utils import shuffle
-from app.models import Category, Model_Info, Product, User
-from django.views.decorators.csrf import csrf_exempt
+from app.models import Model_Info, Product
 from app.models import Product_Comment
-import pickle
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import train_test_split
 import joblib
-from datetime import datetime, date
+from datetime import date
 
 # all_model = LGBMClassifier() # category = 0
 # beer_model = LGBMClassifier() # category = 1
 # wine_model = LGBMClassifier() # category = 2
 # cocktail_model = LGBMClassifier() # category = 3
-
 
 # recommand.html에서 받은 데이터로 모델만 가져와서 결과값(군집) 추출 후 반환
 def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 = 6가지 기준
@@ -37,7 +26,6 @@ def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 =
         # update_cluster(2)
         # update_cluster(3)
         Model_Info(update_time=now).save()
-
 
     if category_id == 0:
         products = Product.objects.all()
@@ -71,7 +59,6 @@ def return_cluster(list1, category_id = 1): # list1에는 5가지 맛 + 도수 =
 
     result = model.predict(test)
     return result[0]
-
 
 # product.kmeans 최신화
 def update_cluster(category_id):

@@ -1,11 +1,9 @@
-from django.db.models.query import QuerySet
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
-from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import date
-import bcrypt, jwt
+import bcrypt
 from config.settings import SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
 import smtplib
@@ -18,11 +16,8 @@ import re
 def page_404(request):
     return render(request, 'app/404.html')
 
-
-
 def blog_single(request):
     return render(request, 'app/blog_single.html')
-
 
 def email_valid(email):
     # 정규식 검사기
@@ -41,7 +36,6 @@ def email_duplicate(email):
             print("exists")
             return False
     return True
-
 
 @csrf_exempt
 def find_password(request):
@@ -81,7 +75,6 @@ def find_password(request):
         print("find_password GET")
         return render(request, 'app/findpass.html', {})
 
-
 def send_mail(from_email, to_email, msg):
     smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465) # SMTP 설정
     smtp.login(from_email, 'tpjimdlikzbppdnv') # 인증정보 설정
@@ -90,22 +83,6 @@ def send_mail(from_email, to_email, msg):
     msg['To'] = from_email # 수신 이메일
     smtp.sendmail(from_email, to_email, msg.as_string())
     smtp.quit()
-
-
-# def recommend_nav(request):
-#     category = request.GET.get('category')
-
-#     if category in ['beer', 'wine', 'cocktail']:
-#         p_comments = Product_Comment.objects \
-#             .filter(product__category__name=category) \
-    
-#     context = {    
-#         'p_comments': p_comments,
-#         'category': category,
-#         'keyword': keyword,
-#         'page': page,
-#     }
-#     return render(request, 'app/blog.html', context)
 
 #리뷰 모음 페이지
 def blog(request):
@@ -191,7 +168,6 @@ def recommand(request):
         'products': products
     })
 
-
 # 추천 페이지 결과를 이용 -> 머신러닝(클러스터링) -> 결과값과 동일한 군집의 제품 데이터 가져오기 (16개)
 def recommand_result(request):
     # 머신러닝 나온 군집 안의 제품으로 줘야 함
@@ -214,7 +190,6 @@ def recommand_result(request):
 
 def register(request):
     return render(request, 'app/register.html')
-
 
 def product_single(request):
     try:
@@ -244,8 +219,6 @@ def product_single(request):
             dict['tannic'] = round((dict['tannic'] / len(product_comment_list))  * 100)
             dict['acidic'] = round((dict['acidic'] / len(product_comment_list))  * 100)
             dict['score'] = (dict['score'] / len(product_comment_list)) * 20 # 5점만점을 퍼센트로 변환
-
-
 
             return render(request, 'app/product_single.html', {
                 'name': p_name,
@@ -302,7 +275,6 @@ def product_single(request):
                 'message': 'go back',
             })
 
-
 def product(request):
     category = request.GET.get('category')
     keyword = request.GET.get('keyword')
@@ -344,7 +316,6 @@ def product(request):
             'category': category,
             'keyword': keyword
         })
-
 
 def profile(request):
     if request.method == 'GET':
@@ -402,25 +373,13 @@ def profile(request):
             messages = "Profile change failed."
             return render(request, 'app/login.html', {'result': 'Fail', 'messages' : messages})
 
-
-
 def to_members_form(request):
     return render(request, 'app/to_members.html')
-
 
 def userpage(request):
     email = request.GET.get('email')
     user = User.objects.get(email=email)
     user_comments = Product_Comment.objects.filter(user_id=user.id).select_related()
-
-    #카테고리 검색부 
-    # if category in ['beer', 'wine', 'cocktail']:
-    #     user_cat = Product_Comment.product_id.
-    #     user_comment.product.category
-    #     category = category.name
-    # else:
-    #     category = 'All'
-    #     user_comments = Product_Comment.objects.all()
    
     #키워드 검색부
     keyword = request.GET.get('keyword')
@@ -437,7 +396,6 @@ def userpage(request):
 
     for _ in user_comments:
         review_num += 1
-
 
     page = request.GET.get('page')
 
@@ -460,8 +418,6 @@ def userpage(request):
         'user_comments': user_comments,
         'review_num': review_num,
     })
-
-
 
 def login(request):
     if request.method == 'GET':
@@ -486,29 +442,6 @@ def login(request):
         except:
             messages = "실패"
             return render(request, 'app/login.html', {'messages' : messages})
-
-
-# def comment_modify(request):
-
-#     if request.method == "POST":
-#         form = userpage(request.POST, instance=user_comments)
-
-#         if form.is_valid():
-#             user_comments = form.save(commit=False)
-#             user_comments.save()
-#             messages.success(request,'수정되었습니다')
-#             return redirect('app:userpage', user_id = user.id)
-
-#     elif request.method == "GET":
-#         # 수정페이지 보여주는 역할
-#         comment_id = request.GET.get('comment_id')
-#         user_comment = Product_Comment.objects.get(id=comment_id)
-
-#         return render(request, 'app/freewrite.html')
-
-#     else:
-#         pass
-
 
 @csrf_exempt
 def edit_comment(request):
@@ -572,27 +505,9 @@ def edit_comment(request):
                     'messages': 'error',
                 })
 
-
 def logout(request):
     request.session.clear()
     return redirect('/')
-
-    
-# def find_password(request):
-#     if request.method == 'GET':
-#         return render(request, 'app/findpass.html', {})
-#     else:
-#         email = request.POST['email']
-
-#         try:
-#             user = User.objects.get(email=email)
-#         except:
-#             messages = "실패"
-#             return render(request, 'app/findpass.html', {'messages' : messages, 'email': email })
-#         else:
-#             messages = "성공"
-#             return render(request, 'app/findpass.html', {'messages' : messages , 'password' : user.password[:3] + '*' * (len(user.password) - 3) } )
-
 
 def comment_delete(request, pk):
     comments = Product_Comment.objects.get(id=pk)
@@ -602,15 +517,12 @@ def comment_delete(request, pk):
     messages = '삭제성공'
     return render(request, 'app/userpage.html', {'messages': messages, 'email': email.email})
 
-
-
 def product_comment_delete(request, pk):
     comments = Product_Comment.objects.get(id=pk)
     comment = get_object_or_404(Product_Comment,id=pk)
     comment.delete()
     messages = '삭제성공'
     return render(request, 'app/product_single.html', {'messages': messages, 'p_id': comments.product_id})
-
 
 def profile_delete(request):
     if request.method == 'GET':

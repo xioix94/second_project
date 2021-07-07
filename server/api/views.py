@@ -1,12 +1,9 @@
-from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
 import re
 from app.models import User
 from django.views.decorators.csrf import csrf_exempt
-from app.models import Product_Comment, Product
+from app.models import Product_Comment
 from . import clustering
 import bcrypt
 
@@ -119,8 +116,6 @@ def register(request):
         result = "Fail"
         message = "Fail to register"
         return JsonResponse({'result': result, 'message': message})
-
-
 
 @csrf_exempt
 def submit_recommand_ml(request):

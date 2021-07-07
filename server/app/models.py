@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class User(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
@@ -8,10 +7,8 @@ class User(models.Model):
     sex = models.BooleanField()  # 남자 0 여자 1
     image = models.CharField(max_length=1000)
 
-
 class Category(models.Model):
     name = models.CharField(max_length=100) # 0 : beer, 1 : wine, 2 : cocktail
-
 
 class Board(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -21,13 +18,11 @@ class Board(models.Model):
     time = models.DateTimeField()
     mainphoto = models.ImageField(upload_to='images/',blank=True, null=True)
 
-
 class Board_Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     content = models.CharField(max_length=2000)
     time = models.DateTimeField()
-
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -47,7 +42,6 @@ class Product_Comment(models.Model):
     sweet = models.FloatField()  # 달콤함
     tannic = models.FloatField()  # 씁쓸함
     acidic = models.FloatField()  # 신맛
-
 
 class Model_Info(models.Model):
     update_time = models.DateTimeField()

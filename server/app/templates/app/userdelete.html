@@ -3,51 +3,54 @@
 
 {% block content %}
 <div id="fakeLoader"></div>
-	<div class="wrapper" id="user_wrapper">
-		<div class="container-fluid white section">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-8 col-sm-push-2">
-						<div class="jumbotron">
-							<div class="container text-center">
-								<form id="user_delete" method="POST">
-									{% csrf_token %}
-                                    <h2>{{ request.session.alias }}</h2> <h4>회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. 
-									<br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.</h4>
-									<div class="form-group">
-										<h4 style="color:black">본인인증을 위해 비밀번호를 입력해주세요.</h4>
-										<input type="password" id="password" class="form-control" name="password">
-									</div>
-									<label style="float:left">
-                                        <input type="checkbox" name="ck" onClick="checkDisable(this.form)">
-                                        <span style="color:red">유의사항 동의</span>
-                                    </label>
-                                        <button class="btn btn-primary" style="float:right; background-color:#cbb27c" type="submit" name="bt" disabled="true" >탈퇴하기</button>
-								</form>
-							</div>
+<div class="wrapper" id="user_wrapper">
+	<div class="container-fluid white section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-push-2">
+					<div class="jumbotron">
+						<div class="container text-center">
+							<form id="user_delete" method="POST">
+								{% csrf_token %}
+								<h2>{{ request.session.alias }}</h2>
+								<h4>회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다.
+									<br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.
+								</h4>
+								<div class="form-group">
+									<h4 style="color:black">본인인증을 위해 비밀번호를 입력해주세요.</h4>
+									<input type="password" id="password" class="form-control" name="password">
+								</div>
+								<label style="float:left">
+									<input type="checkbox" name="ck" onClick="checkDisable(this.form)">
+									<span style="color:red">유의사항 동의</span>
+								</label>
+								<button class="btn btn-primary" style="float:right; background-color:#cbb27c"
+									type="submit" name="bt" disabled="true">탈퇴하기</button>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
-			<br>
-			<br>
 		</div>
+		<br>
+		<br>
+		<br>
 	</div>
 </div>
+</div>
 <script type="text/javascript">
-    function checkDisable(form) {
-        if (form.ck.checked == true) {
-            form.bt.disabled = false;
-        } else {
-            form.bt.disabled = true;
-        }
-    }
+	function checkDisable(form) {
+		if (form.ck.checked == true) {
+			form.bt.disabled = false;
+		} else {
+			form.bt.disabled = true;
+		}
+	}
 </script>
 
 {% if messages == '비밀번호 오류'%}
-	<script type="text/javascript">
-  			alert("비밀번호를 확인해주세요.");
-	</script>
+<script type="text/javascript">
+	alert("비밀번호를 확인해주세요.");
+</script>
 {%endif%}
 {% endblock %}
