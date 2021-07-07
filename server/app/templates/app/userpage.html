@@ -85,10 +85,6 @@
 
 		<!-- Wrapper -->
 		<div class="wrapper">
-
-		
-			
-
 			<!-- Section -->
 			<div class="container-fluid dark section no-padding">
 				<div class="container">
@@ -145,7 +141,7 @@
 									<p>{{ user_comment.content }}</p>
 									{% if request.session.user_id == user_comment.user_id or request.session.user_id == 38%}
 									<span class="edit">
-										<a href="#" onClick="edit_button({{ user_comment.id }})">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete/">Delete</a>
+										<a href="#" onClick="edit_button({{ user_comment.id }})">Edit</a> | <a href="/userpage/{{user_comment.id}}/delete">Delete</a>
 									</span>
 									{% endif %}
 								</div>

@@ -1,10 +1,12 @@
 {% extends "common/base.html" %}
 
+
 {% block content %}
+
 <!-- Fake page loading -->
 <div id="fakeLoader"></div>
 
-<div class="wrapper">
+<div class="wrapper" id="pro_wr">
 
 	<!-- Section -->
 	<div class="container-fluid white section">
@@ -38,7 +40,7 @@
 								<div class="col-sm-12 btn-wrap">
 									<a href="/profile/" class="btn btn-default" id="save" method="post"><span>OK</span></a> 
 									<a href="/" class="btn btn-grey"><span>Cancel</span></a>
-									<a href="/profile/delete/" onclick="alert('정말 탈퇴하시겠습니까?')"class="withdrawal" style="float:left" id="withdrawal">Withdrawal?</a> 
+									<a href="/profile/delete/#user_wrapper" onclick="alert('정말 탈퇴하시겠습니까?')"class="withdrawal" style="float:left" id="withdrawal">Withdrawal?</a> 
 								</div>
 							</div>
 						</form>
